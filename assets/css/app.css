@@ -121,7 +121,8 @@ body {
 }
 
 .app-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     background: white;
     border-radius: 12px;
     padding: 1.5rem;
@@ -131,6 +132,7 @@ body {
     color: inherit;
     transition: all 0.2s ease;
     cursor: pointer;
+    position: relative;
 }
 
 .app-card:hover {
@@ -138,8 +140,17 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
+.app-card:hover .app-card-arrow {
+    transform: translateX(4px);
+    color: #007AFF;
+}
+
 .app-card:last-child {
     margin-bottom: 0;
+}
+
+.app-card-content {
+    flex: 1;
 }
 
 .app-card h3 {
@@ -158,6 +169,16 @@ body {
     color: #666;
     margin-bottom: 0;
     line-height: 1.5;
+}
+
+.app-card-arrow {
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #ccc;
+    transition: all 0.2s ease;
 }
 
 @media (max-width: 768px) {
