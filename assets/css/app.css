@@ -94,6 +94,32 @@ body {
     border-bottom: none;
 }
 
+.breadcrumb {
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+}
+
+.breadcrumb a {
+    color: #007AFF;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb .separator {
+    margin: 0 0.5rem;
+    color: #999;
+}
+
+.breadcrumb .current {
+    color: #333;
+    font-weight: 500;
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
@@ -101,5 +127,10 @@ body {
     
     .app-title {
         font-size: 1.5rem;
+    }
+    
+    .breadcrumb {
+        font-size: 0.8rem;
+        margin-bottom: 0.75rem;
     }
 }
