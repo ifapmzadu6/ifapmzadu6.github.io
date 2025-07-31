@@ -76,9 +76,32 @@ body {
 }
 
 .section h2 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
     color: #1d1d1f;
+    text-align: center;
+}
+
+.apps-section {
+    background: transparent;
+    padding: 2rem 0;
+    box-shadow: none;
+    margin-bottom: 0;
+}
+
+.apps-section h2 {
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.apps-section h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #007AFF;
+    margin: 0.75rem auto 0;
 }
 
 .feature-list {
