@@ -33,8 +33,8 @@ body {
 }
 
 .app-icon img {
-    width: 40px;
-    height: 40px;
+    width: 40px !important;
+    height: 40px !important;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     margin-bottom: 1rem;
