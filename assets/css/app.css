@@ -47,6 +47,13 @@ body {
     margin-bottom: 1.5rem;
 }
 
+.store-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .download-btn {
     display: inline-block;
     background: #007AFF;
@@ -59,6 +66,14 @@ body {
 
 .download-btn:hover {
     background: #0056b3;
+}
+
+.download-btn.google-play {
+    background: #01875f;
+}
+
+.download-btn.google-play:hover {
+    background: #016d4b;
 }
 
 .section {
