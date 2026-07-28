@@ -126,6 +126,27 @@ body {
     border-bottom: none;
 }
 
+.support-steps {
+    padding-left: 1.5rem;
+}
+
+.support-steps li {
+    padding: 0.5rem 0;
+}
+
+.section h3 {
+    margin: 1.25rem 0 0.5rem;
+    color: #1d1d1f;
+}
+
+.section h3:first-of-type {
+    margin-top: 0;
+}
+
+.section p + p {
+    margin-top: 0.75rem;
+}
+
 .breadcrumb {
     font-size: 0.875rem;
     color: #666;
