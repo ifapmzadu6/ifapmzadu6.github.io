@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Shortcuts Browser</title>
-    <meta name="description" content="Privacy Policy for Shortcuts Browser iOS app">
+    <meta name="description" content="Privacy Policy for the Shortcuts Browser iOS app, including local data storage and Google Mobile Ads disclosures">
     <link rel="stylesheet" href="../../assets/css/app.css">
 </head>
 <body>
     <div class="container">
-        <nav class="breadcrumb">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="../../">Home</a>
-            <span class="separator">></span>
+            <span class="separator">&gt;</span>
             <a href="./">Shortcuts Browser</a>
-            <span class="separator">></span>
+            <span class="separator">&gt;</span>
             <span class="current">Privacy Policy</span>
         </nav>
         <header class="app-header">
@@ -24,70 +24,135 @@
 
         <section class="section">
             <h2>Overview</h2>
-            <p>This privacy policy describes how Shortcuts Browser ("we", "our", or "the app") handles your information when you use our iOS application. We are committed to protecting your privacy and being transparent about our data practices.</p>
-            <p><strong>Last updated:</strong> July 31, 2025</p>
+            <p>This policy explains how Shortcuts Browser ("the app") handles information when you use the iOS app. It distinguishes information stored locally by the app from information that may be collected by third-party services used to provide advertising.</p>
+            <p><strong>Last updated:</strong> August 4, 2026</p>
         </section>
 
         <section class="section">
-            <h2>Information We Collect</h2>
-            <p><strong>Local Data Storage:</strong> Shortcuts Browser stores the following information locally on your device:</p>
+            <h2>Information Stored by the App</h2>
+            <p>Shortcuts Browser stores the following information in its app container on your device:</p>
             <ul class="feature-list">
-                <li>📱 Website shortcuts you create</li>
-                <li>🌐 Browsing history within the app</li>
-                <li>⚙️ User preferences and settings</li>
-                <li>🔖 Frequently accessed websites</li>
+                <li><strong>Browsing history:</strong> Website URLs opened through the app and the date and time they were opened.</li>
+                <li><strong>Last opened URL:</strong> The most recent shortcut URL, used to coordinate shortcut launches.</li>
             </ul>
-            <p><strong>Tracking Information:</strong> The app may collect limited tracking identifiers for analytics purposes, but this data is not linked to your personal identity.</p>
+            <p>This information is stored using iOS app-local preferences. The app does not operate a developer server that receives your browsing history or last opened URL.</p>
+            <p>Shortcut definitions are managed separately by Apple's Shortcuts app. Website content and website data are handled by Safari and the websites you visit under their own privacy practices.</p>
+            <p>The current app may include opened URLs in on-device diagnostic output for troubleshooting. Depending on your iOS diagnostic-sharing settings, system diagnostics may be handled by Apple. Avoid placing passwords, access tokens, or other secrets in shortcut URLs.</p>
         </section>
 
         <section class="section">
-            <h2>How We Use Your Information</h2>
-            <p>Your data is used exclusively to:</p>
+            <h2>Google Mobile Ads</h2>
+            <p>The app displays advertisements using the Google Mobile Ads SDK (AdMob). The SDK may send information to Google and its advertising partners. The categories below reproduce the declarations in the privacy manifest bundled with the SDK in the current app build. They do not mean that every category is collected from every person in every context; actual handling can vary by device, region, permission choices, and Google's configuration.</p>
+
+            <div class="privacy-table-wrapper" aria-label="Google Mobile Ads data disclosures" tabindex="0">
+                <table class="privacy-table">
+                    <caption>Google Mobile Ads SDK privacy manifest</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Data category</th>
+                            <th scope="col">Linked to you</th>
+                            <th scope="col">Used for tracking</th>
+                            <th scope="col">Declared purposes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Device ID</td>
+                            <td>Yes</td>
+                            <td>Yes</td>
+                            <td>Third-party advertising; developer advertising or marketing; analytics</td>
+                        </tr>
+                        <tr>
+                            <td>Coarse location</td>
+                            <td>Yes</td>
+                            <td>No</td>
+                            <td>Third-party advertising; developer advertising or marketing; analytics</td>
+                        </tr>
+                        <tr>
+                            <td>Advertising data</td>
+                            <td>Yes</td>
+                            <td>No</td>
+                            <td>Third-party advertising; developer advertising or marketing; analytics</td>
+                        </tr>
+                        <tr>
+                            <td>Product interaction</td>
+                            <td>Yes</td>
+                            <td>No</td>
+                            <td>Third-party advertising; developer advertising or marketing; analytics</td>
+                        </tr>
+                        <tr>
+                            <td>Performance data</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>Third-party advertising; developer advertising or marketing; analytics</td>
+                        </tr>
+                        <tr>
+                            <td>Crash data</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>Analytics</td>
+                        </tr>
+                        <tr>
+                            <td>Other diagnostic data</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>Third-party advertising; developer advertising or marketing; analytics</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p>In this table, <strong>linked to you</strong> and <strong>used for tracking</strong> use Apple's privacy-manifest meanings. "Tracking" generally means linking information from the app with third-party data for advertising or sharing it with a data broker.</p>
+        </section>
+
+        <section class="section">
+            <h2>User Messaging Platform</h2>
+            <p>The Google Mobile Ads package also contains Google's User Messaging Platform (UMP) component. Its bundled privacy manifest declares that it may collect the following data for app functionality. It declares these categories as not linked to you and not used for tracking.</p>
             <ul class="feature-list">
-                <li>✅ Provide core app functionality</li>
-                <li>📊 Improve app performance and user experience</li>
-                <li>🔄 Maintain your shortcuts and browsing preferences</li>
-                <li>🚀 Enable quick website access from your home screen</li>
+                <li>Coarse location</li>
+                <li>Performance data</li>
+                <li>Product interaction</li>
             </ul>
+            <p>App versions that include the consent flow ask UMP for updated consent information when the app starts and, where required, display a Google consent form before requesting ads. When UMP indicates that privacy options must remain available, the app shows a privacy-choices control near the privacy-policy link. The forms and choices shown depend on your region and Google's configuration. Older installed versions may not include this control.</p>
         </section>
 
         <section class="section">
-            <h2>Data Storage and Security</h2>
-            <p><strong>Local Storage:</strong> All your shortcuts, browsing history, and preferences are stored locally on your device using iOS secure storage mechanisms.</p>
-            <p><strong>No Server Storage:</strong> We do not store your personal browsing data on our servers or transmit it to third parties.</p>
-            <p><strong>Safari Integration:</strong> When you open websites through shortcuts, they are displayed using iOS Safari, which follows Apple's privacy and security standards.</p>
+            <h2>Tracking and Advertising Choices</h2>
+            <h3>Apple App Tracking Transparency</h3>
+            <p>The app may ask for permission through Apple's App Tracking Transparency (ATT) prompt. If you allow tracking, the advertising SDK may access the advertising identifier and use information for tracking as described above. If you deny tracking, iOS restricts access to the advertising identifier and cross-app tracking. Denying ATT does not disable all ads or all data processing; contextual or non-personalized ads may still appear.</p>
+            <p>You can review or change this choice in <strong>Settings &gt; Privacy &amp; Security &gt; Tracking</strong> on your device.</p>
+
+            <h3>Google Advertising Choices</h3>
+            <p>Where available, use the app's privacy-choices control to reopen Google's UMP options. You can also review Google's advertising controls in <a href="https://myadcenter.google.com/">My Ad Center</a>. Google's controls and availability vary by app version, account, region, and applicable law.</p>
+        </section>
+
+        <section class="section">
+            <h2>Retention and Deletion</h2>
+            <ul class="feature-list">
+                <li><strong>Browsing history:</strong> Open the app's History screen and use the trash button to clear all history, or delete individual entries.</li>
+                <li><strong>All app-managed local data:</strong> Delete the app from your device. This removes its app container, including browsing history and the last opened URL.</li>
+                <li><strong>Shortcut definitions:</strong> Delete them separately in Apple's Shortcuts app.</li>
+            </ul>
+            <p>Information processed by Google is retained and deleted under Google's own policies and controls. The app does not control Google's retention periods.</p>
         </section>
 
         <section class="section">
             <h2>Third-Party Services</h2>
-            <p>Shortcuts Browser integrates with iOS Safari for displaying websites and the iOS Shortcuts app for creating home screen shortcuts. These services have their own privacy policies managed by Apple Inc.</p>
-        </section>
-
-        <section class="section">
-            <h2>Your Rights and Choices</h2>
             <ul class="feature-list">
-                <li>🗑️ <strong>Delete Data:</strong> You can clear all app data by deleting and reinstalling the app</li>
-                <li>⚙️ <strong>Control Shortcuts:</strong> You can add, edit, or remove website shortcuts at any time</li>
-                <li>🔒 <strong>Privacy Controls:</strong> Use iOS privacy settings to control app permissions</li>
-                <li>📱 <strong>Tracking:</strong> You can opt out of tracking through iOS App Tracking Transparency settings</li>
+                <li><strong>Google Mobile Ads and UMP:</strong> <a href="https://policies.google.com/privacy">Google Privacy Policy</a> and <a href="https://policies.google.com/technologies/partner-sites">How Google uses information from apps that use its services</a>.</li>
+                <li><strong>Safari and Shortcuts:</strong> <a href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a>.</li>
             </ul>
         </section>
 
         <section class="section">
-            <h2>Age Restrictions</h2>
-            <p>Shortcuts Browser is rated 17+ and is intended for users who meet the minimum age requirements in their jurisdiction.</p>
-        </section>
-
-        <section class="section">
             <h2>Changes to This Policy</h2>
-            <p>We may update this privacy policy from time to time. Any changes will be reflected in the "Last updated" date above. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
+            <p>This policy may be updated when the app, its advertising configuration, or third-party service practices change. The "Last updated" date identifies the latest published revision.</p>
         </section>
 
         <section class="section">
             <h2>Contact Information</h2>
-            <p>If you have questions about this privacy policy or how we handle your data, please contact:</p>
+            <p>If you have questions about this policy or how the app handles information, please use the support contact shown on the app's App Store listing.</p>
             <p><strong>Developer:</strong> Keisuke Karijuku</p>
-            <p>You can reach us through the App Store or via the contact information provided in the app.</p>
         </section>
 
     </div>
