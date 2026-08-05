@@ -1,0 +1,29 @@
+---
+import type { AppDefinition } from "../data/apps";
+
+interface Props {
+  app: AppDefinition;
+  eager?: boolean;
+}
+
+const { app, eager = false } = Astro.props;
+---
+
+<a href={`/apps/${app.slug}/`} class="app-card">
+  <div class="app-card-content">
+    <h3>
+      <img
+        src={app.icon}
+        alt=""
+        class="app-icon-small"
+        width="24"
+        height="24"
+        loading={eager ? undefined : "lazy"}
+        decoding="async"
+      />
+      {app.name}
+    </h3>
+    <p class="app-description">{app.cardDescription}</p>
+  </div>
+  <span class="app-card-arrow" aria-hidden="true">›</span>
+</a>

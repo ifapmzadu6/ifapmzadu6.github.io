@@ -1,0 +1,508 @@
+---
+import type { AppDefinition } from "../data/apps";
+
+interface Props {
+  app: AppDefinition;
+}
+
+const { app } = Astro.props;
+---
+
+{
+  app.slug === "otolume" && (
+    <Fragment>
+      <section class="section">
+        <h2>Data Collection</h2>
+        <p>
+          Neither OtoLume nor its developer collects personal information,
+          usage data, location, advertising identifiers, or other user data. The
+          app has no account registration, advertising, analytics SDKs, or
+          communication with an external server.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Microphone and Recordings</h2>
+        <p>
+          OtoLume accesses the microphone with your permission to provide its
+          recording features. Recordings are stored only on your device and are
+          not transmitted unless you choose to share them.
+        </p>
+        <p>
+          When you use the sharing feature, the destination app or service
+          handles the shared data under its own privacy policy.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Bluetooth</h2>
+        <p>
+          OtoLume uses audio-route information provided by iOS on your device to
+          select a connected Bluetooth headset microphone. The developer does
+          not collect or store this information.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Data Deletion</h2>
+        <p>
+          You can delete individual recordings with the in-app delete feature.
+          Deleting the app from your device also removes the recordings and
+          settings that remain in the app.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Policy Updates</h2>
+        <p>
+          We may update this policy when app features or legal requirements
+          change. Material changes will be announced on this page or through an
+          app update.
+        </p>
+        <p>
+          <strong>Effective date:</strong> July 28, 2026
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Contact</h2>
+        <p>
+          Questions about this policy or OtoLume can be sent to{" "}
+          <a href="mailto:Keisuke.Karijuku@gmail.com">
+            Keisuke.Karijuku@gmail.com
+          </a>
+          .
+        </p>
+        <p>
+          For help using the app, see the <a href="./">OtoLume support page</a>.
+        </p>
+      </section>
+    </Fragment>
+  )
+}
+
+{
+  app.slug === "shortcuts-browser" && (
+    <Fragment>
+      <section class="section">
+        <h2>Overview</h2>
+        <p>
+          This policy explains how Shortcuts Browser handles information stored
+          on your device and information processed by advertising services. The
+          developer does not operate a server that receives your shortcuts or
+          personal browsing history.
+        </p>
+        <p>
+          <strong>Last updated:</strong> August 5, 2026
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Information Stored on Your Device</h2>
+        <p>The following information is stored locally to provide the app's features:</p>
+        <ul class="feature-list">
+          <li>
+            Up to 100 browsing-history entries, including each website URL, a
+            site title derived from its domain, and the date and time it was
+            opened
+          </li>
+          <li>
+            The most recent URL received from a shortcut, which the app uses to
+            coordinate browser presentation
+          </li>
+        </ul>
+        <p>
+          Shortcuts are created and stored by Apple's Shortcuts app. Shortcuts
+          Browser does not copy those shortcuts to a server operated by the
+          developer.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Advertising and Tracking</h2>
+        <p>
+          Shortcuts Browser uses the Google Mobile Ads (AdMob) SDK to display
+          advertising and the Google User Messaging Platform SDK (UMP) to
+          request and manage advertising consent where required. Google and its
+          advertising partners may process device or advertising identifiers,
+          IP and network information, approximate location derived from network
+          information, ad requests, impressions, clicks, interactions, and
+          diagnostic or performance information.
+        </p>
+        <p>
+          This information may be used to deliver and measure ads, prevent fraud
+          and abuse, and, where the user has permitted it, provide personalized
+          advertising or tracking across apps and websites. The app uses Apple's
+          App Tracking Transparency permission before accessing data for
+          tracking when that permission is applicable.
+        </p>
+        <p>
+          The app does not intentionally include your shortcut URLs or browsing
+          history in its advertising requests.
+        </p>
+        <p>
+          Refusing tracking permission does not prevent you from using the app's
+          core shortcut and browsing features.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Third-Party Services</h2>
+        <p>
+          The app uses Apple system services, including iOS, Safari, and
+          Shortcuts, as well as Google Mobile Ads and Google User Messaging
+          Platform. These providers process information under their own
+          policies:
+        </p>
+        <ul class="feature-list">
+          <li>
+            <a href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a>
+          </li>
+          <li>
+            <a href="https://policies.google.com/privacy">Google Privacy Policy</a>
+          </li>
+          <li>
+            <a href="https://policies.google.com/technologies/partner-sites">
+              How Google uses information from partner apps
+            </a>
+          </li>
+        </ul>
+        <p>
+          Websites are displayed in an in-app Safari view. Shortcuts Browser
+          records the opened URL in local history but does not inspect the page
+          content. Websites opened through Safari have their own privacy
+          practices, and Safari may use website data such as cookies according
+          to your Safari settings.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Retention, Deletion, and Your Choices</h2>
+        <ul class="feature-list">
+          <li>
+            Browsing history is retained on your device until you delete
+            individual entries, clear all history in the app, or delete the app.
+            The app keeps at most 100 entries.
+          </li>
+          <li>
+            The most recent shortcut URL remains on your device until another
+            URL replaces it or you delete the app.
+          </li>
+          <li>You can add, edit, or remove shortcuts in Apple's Shortcuts app.</li>
+          <li>
+            When required, the app provides a Privacy Choices control that opens
+            the Google UMP privacy-options form.
+          </li>
+          <li>Deleting the app removes its locally stored data from your device.</li>
+          <li>
+            You can change tracking permission in iOS Settings under Privacy
+            &amp; Security &gt; Tracking.
+          </li>
+          <li>
+            Advertising providers retain and delete information according to
+            their own policies and privacy controls linked above.
+          </li>
+        </ul>
+        <p>
+          The developer does not retain a server-side copy of your shortcuts or
+          browsing history.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Age Rating</h2>
+        <p>
+          The current App Store age rating is 16+. Ratings may vary by country
+          or region and may change when platform rating systems are updated.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Policy Updates</h2>
+        <p>
+          We may update this policy when the app, advertising configuration, or
+          legal requirements change. The latest revision date will be shown
+          above.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Contact</h2>
+        <p>
+          Questions or requests about this policy can be sent to{" "}
+          <a href="mailto:Keisuke.Karijuku@gmail.com">
+            Keisuke.Karijuku@gmail.com
+          </a>
+          .
+        </p>
+      </section>
+    </Fragment>
+  )
+}
+
+{
+  app.slug === "tax-calculator" && (
+    <Fragment>
+      <section class="section">
+        <h2>Overview</h2>
+        <p>
+          Tax Inclusive Price Calculator performs tax calculations locally on
+          your device. The developer does not operate a server that receives the
+          amounts you enter or your calculation results. The app uses Google
+          Mobile Ads (AdMob) and may use platform purchase services, which
+          process limited information as described below.
+        </p>
+        <p>
+          <strong>Last updated:</strong> August 5, 2026
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Calculation Data and Local Storage</h2>
+        <p>
+          Amounts entered for calculations and the resulting tax values are
+          processed on your device and are not sent to a server operated by the
+          developer.
+        </p>
+        <p>
+          Recent calculation state may be held temporarily for features such as
+          copying a result. App preferences, such as appearance settings, may be
+          stored locally using the standard storage provided by iOS or Android.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Advertising</h2>
+        <p>
+          The app uses Google Mobile Ads (AdMob) to display advertising. The
+          Google Mobile Ads SDK and its advertising partners may process device
+          or advertising identifiers, IP and network information, ad requests,
+          impressions, clicks, and diagnostic information.
+        </p>
+        <p>
+          This information may be used for ad delivery and measurement,
+          security, and fraud prevention and, where the user has permitted it,
+          personalized advertising or tracking. Consent and platform privacy
+          controls are presented where required.
+        </p>
+        <p>
+          The advertising service does not receive the amounts you enter into
+          the calculator from the developer.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Purchases</h2>
+        <p>
+          Supported versions may offer an optional purchase to remove
+          advertisements. Purchases are processed by Apple or Google. The
+          developer may receive purchase status and transaction identifiers
+          needed to provide the purchased feature but does not receive your full
+          payment card details.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Third-Party Services</h2>
+        <p>
+          Information processed by Apple, Google Play, Google AdMob, or their
+          advertising partners is handled under the applicable provider
+          policies:
+        </p>
+        <ul class="feature-list">
+          <li>
+            <a href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a>
+          </li>
+          <li>
+            <a href="https://policies.google.com/privacy">Google Privacy Policy</a>
+          </li>
+          <li>
+            <a href="https://policies.google.com/technologies/partner-sites">
+              How Google uses information from partner apps
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Retention, Deletion, and Your Choices</h2>
+        <ul class="feature-list">
+          <li>
+            Deleting the app removes its locally stored calculation state and
+            preferences from your device.
+          </li>
+          <li>
+            You can manage tracking, ad personalization, and consent through the
+            options provided by the app, operating system, and advertising
+            provider where available.
+          </li>
+          <li>
+            Advertising and store providers retain and delete information
+            according to their own policies and privacy controls linked above.
+          </li>
+        </ul>
+        <p>
+          The developer does not retain a server-side copy of your calculation
+          inputs or results.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Age Ratings</h2>
+        <p>
+          At the time of this update, the iOS App Store rating is 18+ and the
+          Google Play content rating is 3+. Ratings may vary by country or region
+          and may change when platform rating systems are updated.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Policy Updates</h2>
+        <p>
+          We may update this policy when the app, advertising configuration,
+          purchase features, or legal requirements change. The latest revision
+          date will be shown above.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Contact</h2>
+        <p>
+          Questions or requests about this policy can be sent to{" "}
+          <a href="mailto:Keisuke.Karijuku@gmail.com">
+            Keisuke.Karijuku@gmail.com
+          </a>
+          .
+        </p>
+      </section>
+    </Fragment>
+  )
+}
+
+{
+  app.slug === "sake-rhythm" && (
+    <Fragment>
+      <section class="section">
+        <h2>Data Collection and Usage</h2>
+        <p>
+          <strong>Local Data Storage Only:</strong> SakeRhythm stores all user
+          data locally on your device using Apple's SwiftData framework. We do
+          not collect, transmit, or store any personal information on external
+          servers.
+        </p>
+
+        <h3>What Data is Stored Locally:</h3>
+        <ul class="feature-list">
+          <li>📊 Drinking session configurations (participant count, session type)</li>
+          <li>⏱️ Session timestamps and duration data</li>
+          <li>💡 Health tip interaction history</li>
+          <li>🚨 Emergency consultation logs (if used)</li>
+          <li>⚙️ App settings and preferences</li>
+        </ul>
+
+        <h3>What We DO NOT Collect:</h3>
+        <ul class="feature-list">
+          <li>❌ Personal identification information</li>
+          <li>❌ Location data</li>
+          <li>❌ Medical or health records</li>
+          <li>❌ Biometric data</li>
+          <li>❌ Contact information</li>
+          <li>❌ Analytics or usage tracking data</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Data Security</h2>
+        <p>
+          All data is stored securely on your device using Apple's built-in
+          security measures including:
+        </p>
+        <ul class="feature-list">
+          <li>🔐 iOS sandbox security</li>
+          <li>📱 Device-level encryption</li>
+          <li>🛡️ SwiftData's secure storage framework</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Third-Party Services</h2>
+        <p>
+          <strong>No Third-Party Analytics:</strong> SakeRhythm does not
+          integrate with any third-party analytics services, advertising
+          networks, or data collection platforms.
+        </p>
+
+        <p>
+          <strong>iOS System Features:</strong> The app uses Apple's built-in
+          features including:
+        </p>
+        <ul class="feature-list">
+          <li>📱 Dynamic Island and Live Activities</li>
+          <li>🔔 Local notifications</li>
+          <li>☎️ Emergency calling (only when explicitly activated by user)</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Medical Disclaimer</h2>
+        <p>
+          <strong>⚠️ Important:</strong> SakeRhythm is not a medical device and
+          does not provide medical advice, diagnosis, or treatment. The app:
+        </p>
+        <ul class="feature-list">
+          <li>🚫 Does not perform medical assessments</li>
+          <li>🚫 Does not store medical information</li>
+          <li>🚫 Does not make health-related decisions</li>
+          <li>✅ Provides general wellness tips only</li>
+          <li>✅ Encourages users to make their own health decisions</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Data Deletion</h2>
+        <p>You can delete all app data by:</p>
+        <ul class="feature-list">
+          <li>📱 Uninstalling the app from your device</li>
+        </ul>
+        <p>
+          Once deleted, data cannot be recovered as we do not store backups on
+          external servers.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Age Restrictions</h2>
+        <p>
+          <strong>20+ Only in Japan:</strong> This app is intended for users who
+          are of legal drinking age in Japan (20 years and older). The app
+          includes appropriate age verification measures.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Contact Information</h2>
+        <p>
+          If you have questions about this privacy policy or the app's data
+          practices, please contact:
+        </p>
+        <p>
+          <strong>Developer:</strong> Keisuke Karijuku<br />
+          <strong>App:</strong> SakeRhythm<br />
+          <strong>Market:</strong> Japan Only
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Policy Updates</h2>
+        <p>
+          <strong>Last Updated:</strong> [Date to be set upon app release]
+        </p>
+        <p>
+          This privacy policy may be updated to reflect changes in the app or
+          legal requirements. Users will be notified of significant changes
+          through the app update process.
+        </p>
+      </section>
+    </Fragment>
+  )
+}

@@ -1,0 +1,55 @@
+---
+import type { AppDefinition, StoreLink } from "../data/apps";
+
+interface Props {
+  app: AppDefinition;
+  title: string;
+  subtitle: string;
+  showIcon?: boolean;
+  storeLinks?: StoreLink[];
+  statusLabel?: string;
+}
+
+const {
+  app,
+  title,
+  subtitle,
+  showIcon = true,
+  storeLinks = [],
+  statusLabel,
+} = Astro.props;
+---
+
+<header class="app-header">
+  {
+    showIcon && (
+      <div class="app-icon">
+        <img
+          src={app.icon}
+          alt=""
+          class="app-icon-large"
+          width="60"
+          height="60"
+          decoding="async"
+        />
+      </div>
+    )
+  }
+  <h1 class="app-title">{title}</h1>
+  <p class="app-subtitle">{subtitle}</p>
+  {
+    (storeLinks.length > 0 || statusLabel) && (
+      <div class="store-buttons">
+        {storeLinks.map((link) => (
+          <a
+            href={link.url}
+            class:list={["download-btn", link.className]}
+          >
+            {link.label}
+          </a>
+        ))}
+        {statusLabel && <span class="status-label">{statusLabel}</span>}
+      </div>
+    )
+  }
+</header>

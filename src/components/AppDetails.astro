@@ -1,0 +1,284 @@
+---
+import type { AppDefinition } from "../data/apps";
+
+interface Props {
+  app: AppDefinition;
+}
+
+const { app } = Astro.props;
+---
+
+{
+  app.slug === "otolume" && (
+    <Fragment>
+      <section class="section">
+        <h2>Features</h2>
+        <ul class="feature-list">
+          <li>Select a connected Bluetooth headset microphone</li>
+          <li>Record in M4A (AAC) format</li>
+          <li>Record in the background</li>
+          <li>Use Clear Voice mode to reduce background noise</li>
+          <li>Play, share, and delete recordings</li>
+          <li>
+            Review waveforms, zoom from 1x to 8x, and analyze frequency
+            bands
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>How to Use</h2>
+        <ol class="support-steps">
+          <li>
+            Pair a Bluetooth headset that supports two-way audio in iPhone
+            Settings.
+          </li>
+          <li>Open OtoLume and allow microphone access.</li>
+          <li>
+            Select the connected Bluetooth microphone on the recording screen
+            and start recording.
+          </li>
+          <li>
+            Use the Library to play or share a recording and review its
+            waveform and frequency bands.
+          </li>
+        </ol>
+      </section>
+
+      <section class="section">
+        <h2>Support</h2>
+        <h3>Recording does not start</h3>
+        <p>
+          Make sure the Bluetooth headset is connected to your iPhone and
+          available as a call microphone. Devices that support music playback
+          only may not support recording.
+        </p>
+
+        <h3>The microphone does not appear</h3>
+        <p>
+          Disconnect and reconnect the headset in iPhone Settings, then reopen
+          OtoLume. Also check that OtoLume is allowed under Settings &gt;
+          Privacy &amp; Security &gt; Microphone.
+        </p>
+
+        <h3>Recording data</h3>
+        <p>
+          Recordings are stored on your iPhone. Back up any recordings you need
+          with the sharing feature before deleting the app or erasing the
+          device.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>App Info</h2>
+        <p>
+          <strong>Compatibility:</strong> iOS 17.0 or later
+        </p>
+        <p>
+          <strong>Developer:</strong> Keisuke Karijuku
+        </p>
+        <p>
+          <strong>Privacy:</strong> <a href="privacy.html">Privacy Policy</a>
+        </p>
+      </section>
+    </Fragment>
+  )
+}
+
+{
+  app.slug === "shortcuts-browser" && (
+    <Fragment>
+      <section class="section">
+        <h2>Features</h2>
+        <ul class="feature-list">
+          <li>⚡ Instant access from home screen shortcuts</li>
+          <li>🖥️ Full-screen Safari browsing</li>
+          <li>
+            🔒 Browsing history stays local; shortcuts remain in Apple's
+            Shortcuts app
+          </li>
+          <li>📱 iOS 16+ compatible</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>App Info</h2>
+        <p>
+          <strong>Price:</strong> Free; contains advertising
+        </p>
+        <p>
+          <strong>Compatibility:</strong> iOS 16.0+, iPhone &amp; iPad
+        </p>
+        <p>
+          <strong>App Store Age Rating:</strong> 16+ (may vary by country or
+          region)
+        </p>
+        <p>
+          <strong>Developer:</strong> Keisuke Karijuku
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Legal</h2>
+        <p>
+          <a href="privacy.html">Privacy Policy</a>
+        </p>
+      </section>
+    </Fragment>
+  )
+}
+
+{
+  app.slug === "tax-calculator" && (
+    <Fragment>
+      <section class="section">
+        <h2>Features</h2>
+        <ul class="feature-list">
+          <li>🇯🇵 Japanese consumption tax rates (10% standard, 8% reduced)</li>
+          <li>🔄 Bidirectional calculation (tax-inclusive ↔ tax-exclusive)</li>
+          <li>⚡ Real-time calculation without pressing buttons</li>
+          <li>📋 One-tap copy function</li>
+          <li>🌙 Dark mode support</li>
+          <li>✨ Elegant input cursor animation</li>
+          <li>♿ Accessibility-friendly design</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Perfect For</h2>
+        <ul class="feature-list">
+          <li>🛒 Smart shopping and price comparison</li>
+          <li>💰 Household budget management</li>
+          <li>🏪 Retail and food service professionals</li>
+          <li>📊 Accounting and bookkeeping tasks</li>
+          <li>📱 Users who appreciate beautiful, simple apps</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>App Info</h2>
+        <p>
+          <strong>Price:</strong> Free; contains advertising, with an optional
+          ad-removal purchase on supported platforms
+        </p>
+        <p>
+          <strong>iOS Compatibility:</strong> iOS 12.0+, iPhone, iPad, iPod
+          touch, Mac (macOS 11.0+ with Apple M1), Apple Vision Pro
+        </p>
+        <p>
+          <strong>Android Compatibility:</strong> Android 5.0 and up
+        </p>
+        <p>
+          <strong>Age Ratings:</strong> App Store 18+; Google Play 3+ (may vary
+          by country or region)
+        </p>
+        <p>
+          <strong>Developer:</strong> Keisuke Karijuku
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Legal</h2>
+        <p>
+          <a href="privacy.html">Privacy Policy</a>
+        </p>
+      </section>
+    </Fragment>
+  )
+}
+
+{
+  app.slug === "sake-rhythm" && (
+    <Fragment>
+      <section class="section">
+        <h2>Features</h2>
+        <ul class="feature-list">
+          <li>💧 Smart hydration reminders during drinking sessions</li>
+          <li>🌅 "For Tomorrow" tips to prevent hangovers</li>
+          <li>👥 Group management for 4-20 participants</li>
+          <li>
+            🍻 Designed for Japanese drinking gatherings, from the first venue
+            through all-day sessions
+          </li>
+          <li>🏝️ Dynamic Island integration (iPhone 14 Pro+)</li>
+          <li>🚨 Emergency consultation screen (non-medical)</li>
+          <li>⏰ Phase-based health advice (Early/Middle/Late/Final)</li>
+          <li>📱 iOS Native with SwiftUI &amp; SwiftData</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Perfect For</h2>
+        <ul class="feature-list">
+          <li>🎉 Group drinking organizers who want to enjoy the gathering too</li>
+          <li>💧 People who want better hydration during drinking</li>
+          <li>🌅 Anyone who wants to avoid hangovers</li>
+          <li>👥 Groups of 4-20 people having drinking sessions</li>
+          <li>🇯🇵 Those familiar with Japanese drinking culture</li>
+          <li>📱 Users who appreciate beautiful iOS native apps</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Drinking Session Types</h2>
+        <ul class="feature-list">
+          <li>
+            🥂 <strong>First gathering only</strong> - ~2 hours
+          </li>
+          <li>
+            🍻 <strong>After-party included</strong> - ~3.5 hours
+          </li>
+          <li>
+            🍺 <strong>Extended session</strong> - ~6 hours
+          </li>
+          <li>
+            🍷 <strong>All-day session</strong> - ~8 hours
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>App Info</h2>
+        <p>
+          <strong>Status:</strong> In Development (Construction Phase)
+        </p>
+        <p>
+          <strong>Target Release:</strong> Japan Market Only
+        </p>
+        <p>
+          <strong>iOS Compatibility:</strong> iOS 18.0+, iPhone (Dynamic Island:
+          iPhone 14 Pro+ recommended)
+        </p>
+        <p>
+          <strong>Technology:</strong> SwiftUI, SwiftData, ActivityKit, Live
+          Activities
+        </p>
+        <p>
+          <strong>Developer:</strong> Keisuke Karijuku
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Important Safety Notice</h2>
+        <p>
+          <strong>
+            ⚠️ This app does not provide medical diagnosis or treatment advice.
+          </strong>
+        </p>
+        <p>
+          In case of health concerns during drinking sessions, users should
+          contact appropriate medical services or emergency services (119 in
+          Japan) based on their own judgment. The app prioritizes human judgment
+          over automated assessments.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Legal</h2>
+        <p>
+          <a href="privacy.html">Privacy Policy</a>
+        </p>
+      </section>
+    </Fragment>
+  )
+}

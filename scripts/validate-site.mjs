@@ -1,8 +1,9 @@
-import { access, readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const root = path.join(projectRoot, "dist");
 const publicPages = [
   "index.html",
   "apps/otolume/index.html",
@@ -24,6 +25,18 @@ const allPages = [
   "404.html",
 ];
 const footerPages = [...publicPages, "404.html"];
+const staticFiles = [
+  "ads.txt",
+  "app-ads.txt",
+  "favicon.svg",
+  "google72183cdf8f2714c0.html",
+  "robots.txt",
+  "sitemap.xml",
+  "assets/images/apps/otolume.png",
+  "assets/images/apps/shortcuts-browser.jpg",
+  "assets/images/apps/tax-calculator.jpg",
+  "assets/images/apps/sake-rhythm.jpg",
+];
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -40,6 +53,24 @@ async function fileExists(filePath) {
 
 async function read(relativePath) {
   return readFile(path.join(root, relativePath), "utf8");
+}
+
+async function listFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = await Promise.all(
+    entries.map((entry) => {
+      const filePath = path.join(directory, entry.name);
+      return entry.isDirectory() ? listFiles(filePath) : [filePath];
+    }),
+  );
+  return files.flat();
+}
+
+for (const relativePath of [...allPages, ...staticFiles]) {
+  assert(
+    await fileExists(path.join(root, relativePath)),
+    relativePath + ": missing from Astro build output",
+  );
 }
 
 for (const relativePath of publicPages) {
@@ -125,7 +156,15 @@ for (const relativePath of ["apps/sake-rhythm/index.html", "apps/sake-rhythm/pri
   assert(html.includes('content="noindex,nofollow,noarchive"'), `${relativePath}: hidden page must be noindex`);
 }
 
-const css = await read("assets/css/app.css");
-assert(!/#007aff/i.test(css), "app.css: old low-contrast blue remains");
+const generatedCssFiles = (await listFiles(root)).filter((filePath) =>
+  filePath.endsWith(".css"),
+);
+assert(generatedCssFiles.length > 0, "Astro build: generated stylesheet is missing");
+const generatedCss = (
+  await Promise.all(generatedCssFiles.map((filePath) => readFile(filePath, "utf8")))
+).join("\n");
+assert(!/#007aff/i.test(generatedCss), "generated CSS: old low-contrast blue remains");
 
-console.log(`Validated ${allPages.length} HTML pages, public metadata, privacy disclosures, ratings, and internal links.`);
+console.log(
+  `Validated the Astro build: ${allPages.length} HTML pages, ${staticFiles.length} static files, metadata, privacy disclosures, ratings, and internal links.`,
+);
