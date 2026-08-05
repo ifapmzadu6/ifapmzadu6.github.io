@@ -1,4 +1,5 @@
 export type AppSlug =
+  | "tttt"
   | "otolume"
   | "shortcuts-browser"
   | "tax-calculator"
@@ -19,6 +20,7 @@ export interface AppDefinition {
   subtitle: string;
   icon: string;
   isPublic: boolean;
+  externalUrl?: string;
   storeLinks: StoreLink[];
   statusLabel?: string;
   privacyDescription: string;
@@ -26,6 +28,28 @@ export interface AppDefinition {
 }
 
 export const apps: AppDefinition[] = [
+  {
+    slug: "tttt",
+    name: "tttt..",
+    pageTitle: "tttt.. Too Tired to Type",
+    description:
+      "A calm AI reading app for bedtime with no prompts, chat, or typing",
+    cardDescription:
+      "Calm AI stories, trivia, and quizzes for bedtime — no typing required",
+    subtitle: "No prompts, no chat, just read",
+    icon: "/assets/images/apps/tttt.svg",
+    isPublic: true,
+    externalUrl: "https://tootiredtotype.com/en/",
+    storeLinks: [
+      {
+        label: "View on App Store",
+        url: "https://apps.apple.com/app/id6758298365",
+      },
+    ],
+    privacyDescription:
+      "Privacy Policy for tttt.. Too Tired to Type",
+    privacyShowIcon: true,
+  },
   {
     slug: "otolume",
     name: "OtoLume",
@@ -111,6 +135,7 @@ export const apps: AppDefinition[] = [
 ];
 
 export const publicApps = apps.filter((app) => app.isPublic);
+export const localApps = apps.filter((app) => !app.externalUrl);
 
 export function getApp(slug: AppSlug): AppDefinition {
   const app = apps.find((candidate) => candidate.slug === slug);
