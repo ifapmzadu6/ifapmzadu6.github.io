@@ -1,0 +1,22 @@
+---
+import PrivacyContent from "../../../components/PrivacyContent.astro";
+import { apps, type AppDefinition } from "../../../data/apps";
+import AppLayout from "../../../layouts/AppLayout.astro";
+
+export function getStaticPaths() {
+  return apps.map((app) => ({
+    params: { slug: app.slug },
+    props: { app },
+  }));
+}
+
+interface Props {
+  app: AppDefinition;
+}
+
+const { app } = Astro.props;
+---
+
+<AppLayout app={app} privacy>
+  <PrivacyContent app={app} />
+</AppLayout>

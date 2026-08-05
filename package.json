@@ -1,7 +1,19 @@
 {
   "name": "keisuke-karijuku-apps-site",
   "private": true,
+  "type": "module",
   "scripts": {
-    "test": "node scripts/validate-site.mjs"
+    "dev": "astro dev",
+    "check": "astro check",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "npm run check && npm run build && node scripts/validate-site.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.1.6"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }

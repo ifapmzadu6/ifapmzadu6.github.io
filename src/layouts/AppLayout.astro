@@ -1,0 +1,59 @@
+---
+import AppHeader from "../components/AppHeader.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import type { AppDefinition } from "../data/apps";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  app: AppDefinition;
+  privacy?: boolean;
+}
+
+const { app, privacy = false } = Astro.props;
+const canonicalPath = privacy
+  ? `/apps/${app.slug}/privacy.html`
+  : `/apps/${app.slug}/`;
+const title = privacy ? `Privacy Policy - ${app.name}` : app.pageTitle;
+const description = privacy ? app.privacyDescription : app.description;
+const robots = app.isPublic
+  ? privacy
+    ? "noindex,follow"
+    : "index,follow"
+  : "noindex,nofollow,noarchive";
+const privacySubtitle =
+  app.slug === "sake-rhythm"
+    ? "SakeRhythm - Healthy Drinking Support App"
+    : app.name;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalPath={canonicalPath}
+  robots={robots}
+  ogType={privacy ? "article" : "website"}
+  ogImage={app.icon}
+  showFooter={app.isPublic}
+>
+  <Breadcrumb
+    items={[
+      { label: "Home", href: "/" },
+      privacy
+        ? { label: app.name, href: `/apps/${app.slug}/` }
+        : { label: app.name },
+      ...(privacy ? [{ label: "Privacy Policy" }] : []),
+    ]}
+  />
+
+  <main>
+    <AppHeader
+      app={app}
+      title={privacy ? "Privacy Policy" : app.name}
+      subtitle={privacy ? privacySubtitle : app.subtitle}
+      showIcon={!privacy || app.privacyShowIcon}
+      storeLinks={privacy ? [] : app.storeLinks}
+      statusLabel={privacy ? undefined : app.statusLabel}
+    />
+    <slot />
+  </main>
+</BaseLayout>

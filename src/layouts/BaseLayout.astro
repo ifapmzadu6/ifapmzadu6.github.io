@@ -1,0 +1,65 @@
+---
+import "../styles/app.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  robots?: string;
+  ogType?: "website" | "article";
+  ogImage?: string;
+  showFooter?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  robots = "index,follow",
+  ogType = "website",
+  ogImage,
+  showFooter = true,
+} = Astro.props;
+
+const siteUrl = Astro.site ?? Astro.url;
+const canonicalUrl = canonicalPath
+  ? new URL(canonicalPath, siteUrl).toString()
+  : undefined;
+const ogImageUrl = ogImage ? new URL(ogImage, siteUrl).toString() : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Keisuke Karijuku Apps" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="container">
+      <slot />
+
+      {
+        showFooter && (
+          <footer class="site-footer">
+            <p>&copy; 2026 Keisuke Karijuku</p>
+          </footer>
+        )
+      }
+    </div>
+  </body>
+</html>

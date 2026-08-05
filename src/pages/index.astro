@@ -1,0 +1,28 @@
+---
+import AppCard from "../components/AppCard.astro";
+import { publicApps } from "../data/apps";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Keisuke Karijuku Apps"
+  description="iOS and Android apps developed by Keisuke Karijuku"
+  canonicalPath="/"
+  ogImage="/assets/images/apps/otolume.png"
+>
+  <main>
+    <header class="app-header">
+      <div class="app-icon" aria-hidden="true">📱</div>
+      <h1 class="app-title">Keisuke Karijuku</h1>
+    </header>
+
+    <section class="section apps-section">
+      <h2>My Apps</h2>
+      {
+        publicApps.map((app, index) => (
+          <AppCard app={app} eager={index === 0} />
+        ))
+      }
+    </section>
+  </main>
+</BaseLayout>
