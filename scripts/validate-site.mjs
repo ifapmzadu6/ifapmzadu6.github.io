@@ -12,12 +12,18 @@ const publicPages = [
   "apps/tax-calculator/index.html",
   "apps/tax-calculator/privacy.html",
 ];
+const privacyPages = [
+  "apps/otolume/privacy.html",
+  "apps/shortcuts-browser/privacy.html",
+  "apps/tax-calculator/privacy.html",
+];
 const allPages = [
   ...publicPages,
   "apps/sake-rhythm/index.html",
   "apps/sake-rhythm/privacy.html",
   "404.html",
 ];
+const footerPages = [...publicPages, "404.html"];
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -43,11 +49,12 @@ for (const relativePath of publicPages) {
   assert(html.includes('rel="canonical"'), `${relativePath}: missing canonical URL`);
   assert(html.includes('property="og:title"'), `${relativePath}: missing Open Graph title`);
   assert(html.includes('rel="icon"'), `${relativePath}: missing favicon`);
-  assert(html.includes("mailto:Keisuke.Karijuku@gmail.com"), `${relativePath}: missing contact email`);
 }
 
 for (const relativePath of allPages) {
   const html = await read(relativePath);
+  assert(html.includes('<html lang="en">'), `${relativePath}: page language must be English`);
+  assert(!/[ぁ-んァ-ヶ一-龯]/u.test(html), `${relativePath}: non-English Japanese text found`);
   assert(!html.includes('href="#"'), `${relativePath}: placeholder href found`);
 
   for (const match of html.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)) {
@@ -64,8 +71,20 @@ for (const relativePath of allPages) {
   }
 }
 
+for (const relativePath of footerPages) {
+  const html = await read(relativePath);
+  const footer = html.match(/<footer\b[\s\S]*?<\/footer>/)?.[0];
+  assert(footer, `${relativePath}: missing footer`);
+  assert(!footer.includes("<a"), `${relativePath}: footer contact link must be removed`);
+}
+
+for (const relativePath of privacyPages) {
+  const html = await read(relativePath);
+  assert(html.includes("mailto:Keisuke.Karijuku@gmail.com"), `${relativePath}: privacy contact email is missing`);
+}
+
 const home = await read("index.html");
-assert(!/sake-rhythm|SakeRhythm|サケリズム/.test(home), "index.html: hidden SakeRhythm entry is still public");
+assert(!/sake-rhythm|SakeRhythm/.test(home), "index.html: hidden SakeRhythm entry is still public");
 for (const tag of home.match(/<img\b[^>]*class="app-icon-small"[^>]*>/g) ?? []) {
   assert(tag.includes('alt=""'), "index.html: app card icons must have empty alt text beside visible app names");
 }
