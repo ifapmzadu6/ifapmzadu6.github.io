@@ -7,9 +7,10 @@ interface Props {
 }
 
 const { app, eager = false } = Astro.props;
+const href = app.externalUrl ?? "/apps/" + app.slug + "/";
 ---
 
-<a href={`/apps/${app.slug}/`} class="app-card">
+<a href={href} class="app-card">
   <div class="app-card-content">
     <h3>
       <img

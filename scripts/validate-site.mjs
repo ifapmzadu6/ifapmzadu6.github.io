@@ -33,6 +33,7 @@ const staticFiles = [
   "robots.txt",
   "sitemap.xml",
   "assets/images/apps/otolume.png",
+  "assets/images/apps/tttt.svg",
   "assets/images/apps/shortcuts-browser.jpg",
   "assets/images/apps/tax-calculator.jpg",
   "assets/images/apps/sake-rhythm.jpg",
@@ -116,6 +117,18 @@ for (const relativePath of privacyPages) {
 
 const home = await read("index.html");
 assert(!/sake-rhythm|SakeRhythm/.test(home), "index.html: hidden SakeRhythm entry is still public");
+assert(
+  home.includes('href="https://tootiredtotype.com/en/"'),
+  "index.html: tttt.. must link to its English landing page",
+);
+assert(
+  home.indexOf("tttt..") < home.indexOf("OtoLume"),
+  "index.html: tttt.. must be the first app",
+);
+assert(
+  (home.match(/class="app-card"/g) ?? []).length === 4,
+  "index.html: expected four public app cards",
+);
 for (const tag of home.match(/<img\b[^>]*class="app-icon-small"[^>]*>/g) ?? []) {
   assert(tag.includes('alt=""'), "index.html: app card icons must have empty alt text beside visible app names");
 }

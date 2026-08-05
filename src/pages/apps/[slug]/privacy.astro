@@ -1,10 +1,10 @@
 ---
 import PrivacyContent from "../../../components/PrivacyContent.astro";
-import { apps, type AppDefinition } from "../../../data/apps";
+import { localApps, type AppDefinition } from "../../../data/apps";
 import AppLayout from "../../../layouts/AppLayout.astro";
 
 export function getStaticPaths() {
-  return apps.map((app) => ({
+  return localApps.map((app) => ({
     params: { slug: app.slug },
     props: { app },
   }));
