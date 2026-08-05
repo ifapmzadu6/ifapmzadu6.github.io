@@ -12,6 +12,15 @@ body {
     min-height: 100vh;
 }
 
+a {
+    color: #0066cc;
+}
+
+a:focus-visible {
+    outline: 3px solid #1d1d1f;
+    outline-offset: 3px;
+}
+
 .container {
     max-width: 600px;
     margin: 0 auto;
@@ -56,7 +65,7 @@ body {
 
 .download-btn {
     display: inline-block;
-    background: #007AFF;
+    background: #0066cc;
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
@@ -64,16 +73,27 @@ body {
     font-weight: 500;
 }
 
-.download-btn:hover {
-    background: #0056b3;
+.download-btn:hover,
+.download-btn:focus-visible {
+    background: #004f9e;
 }
 
 .download-btn.google-play {
     background: #01875f;
 }
 
-.download-btn.google-play:hover {
+.download-btn.google-play:hover,
+.download-btn.google-play:focus-visible {
     background: #016d4b;
+}
+
+.status-label {
+    display: inline-block;
+    background: #e8eef7;
+    color: #333;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
 }
 
 .section {
@@ -109,7 +129,7 @@ body {
     display: block;
     width: 60px;
     height: 3px;
-    background: #007AFF;
+    background: #0066cc;
     margin: 0.75rem auto 0;
 }
 
@@ -155,7 +175,7 @@ body {
 }
 
 .breadcrumb a {
-    color: #007AFF;
+    color: #0066cc;
     text-decoration: none;
 }
 
@@ -183,19 +203,21 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-decoration: none;
     color: inherit;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
     position: relative;
 }
 
-.app-card:hover {
+.app-card:hover,
+.app-card:focus-visible {
     transform: translateY(-2px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-.app-card:hover .app-card-arrow {
+.app-card:hover .app-card-arrow,
+.app-card:focus-visible .app-card-arrow {
     transform: translateY(-50%) translateX(4px);
-    color: #007AFF;
+    color: #0066cc;
 }
 
 .app-card:last-child {
@@ -215,8 +237,9 @@ body {
     align-items: center;
 }
 
-.app-card:hover h3 {
-    color: #007AFF;
+.app-card:hover h3,
+.app-card:focus-visible h3 {
+    color: #0066cc;
 }
 
 .app-card .app-description {
@@ -232,7 +255,18 @@ body {
     transform: translateY(-50%);
     font-size: 1.2rem;
     color: #ccc;
-    transition: all 0.2s ease;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.site-footer {
+    color: #666;
+    font-size: 0.875rem;
+    padding: 0.5rem 0 1.5rem;
+    text-align: center;
+}
+
+.site-footer p + p {
+    margin-top: 0.35rem;
 }
 
 /* =================
@@ -274,5 +308,15 @@ body {
     .breadcrumb {
         font-size: 0.8rem;
         margin-bottom: 0.75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        transition-iteration-count: 1 !important;
     }
 }
