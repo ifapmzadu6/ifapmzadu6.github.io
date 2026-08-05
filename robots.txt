@@ -9,3 +9,5 @@ Disallow:
 
 User-agent: *
 Disallow:
+
+Sitemap: https://ifapmzadu6.github.io/sitemap.xml

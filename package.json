@@ -1,0 +1,7 @@
+{
+  "name": "keisuke-karijuku-apps-site",
+  "private": true,
+  "scripts": {
+    "test": "node scripts/validate-site.mjs"
+  }
+}
