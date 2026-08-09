@@ -2,6 +2,8 @@
 
 Static app and privacy-policy pages built with Astro.
 
+Site: [https://ifapmzadu6.github.io/](https://ifapmzadu6.github.io/)
+
 ## Development
 
 ```sh
