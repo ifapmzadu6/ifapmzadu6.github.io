@@ -7,14 +7,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="The requested page could not be found."
   robots="noindex,nofollow"
 >
-  <main>
+  <main id="main-content" class="page-shell">
     <header class="app-header">
       <div class="app-icon" aria-hidden="true">🔍</div>
-      <h1 class="app-title">Page Not Found</h1>
-      <p class="app-subtitle">
-        The page may have moved or is no longer available.
-      </p>
-      <a href="/" class="download-btn">Back to My Apps</a>
+      <div class="app-header-content">
+        <h1 class="app-title">Page Not Found</h1>
+        <p class="app-subtitle">
+          The page may have moved or is no longer available.
+        </p>
+        <div class="store-buttons">
+          <a href="/" class="download-btn">Back to My Apps</a>
+        </div>
+      </div>
     </header>
   </main>
 </BaseLayout>

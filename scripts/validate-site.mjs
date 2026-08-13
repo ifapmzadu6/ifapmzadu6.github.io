@@ -24,7 +24,10 @@ const allPages = [
   "apps/sake-rhythm/privacy.html",
   "404.html",
 ];
-const footerPages = [...publicPages, "404.html"];
+const footerPages = [
+  ...publicPages.filter((relativePath) => relativePath !== "index.html"),
+  "404.html",
+];
 const staticFiles = [
   "ads.txt",
   "app-ads.txt",
@@ -76,8 +79,7 @@ for (const relativePath of [...allPages, ...staticFiles]) {
 
 for (const relativePath of publicPages) {
   const html = await read(relativePath);
-  assert(html.includes("<main>"), `${relativePath}: missing <main>`);
-  assert(html.includes("<footer"), `${relativePath}: missing footer`);
+  assert(/<main(?:\s[^>]*)?>/.test(html), `${relativePath}: missing <main>`);
   assert(html.includes('rel="canonical"'), `${relativePath}: missing canonical URL`);
   assert(html.includes('property="og:title"'), `${relativePath}: missing Open Graph title`);
   assert(html.includes('rel="icon"'), `${relativePath}: missing favicon`);
@@ -126,15 +128,9 @@ assert(
   "index.html: tttt.. must be the first app",
 );
 assert(
-  (home.match(/class="app-card"/g) ?? []).length === 4,
-  "index.html: expected four public app cards",
+  (home.match(/class="app-signal"/g) ?? []).length === 4,
+  "index.html: expected four public app links",
 );
-for (const tag of home.match(/<img\b[^>]*class="app-icon-small"[^>]*>/g) ?? []) {
-  assert(tag.includes('alt=""'), "index.html: app card icons must have empty alt text beside visible app names");
-}
-for (const tag of home.match(/<span\b[^>]*class="app-card-arrow"[^>]*>/g) ?? []) {
-  assert(tag.includes('aria-hidden="true"'), "index.html: card arrows must be hidden from assistive technology");
-}
 
 const shortcutsIndex = await read("apps/shortcuts-browser/index.html");
 const shortcutsPrivacy = await read("apps/shortcuts-browser/privacy.html");

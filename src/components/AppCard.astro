@@ -11,20 +11,17 @@ const href = app.externalUrl ?? "/apps/" + app.slug + "/";
 ---
 
 <a href={href} class="app-card">
-  <div class="app-card-content">
-    <h3>
-      <img
-        src={app.icon}
-        alt=""
-        class="app-icon-small"
-        width="24"
-        height="24"
-        loading={eager ? undefined : "lazy"}
-        decoding="async"
-      />
-      {app.name}
-    </h3>
-    <p class="app-description">{app.cardDescription}</p>
-  </div>
-  <span class="app-card-arrow" aria-hidden="true">›</span>
+  <span class="app-card-icon">
+    <img
+      src={app.icon}
+      alt=""
+      width="68"
+      height="68"
+      loading={eager ? undefined : "lazy"}
+      decoding="async"
+    />
+  </span>
+  <h3>{app.name}</h3>
+  <p class="app-description">{app.cardDescription}</p>
+  <span class="app-card-arrow" aria-hidden="true">→</span>
 </a>
