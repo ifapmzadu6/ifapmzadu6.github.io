@@ -855,6 +855,18 @@ button:focus-visible {
         padding-bottom: 1.5rem;
     }
 
+    .home-hero::before {
+        background: radial-gradient(
+            ellipse 92% 70% at 50% 36%,
+            rgba(255, 255, 255, 0.78),
+            transparent 76%
+        );
+    }
+
+    .home-hero::after {
+        display: none;
+    }
+
     .hero-copy h1 {
         font-size: clamp(2rem, 8vw, 2.35rem);
         line-height: 1.05;
@@ -867,19 +879,33 @@ button:focus-visible {
     }
 
     .dot-field {
-        width: 320px;
-        height: 88%;
-        opacity: 0.58;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.24;
+        background-size: 6px 6px, 13px 13px;
+        animation: none;
+        transform: none;
+        -webkit-mask-image: radial-gradient(
+            ellipse 72% 58% at 50% 42%,
+            transparent 0 42%,
+            rgba(0, 0, 0, 0.28) 70%,
+            rgba(0, 0, 0, 0.72) 100%
+        );
+        mask-image: radial-gradient(
+            ellipse 72% 58% at 50% 42%,
+            transparent 0 42%,
+            rgba(0, 0, 0, 0.28) 70%,
+            rgba(0, 0, 0, 0.72) 100%
+        );
     }
 
     .dot-field-left {
-        top: -10%;
-        left: -64%;
+        transform: none;
     }
 
     .dot-field-right {
-        right: -70%;
-        bottom: -20%;
+        display: none;
     }
 
     .app-signal-rail {
