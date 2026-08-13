@@ -1,5 +1,4 @@
 ---
-import AppCard from "../components/AppCard.astro";
 import { publicApps } from "../data/apps";
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
@@ -9,20 +8,41 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   description="iOS and Android apps developed by Keisuke Karijuku"
   canonicalPath="/"
   ogImage="/assets/images/apps/otolume.png"
+  showFooter={false}
 >
-  <main>
-    <header class="app-header">
-      <div class="app-icon" aria-hidden="true">📱</div>
-      <h1 class="app-title">Keisuke Karijuku</h1>
-    </header>
+  <main id="main-content" class="home-page">
+    <section class="home-hero" aria-labelledby="hero-title">
+      <div class="dot-field dot-field-left" aria-hidden="true"></div>
+      <div class="dot-field dot-field-right" aria-hidden="true"></div>
+      <div class="hero-copy">
+        <h1 id="hero-title">Keisuke Karijuku</h1>
+        <p>iOS and Android apps for everyday moments.</p>
+      </div>
 
-    <section class="section apps-section">
-      <h2>My Apps</h2>
-      {
-        publicApps.map((app, index) => (
-          <AppCard app={app} eager={index === 0} />
-        ))
-      }
+      <div id="apps" class="app-signal-rail" aria-label="Published apps">
+        {
+          publicApps.map((app, index) => (
+            <a
+              class="app-signal"
+              href={app.externalUrl ?? "/apps/" + app.slug + "/"}
+            >
+              <span class="signal-icon-frame">
+                <img
+                  src={app.icon}
+                  alt=""
+                  width="68"
+                  height="68"
+                  loading={index === 0 ? undefined : "lazy"}
+                  decoding="async"
+                />
+              </span>
+              <strong>{app.name}</strong>
+              <span>{app.cardDescription}</span>
+              <span class="signal-arrow" aria-hidden="true">→</span>
+            </a>
+          ))
+        }
+      </div>
     </section>
   </main>
 </BaseLayout>

@@ -35,25 +35,32 @@ const privacySubtitle =
   ogImage={app.icon}
   showFooter={app.isPublic}
 >
-  <Breadcrumb
-    items={[
-      { label: "Home", href: "/" },
-      privacy
-        ? { label: app.name, href: `/apps/${app.slug}/` }
-        : { label: app.name },
-      ...(privacy ? [{ label: "Privacy Policy" }] : []),
-    ]}
-  />
-
-  <main>
-    <AppHeader
-      app={app}
-      title={privacy ? "Privacy Policy" : app.name}
-      subtitle={privacy ? privacySubtitle : app.subtitle}
-      showIcon={!privacy || app.privacyShowIcon}
-      storeLinks={privacy ? [] : app.storeLinks}
-      statusLabel={privacy ? undefined : app.statusLabel}
+  <div class="page-shell">
+    <Breadcrumb
+      items={[
+        { label: "Home", href: "/" },
+        privacy
+          ? { label: app.name, href: `/apps/${app.slug}/` }
+          : { label: app.name },
+        ...(privacy ? [{ label: "Privacy Policy" }] : []),
+      ]}
     />
-    <slot />
-  </main>
+
+    <main
+      id="main-content"
+      class:list={["app-page", { "privacy-page": privacy }]}
+    >
+      <AppHeader
+        app={app}
+        title={privacy ? "Privacy Policy" : app.name}
+        subtitle={privacy ? privacySubtitle : app.subtitle}
+        showIcon={!privacy || app.privacyShowIcon}
+        storeLinks={privacy ? [] : app.storeLinks}
+        statusLabel={privacy ? undefined : app.statusLabel}
+      />
+      <div class="app-sections">
+        <slot />
+      </div>
+    </main>
+  </div>
 </BaseLayout>

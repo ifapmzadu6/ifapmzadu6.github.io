@@ -35,21 +35,23 @@ const {
       </div>
     )
   }
-  <h1 class="app-title">{title}</h1>
-  <p class="app-subtitle">{subtitle}</p>
-  {
-    (storeLinks.length > 0 || statusLabel) && (
-      <div class="store-buttons">
-        {storeLinks.map((link) => (
-          <a
-            href={link.url}
-            class:list={["download-btn", link.className]}
-          >
-            {link.label}
-          </a>
-        ))}
-        {statusLabel && <span class="status-label">{statusLabel}</span>}
-      </div>
-    )
-  }
+  <div class="app-header-content">
+    <h1 class="app-title">{title}</h1>
+    <p class="app-subtitle">{subtitle}</p>
+    {
+      (storeLinks.length > 0 || statusLabel) && (
+        <div class="store-buttons">
+          {storeLinks.map((link) => (
+            <a
+              href={link.url}
+              class:list={["download-btn", link.className]}
+            >
+              {link.label}
+            </a>
+          ))}
+          {statusLabel && <span class="status-label">{statusLabel}</span>}
+        </div>
+      )
+    }
+  </div>
 </header>
