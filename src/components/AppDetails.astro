@@ -9,6 +9,37 @@ const { app } = Astro.props;
 ---
 
 {
+  app.slug === "triple-take" && (
+    <Fragment>
+      <section class="section">
+        <h2>How to Use</h2>
+        <ol class="support-steps">
+          <li>Choose a photo, or try the bundled sample.</li>
+          <li>Tap or drag on the first panel to select the detail to reveal.</li>
+          <li>Adjust focus, zoom, and manga speed lines while previewing all three images.</li>
+          <li>Save three photos or one joined image to Photos, then post them using your preferred app.</li>
+        </ol>
+      </section>
+      <section class="section">
+        <h2>Support and Privacy</h2>
+        <p>
+          Editing happens on your device, without an account, advertising, or
+          analytics SDKs. If saving is denied, allow Triple Take to add photos
+          in iOS Settings. Saved images remain in Photos until you delete them
+          there.
+        </p>
+        <p><strong>Compatibility:</strong> iOS 17.0 or later</p>
+        <p><a href="privacy.html">Privacy Policy</a></p>
+        <p>
+          For support, contact{" "}
+          <a href="mailto:Keisuke.Karijuku@gmail.com">Keisuke.Karijuku@gmail.com</a>.
+        </p>
+      </section>
+    </Fragment>
+  )
+}
+
+{
   app.slug === "otolume" && (
     <Fragment>
       <section class="section">

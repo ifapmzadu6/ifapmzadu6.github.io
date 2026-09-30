@@ -14,12 +14,15 @@ const publicPages = [
   "apps/tax-calculator/privacy.html",
 ];
 const privacyPages = [
+  "apps/triple-take/privacy.html",
   "apps/otolume/privacy.html",
   "apps/shortcuts-browser/privacy.html",
   "apps/tax-calculator/privacy.html",
 ];
 const allPages = [
   ...publicPages,
+  "apps/triple-take/index.html",
+  "apps/triple-take/privacy.html",
   "apps/sake-rhythm/index.html",
   "apps/sake-rhythm/privacy.html",
   "404.html",
@@ -40,6 +43,7 @@ const staticFiles = [
   "assets/images/apps/shortcuts-browser.jpg",
   "assets/images/apps/tax-calculator.jpg",
   "assets/images/apps/sake-rhythm.jpg",
+  "assets/images/apps/triple-take.png",
 ];
 
 function assert(condition, message) {
@@ -77,7 +81,7 @@ for (const relativePath of [...allPages, ...staticFiles]) {
   );
 }
 
-for (const relativePath of publicPages) {
+for (const relativePath of [...publicPages, "apps/triple-take/index.html", "apps/triple-take/privacy.html"]) {
   const html = await read(relativePath);
   assert(/<main(?:\s[^>]*)?>/.test(html), `${relativePath}: missing <main>`);
   assert(html.includes('rel="canonical"'), `${relativePath}: missing canonical URL`);
@@ -118,6 +122,7 @@ for (const relativePath of privacyPages) {
 }
 
 const home = await read("index.html");
+assert(!home.includes("triple-take"), "index.html: unreleased Triple Take must not be listed yet");
 assert(!/sake-rhythm|SakeRhythm/.test(home), "index.html: hidden SakeRhythm entry is still public");
 assert(
   home.includes('href="https://tootiredtotype.com/en/"'),
@@ -133,6 +138,11 @@ assert(
 );
 
 const shortcutsIndex = await read("apps/shortcuts-browser/index.html");
+const tripleTakePrivacy = await read("apps/triple-take/privacy.html");
+assert(tripleTakePrivacy.includes("September 30, 2026"), "Triple Take policy revision date is missing");
+assert(tripleTakePrivacy.includes("does not upload your photos"), "Triple Take local-processing disclosure is missing");
+assert(tripleTakePrivacy.includes("remain in your photo"), "Triple Take saved-image retention is missing");
+assert(!tripleTakePrivacy.includes("AdMob"), "Triple Take must not inherit another app's advertising disclosure");
 const shortcutsPrivacy = await read("apps/shortcuts-browser/privacy.html");
 assert(shortcutsIndex.includes("16+") && shortcutsPrivacy.includes("16+"), "Shortcuts Browser age rating is inconsistent");
 assert(shortcutsPrivacy.includes("Google Mobile Ads (AdMob)"), "Shortcuts Browser advertising disclosure is missing");
@@ -147,6 +157,7 @@ assert(taxPrivacy.includes("The app uses Google Mobile Ads (AdMob)"), "Tax Calcu
 
 const sitemap = await read("sitemap.xml");
 assert(!sitemap.includes("sake-rhythm"), "sitemap.xml: hidden SakeRhythm page is still listed");
+assert(!sitemap.includes("triple-take"), "sitemap.xml: unreleased Triple Take must not be indexed yet");
 for (const url of [
   "https://ifapmzadu6.github.io/",
   "https://ifapmzadu6.github.io/apps/otolume/",
@@ -160,7 +171,7 @@ const robots = await read("robots.txt");
 assert(!robots.includes("Disallow: /apps/sake-rhythm/"), "robots.txt: noindex pages must remain crawlable so crawlers can read the directive");
 assert(robots.includes("Sitemap: https://ifapmzadu6.github.io/sitemap.xml"), "robots.txt: sitemap declaration is missing");
 
-for (const relativePath of ["apps/sake-rhythm/index.html", "apps/sake-rhythm/privacy.html"]) {
+for (const relativePath of ["apps/sake-rhythm/index.html", "apps/sake-rhythm/privacy.html", "apps/triple-take/index.html", "apps/triple-take/privacy.html"]) {
   const html = await read(relativePath);
   assert(html.includes('content="noindex,nofollow,noarchive"'), `${relativePath}: hidden page must be noindex`);
 }
