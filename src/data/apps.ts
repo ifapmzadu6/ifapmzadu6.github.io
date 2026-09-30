@@ -30,20 +30,6 @@ export interface AppDefinition {
 
 export const apps: AppDefinition[] = [
   {
-    slug: "triple-take",
-    name: "Triple Take",
-    pageTitle: "Triple Take: Zoom Meme Maker",
-    description: "Turn one photo into three progressive zooms with manga speed lines, entirely on your device",
-    cardDescription: "Three photo zooms and manga speed lines",
-    subtitle: "One photo. Three surprises.",
-    icon: "/assets/images/apps/triple-take.png",
-    isPublic: false,
-    storeLinks: [],
-    statusLabel: "App Store release planned",
-    privacyDescription: "How Triple Take handles selected photos, local editing, and saved images",
-    privacyShowIcon: true,
-  },
-  {
     slug: "tttt",
     name: "tttt..",
     pageTitle: "tttt.. Too Tired to Type",
@@ -63,6 +49,20 @@ export const apps: AppDefinition[] = [
     ],
     privacyDescription:
       "Privacy Policy for tttt.. Too Tired to Type",
+    privacyShowIcon: true,
+  },
+  {
+    slug: "triple-take",
+    name: "Triple Take",
+    pageTitle: "Triple Take: Zoom Meme Maker",
+    description: "Turn one photo into three progressive zooms with manga speed lines, entirely on your device",
+    cardDescription: "Three photo zooms and manga speed lines",
+    subtitle: "One photo. Three surprises.",
+    icon: "/assets/images/apps/triple-take.png",
+    isPublic: true,
+    storeLinks: [],
+    statusLabel: "App Store release planned",
+    privacyDescription: "How Triple Take handles selected photos, local editing, and saved images",
     privacyShowIcon: true,
   },
   {
