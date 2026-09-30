@@ -9,6 +9,100 @@ const { app } = Astro.props;
 ---
 
 {
+  app.slug === "triple-take" && (
+    <Fragment>
+      <section class="section">
+        <h2>Overview</h2>
+        <p>
+          Triple Take turns a photo you choose into three progressive zooms with
+          manga-style speed lines. Photo editing and image rendering happen on
+          your device. The app does not upload your photos or editing settings
+          to the developer, and the developer does not operate a server that
+          receives them.
+        </p>
+        <p><strong>Last updated:</strong> September 30, 2026</p>
+      </section>
+
+      <section class="section">
+        <h2>Photos and Local Editing</h2>
+        <p>
+          The app uses Apple's system photo picker to receive only the photo
+          you select. Selecting a photo does not give the app access to your
+          entire photo library. The selected image, focus position, zoom, and
+          speed-line settings are used in memory during the app session; the
+          app does not save them as persistent editing projects.
+        </p>
+        <p>
+          When you choose Save to Photos, the app requests permission to add
+          the finished images to your photo library. You can save three
+          separate images or one joined image. The app does not automatically
+          post or send the images to social networks or other services.
+        </p>
+        <p>
+          Refusing permission to add photos does not prevent you from using
+          the editing features. You can change the app's photo permission in
+          iOS Settings.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Advertising, Analytics, and Tracking</h2>
+        <p>
+          Triple Take has no account registration, advertising SDKs, analytics
+          SDKs, or tracking across apps and websites. The app does not send
+          personal information, photos, editing settings, or usage events to
+          the developer or an advertising or analytics service.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Retention, Deletion, and Third-Party Services</h2>
+        <p>
+          Editing state is not stored as a project and is cleared when the
+          app process ends. Images saved to Photos remain in your photo
+          library after you delete the app. You can delete those images in
+          Apple's Photos app. Deleting Triple Take does not delete your
+          original photos or the images you saved to Photos.
+        </p>
+        <p>
+          Apple manages the photo picker, photo library, and any iCloud Photos
+          synchronization enabled in your device settings under its own
+          policies. If you later share or post saved images using another app
+          or service, that destination handles the images under its own
+          privacy policy.
+        </p>
+        <p>
+          This policy website is hosted by GitHub Pages. When you visit the
+          website, GitHub may process technical information, including your
+          IP address, under its privacy statement. The app does not
+          automatically send your photos or editing settings to this website.
+        </p>
+        <ul class="feature-list">
+          <li><a href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a></li>
+          <li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement">GitHub Privacy Statement</a></li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Policy Updates</h2>
+        <p>
+          We may update this policy when app features or data-handling
+          practices change. The latest revision date will be shown above.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Contact</h2>
+        <p>
+          Questions about this policy or Triple Take can be sent to{" "}
+          <a href="mailto:Keisuke.Karijuku@gmail.com">Keisuke.Karijuku@gmail.com</a>.
+        </p>
+      </section>
+    </Fragment>
+  )
+}
+
+{
   app.slug === "otolume" && (
     <Fragment>
       <section class="section">
