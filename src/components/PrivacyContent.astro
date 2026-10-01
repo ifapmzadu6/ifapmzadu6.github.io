@@ -20,28 +20,34 @@ const { app } = Astro.props;
           to the developer, and the developer does not operate a server that
           receives them.
         </p>
-        <p><strong>Last updated:</strong> September 30, 2026</p>
+        <p><strong>Last updated:</strong> October 1, 2026</p>
       </section>
 
       <section class="section">
         <h2>Photos and Local Editing</h2>
         <p>
-          The app uses Apple's system photo picker to receive only the photo
-          you select. Selecting a photo does not give the app access to your
-          entire photo library. The selected image, focus position, zoom, and
-          speed-line settings are used in memory during the app session; the
-          app does not save them as persistent editing projects.
+          On iOS, the app uses Apple's system photo picker to receive only the
+          photo you select. On Android, the app opens the Android system
+          content picker and receives access only to the image you select.
+          Neither selection gives the app access to your entire photo library.
+          The selected image, focus position, zoom, and speed-line settings
+          are used in memory during the app session; the app does not save
+          them as persistent editing projects.
         </p>
         <p>
-          When you choose Save to Photos, the app requests permission to add
-          the finished images to your photo library. You can save three
+          On iOS, when you choose Save to Photos, the app requests permission
+          to add the finished images to your photo library. On Android, when
+          you choose Save, the app writes the finished images to the shared
+          Pictures/TripleTake folder through Android's MediaStore; it does not
+          request permission to read your photo library. You can save three
           separate images or one joined image. The app does not automatically
           post or send the images to social networks or other services.
         </p>
         <p>
-          Refusing permission to add photos does not prevent you from using
-          the editing features. You can change the app's photo permission in
-          iOS Settings.
+          On iOS, refusing permission to add photos does not prevent you from
+          using the editing features. You can change the app's photo
+          permission in iOS Settings. Android's system picker and MediaStore
+          handle the selected image and saved output on your device.
         </p>
       </section>
 
@@ -59,17 +65,18 @@ const { app } = Astro.props;
         <h2>Retention, Deletion, and Third-Party Services</h2>
         <p>
           Editing state is not stored as a project and is cleared when the
-          app process ends. Images saved to Photos remain in your photo
-          library after you delete the app. You can delete those images in
-          Apple's Photos app. Deleting Triple Take does not delete your
-          original photos or the images you saved to Photos.
+          app process ends. Images saved to Photos or the Android shared
+          Pictures/TripleTake folder remain on your device after you delete
+          the app. You can delete those images using your device's photo or
+          gallery app. Deleting Triple Take does not delete your original
+          photos or the images you saved.
         </p>
         <p>
-          Apple manages the photo picker, photo library, and any iCloud Photos
-          synchronization enabled in your device settings under its own
-          policies. If you later share or post saved images using another app
-          or service, that destination handles the images under its own
-          privacy policy.
+          Apple and Android manage their respective system photo pickers and
+          photo storage services under their own policies. iCloud Photos may
+          synchronize saved images if enabled in your device settings. If you
+          later share or post saved images using another app or service, that
+          destination handles the images under its own privacy policy.
         </p>
         <p>
           This policy website is hosted by GitHub Pages. When you visit the
