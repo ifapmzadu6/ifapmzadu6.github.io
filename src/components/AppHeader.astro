@@ -20,7 +20,7 @@ const {
 } = Astro.props;
 ---
 
-<header class="app-header">
+<header class:list={["app-header", { "app-header--without-icon": !showIcon }]}>
   {
     showIcon && (
       <div class="app-icon">
@@ -28,8 +28,8 @@ const {
           src={app.icon}
           alt=""
           class="app-icon-large"
-          width="60"
-          height="60"
+          width="128"
+          height="128"
           decoding="async"
         />
       </div>
