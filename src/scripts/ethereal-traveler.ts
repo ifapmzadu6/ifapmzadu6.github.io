@@ -6,7 +6,7 @@ const ease = (t: number) => t * t * (3 - 2 * t);
 /** A 60-second out-and-back route confined to the level poolside paths. */
 export function travelerPose(time: number) {
   const t = ((time % 60) + 60) % 60;
-  let x = -1.64, z = 1.37, heading = Math.PI, stride = 0, walking = 0;
+  let x = -1.64, z = 1.37, heading = Math.PI / 2, stride = 0, walking = 0;
   const move = (start: number, duration: number, cycles: number) => {
     const u = (t - start) / duration;
     const progress = ease(u);
@@ -14,15 +14,15 @@ export function travelerPose(time: number) {
     walking = Math.min(1, u * 10, (1 - u) * 10);
     return progress;
   };
-  if (t < 3) heading = Math.PI - ease(t / 3) * Math.PI / 2;
-  else if (t < 19) { x += 3.32 * move(3, 16, 12); heading = Math.PI / 2; }
-  else if (t < 20) { x = 1.68; heading = Math.PI / 2 + ease(t - 19) * Math.PI / 2; }
-  else if (t < 28) { x = 1.68; z -= 1.47 * move(20, 8, 5); heading = Math.PI; }
-  else if (t < 33) { x = 1.68; z = -0.10; heading = Math.PI + ease((t - 28) / 5) * Math.PI; }
-  else if (t < 41) { x = 1.68; z = -0.10 + 1.47 * move(33, 8, 5); heading = TAU; }
-  else if (t < 42) { x = 1.68; heading = TAU - ease(t - 41) * Math.PI / 2; }
-  else if (t < 58) { x = 1.68 - 3.32 * move(42, 16, 12); heading = Math.PI * 1.5; }
-  else heading = Math.PI * 1.5 - ease((t - 58) / 2) * Math.PI / 2;
+  // Start facing along the path and walk immediately; turns happen only at destinations.
+  if (t < 16) { x += 3.32 * move(0, 16, 12); heading = Math.PI / 2; }
+  else if (t < 17) { x = 1.68; heading = Math.PI / 2 + ease(t - 16) * Math.PI / 2; }
+  else if (t < 25) { x = 1.68; z -= 1.47 * move(17, 8, 5); heading = Math.PI; }
+  else if (t < 30) { x = 1.68; z = -0.10; heading = Math.PI + ease((t - 25) / 5) * Math.PI; }
+  else if (t < 38) { x = 1.68; z = -0.10 + 1.47 * move(30, 8, 5); heading = TAU; }
+  else if (t < 39) { x = 1.68; heading = TAU - ease(t - 38) * Math.PI / 2; }
+  else if (t < 55) { x = 1.68 - 3.32 * move(39, 16, 12); heading = Math.PI * 1.5; }
+  else heading = Math.PI * 1.5 - ease((t - 55) / 5) * Math.PI;
   return { x, z, heading, stride, walking };
 }
 
@@ -30,17 +30,18 @@ export function createTraveler() {
   const group = new Group();
   group.name = "Poolside traveler";
   const figure = new Group();
+  figure.scale.setScalar(.8);
   group.add(figure);
   const sphere = new SphereGeometry(1, 12, 8);
   const cylinder = new CylinderGeometry(1, 1, 1, 10);
   const coatShape = new CylinderGeometry(.054, .081, .14, 10);
   const shadowShape = new CircleGeometry(.105, 20);
-  const hood = new MeshStandardMaterial({ color: "#514875", roughness: .9 });
-  const coat = new MeshStandardMaterial({ color: "#8584b9", roughness: .9 });
-  const face = new MeshStandardMaterial({ color: "#ffe6c7", roughness: .85 });
-  const scarf = new MeshStandardMaterial({ color: "#e9a887", roughness: .85 });
+  const hood = new MeshStandardMaterial({ color: "#fffdf6", roughness: .9 });
+  const coat = new MeshStandardMaterial({ color: "#f0f1ed", roughness: .9 });
+  const face = new MeshStandardMaterial({ color: "#d5d9df", roughness: .85 });
   const shadowMaterial = new MeshBasicMaterial({ color: "#515477", transparent: true, opacity: .14, depthWrite: false });
   const shadow = new Mesh(shadowShape, shadowMaterial);
+  shadow.scale.setScalar(.8);
   shadow.rotation.x = -Math.PI / 2;
   shadow.position.y = .002;
   group.add(shadow);
@@ -57,14 +58,12 @@ export function createTraveler() {
   figure.add(robe);
   ball(figure, hood, 0, .343, 0, .068, .075, .064);
   ball(figure, face, 0, .34, .049, .043, .047, .021);
-  ball(figure, scarf, 0, .282, .033, .059, .018, .035);
-  ball(figure, hood, 0, .221, -.068, .042, .052, .025);
   const arms = [-1, 1].map(side => {
     const pivot = new Group();
     pivot.position.set(side * .065, .265, 0);
     figure.add(pivot);
     ball(pivot, coat, 0, -.043, 0, .021, .057, .022);
-    ball(pivot, face, 0, -.096, 0, .018, .019, .019);
+    ball(pivot, hood, 0, -.096, 0, .018, .019, .019);
     return pivot;
   });
   const legs = [-1, 1].map(side => {
@@ -110,7 +109,7 @@ export function createTraveler() {
       if (disposed) return;
       disposed = true;
       [sphere, cylinder, coatShape, shadowShape].forEach(value => value.dispose());
-      [hood, coat, face, scarf, shadowMaterial].forEach(value => value.dispose());
+      [hood, coat, face, shadowMaterial].forEach(value => value.dispose());
       group.clear();
     },
   };
