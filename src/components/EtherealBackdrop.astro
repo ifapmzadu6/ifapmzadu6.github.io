@@ -1,0 +1,58 @@
+<div class="ethereal-backdrop" data-ethereal-backdrop data-state="static" aria-hidden="true">
+  <img
+    class="ethereal-backdrop-image"
+    src="/assets/images/ethereal-loop.webp"
+    alt=""
+    width="1024"
+    height="1024"
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+  />
+  <canvas class="ethereal-backdrop-canvas"></canvas>
+</div>
+
+<script>
+  import "../scripts/ethereal-backdrop";
+</script>
+
+<style>
+  .ethereal-backdrop {
+    pointer-events: none;
+  }
+
+  .ethereal-backdrop-image,
+  .ethereal-backdrop-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  .ethereal-backdrop-canvas {
+    opacity: 0;
+  }
+
+  .ethereal-backdrop[data-state="ready"] .ethereal-backdrop-canvas,
+  .ethereal-backdrop[data-state="running"] .ethereal-backdrop-canvas {
+    opacity: 1;
+  }
+
+  .ethereal-backdrop[data-state="ready"] .ethereal-backdrop-image,
+  .ethereal-backdrop[data-state="running"] .ethereal-backdrop-image {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ethereal-backdrop[data-state] .ethereal-backdrop-image {
+      opacity: 1;
+    }
+
+    .ethereal-backdrop[data-state] .ethereal-backdrop-canvas {
+      opacity: 0;
+    }
+  }
+</style>
