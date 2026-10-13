@@ -1,5 +1,6 @@
 import {
   ACESFilmicToneMapping,
+  CanvasTexture,
   Color,
   DirectionalLight,
   DoubleSide,
@@ -41,7 +42,7 @@ export async function createStageScene(canvas: HTMLCanvasElement): Promise<Stage
 }
 
 async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElement): Promise<StageScene> {
-  renderer.setClearColor(0xf7f8fc, 0);
+  renderer.setClearColor(0xffffff, 1);
   renderer.outputColorSpace = SRGBColorSpace;
   renderer.toneMapping = ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.25;
@@ -190,6 +191,7 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
   portal(-1.7, .75, -1.8, .62, 1.23, "#d7c2ff");
 
   let disposed = false;
+  let atmosphere: CanvasTexture | null = null;
   let shaderFailed = false;
   renderer.debug.onShaderError = () => { shaderFailed = true; };
   const dispose = () => {
@@ -202,6 +204,8 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
     floorGeometry.dispose();
     floorMaterial.dispose();
     sun.shadow.dispose();
+    atmosphere?.dispose();
+    scene.background = null;
     scene.clear();
     renderer.dispose();
   };
@@ -221,7 +225,26 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
         reject(new Error("Stage shader initialization timed out"));
       }, 15_000);
     });
-    await Promise.race([renderer.compileAsync(scene, camera), interrupted]);
+    const prepare = async () => {
+      // Paint the same sky inside WebGL: an opaque/composited canvas must not
+      // hide the atmosphere when the live scene replaces the static artwork.
+      const image = canvas.parentElement?.querySelector<HTMLImageElement>(".ethereal-backdrop-sky");
+      if (!image) throw new Error("Stage sky image unavailable");
+      await image.decode();
+      if (disposed) throw new Error("Stage disposed while loading sky");
+      const surface = document.createElement("canvas");
+      surface.width = surface.height = 512;
+      const context = surface.getContext("2d");
+      if (!context) throw new Error("Stage sky drawing unavailable");
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, 512, 512);
+      context.drawImage(image, 0, 0, 512, 512);
+      atmosphere = new CanvasTexture(surface);
+      atmosphere.colorSpace = SRGBColorSpace;
+      scene.background = atmosphere;
+      await renderer.compileAsync(scene, camera);
+    };
+    await Promise.race([prepare(), interrupted]);
     if (shaderFailed || disposed) throw new Error("Stage shader unavailable");
   } catch (error) {
     dispose();
