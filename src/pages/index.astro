@@ -12,10 +12,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 >
   <main id="main-content" class="home-page">
     <section class="home-hero" aria-labelledby="hero-title">
-      <div class="dot-field" aria-hidden="true"></div>
       <div class="hero-copy">
         <h1 id="hero-title">Keisuke <span>Karijuku</span></h1>
         <p>iOS and Android apps for everyday moments.</p>
+        <svg class="hero-spark" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M32 0C36 20 44 28 64 32C44 36 36 44 32 64C28 44 20 36 0 32C20 28 28 20 32 0Z" fill="currentColor" />
+        </svg>
       </div>
 
       <div id="apps" class="app-signal-rail" aria-label="Apps">
@@ -23,14 +25,15 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           publicApps.map((app, index) => (
             <a
               class="app-signal"
+              data-app={app.slug}
               href={app.externalUrl ?? "/apps/" + app.slug + "/"}
             >
               <span class="signal-icon-frame">
                 <img
                   src={app.icon}
                   alt=""
-                  width="88"
-                  height="88"
+                  width="192"
+                  height="192"
                   loading={index === 0 ? undefined : "lazy"}
                   decoding="async"
                 />
