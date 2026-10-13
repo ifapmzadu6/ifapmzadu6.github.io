@@ -86,6 +86,7 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
 
   const waterGeometry = new PlaneGeometry(2.8, 2.3);
   const waterTime = { value: 0 };
+  const gateTime = { value: 0 };
   const waterMaterial = new MeshStandardMaterial({
     color: "#92d9df", roughness: 0.3, metalness: 0.05,
     emissive: "#c4f6f4", emissiveIntensity: 0.13,
@@ -106,7 +107,7 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
           dot(p, vec2(269.5, 183.3)))) * 43758.5453);
       }
       float waterLight(vec2 p, float t) {
-        p += .20 * vec2(sin(p.y * 1.7 + t), cos(p.x * 1.4 - t));
+        p += .42 * vec2(sin(p.y * 1.7 + t), cos(p.x * 1.4 - t));
         vec2 cell = floor(p), local = fract(p);
         float first = 8.0, second = 8.0;
         for (int y = -1; y <= 1; y++) {
@@ -127,12 +128,18 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
       #include <color_fragment>
       float light = waterLight(stageUv * vec2(7.0, 5.7), stageTime);
       float broad = .5 + .5 * sin(stageUv.x * 5.0 + stageUv.y * 4.0 + stageTime);
-      diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.78, .97, .98), light * .62);
-      diffuseColor.rgb *= .88 + .16 * broad;
+      // Crossing wave fronts travel across the pool, independent of input.
+      vec2 pool = stageUv * vec2(1.22, 1.0);
+      float wave = sin(length(pool - vec2(.28, .64)) * 34.0 - stageTime * 2.0);
+      float crossing = sin(length(pool - vec2(.98, .22)) * 27.0 - stageTime * 2.0);
+      float ripple = pow(.5 + .5 * wave, 8.0) * .18
+        + pow(.5 + .5 * crossing, 8.0) * .10;
+      diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.78, .97, .98), min(.9, light * .72 + ripple));
+      diffuseColor.rgb *= .80 + .24 * broad;
     `).replace("#include <normal_fragment_begin>", `
       #include <normal_fragment_begin>
-      normal.x += .035 * sin(stageUv.x * 24.0 + stageTime) * cos(stageUv.y * 21.0 - stageTime);
-      normal.y += .025 * cos(stageUv.y * 28.0 + stageTime);
+      normal.x += .085 * sin(stageUv.x * 24.0 + stageTime) * cos(stageUv.y * 21.0 - stageTime);
+      normal.y += .06 * cos(stageUv.y * 28.0 + stageTime);
       normal = normalize(normal);
     `);
   };
@@ -158,17 +165,19 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
     const geometry = new ShapeGeometry(shape, 24);
     const material = new ShaderMaterial({
       transparent: true, depthWrite: false, side: DoubleSide,
-      uniforms: { tint: { value: new Color(color) } },
+      uniforms: { tint: { value: new Color(color) }, gateTime },
       vertexShader: `varying vec2 gateUv;
         void main() {
           gateUv = vec2(position.x / ${inside * 2} + .5, position.y / ${spring + inside});
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }`,
-      fragmentShader: `uniform vec3 tint; varying vec2 gateUv;
+      fragmentShader: `uniform vec3 tint; uniform float gateTime; varying vec2 gateUv;
         void main() {
           float edge = smoothstep(0., .17, gateUv.x) * smoothstep(0., .17, 1. - gateUv.x);
-          float light = .18 + .2 * pow(1. - gateUv.y, 2.);
-          gl_FragColor = vec4(tint, edge * light);
+          float veil = .5 + .5 * sin(gateUv.y * 9.0 - gateTime + sin(gateUv.x * 5.0));
+          float light = .22 + .2 * pow(1. - gateUv.y, 2.) + .25 * pow(veil, 3.0);
+          vec3 glow = mix(tint, vec3(1.0), .35 * veil);
+          gl_FragColor = vec4(glow, edge * light);
           #include <colorspace_fragment>
         }`,
     });
@@ -238,9 +247,10 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
     render(timeSeconds, pointerX, pointerY) {
       if (disposed) return;
       // Integer periods meet seamlessly when the lifecycle clock wraps at 120s.
-      const phase = timeSeconds * Math.PI * 2 / 20;
+      const phase = timeSeconds * Math.PI * 2 / 8;
       waterTime.value = phase;
-      lavender.intensity = 0.65 + 0.15 * Math.sin(phase * .5) + pointerX * .05;
+      gateTime.value = timeSeconds * Math.PI * 2 / 12;
+      lavender.intensity = 0.65 + 0.22 * Math.sin(timeSeconds * Math.PI * 2 / 24) + pointerX * .05;
       sky.intensity = 2.1 + pointerY * .025;
       renderer.render(scene, camera);
       if (shaderFailed) throw new Error("Stage shader unavailable");
