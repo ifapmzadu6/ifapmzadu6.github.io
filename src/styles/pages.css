@@ -1,0 +1,470 @@
+/* App details, policies, and the not-found page share one reading layout. */
+.page-shell {
+  width: min(1160px, calc(100% - 2 * var(--page-gutter)));
+  margin-inline: auto;
+}
+
+.breadcrumb {
+  display: flex;
+  min-height: 96px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  padding-block: 24px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.breadcrumb a {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  color: var(--accent-ink);
+}
+
+.breadcrumb .separator {
+  color: var(--faint);
+}
+
+.breadcrumb .current {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.app-header {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: clamp(32px, 4.5vw, 64px);
+  align-items: center;
+  padding-block: 28px 72px;
+}
+
+.app-header::before {
+  position: absolute;
+  z-index: -1;
+  top: -96px;
+  right: calc(0px - var(--page-gutter));
+  width: min(480px, 48vw);
+  height: 340px;
+  background-image: radial-gradient(circle, rgb(38 35 35 / 24%) 0.8px, transparent 1px);
+  background-size: 9px 9px;
+  mask-image: radial-gradient(ellipse at 100% 0, #000 8%, rgb(0 0 0 / 60%) 34%, transparent 72%);
+  content: "";
+  pointer-events: none;
+}
+
+.app-header--without-icon {
+  display: block;
+}
+
+.app-header-content {
+  min-width: 0;
+}
+
+.app-icon {
+  display: flex;
+  width: 128px;
+  height: 128px;
+  align-items: center;
+  justify-content: center;
+  font-size: 4.75rem;
+}
+
+.app-icon-large {
+  display: block;
+  width: 128px;
+  height: 128px;
+  border: 1px solid rgb(38 35 35 / 8%);
+  border-radius: 28px;
+  object-fit: cover;
+}
+
+.app-title {
+  max-width: 980px;
+  color: var(--ink);
+  font-size: clamp(48px, 6.15vw, 76px);
+  font-weight: 350;
+  letter-spacing: -0.065em;
+  line-height: 1.06;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+.app-subtitle {
+  max-width: 720px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: clamp(17px, 1.65vw, 21px);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.store-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.download-btn,
+.status-label {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 19px;
+  border: 1px solid var(--ink);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+}
+
+.download-btn {
+  background: var(--ink);
+  color: #fff;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.download-btn:hover,
+.download-btn:focus-visible {
+  border-color: #454343;
+  background: #454343;
+  transform: translateY(-1px);
+}
+
+.status-label {
+  border-color: var(--line);
+  background: transparent;
+  color: var(--muted);
+}
+
+.app-sections {
+  counter-reset: app-section;
+}
+
+.section {
+  --section-gap: clamp(32px, 4vw, 56px);
+  --section-heading-width: calc((100% - var(--section-gap)) * 0.3);
+  display: flow-root;
+  padding-block: 40px;
+  border-top: 1px solid var(--line);
+  counter-increment: app-section;
+}
+
+.section > * {
+  min-width: 0;
+}
+
+.section > :not(h2) {
+  margin-left: calc(var(--section-heading-width) + var(--section-gap));
+}
+
+.section > h2 {
+  float: left;
+  width: var(--section-heading-width);
+  color: var(--ink);
+  font-size: clamp(25px, 2.55vw, 31px);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 1.18;
+  overflow-wrap: break-word;
+}
+
+.section > h2::before {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--accent-ink);
+  content: counter(app-section, decimal-leading-zero) " /";
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* The contained float keeps heading height independent of the reading column. */
+.section > h2 + * {
+  margin-top: 0;
+}
+
+.section h3 {
+  margin-top: 26px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.4;
+}
+
+.section > h2 + h3 {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.section p,
+.section li {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.75;
+  overflow-wrap: break-word;
+}
+
+.section h3 + p {
+  margin-top: 8px;
+}
+
+.section p + p,
+.section ul + p,
+.section ol + p {
+  margin-top: 16px;
+}
+
+.section strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.section a {
+  color: var(--accent-ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.section a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.feature-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature-list li {
+  padding-block: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.feature-list li:first-child {
+  padding-top: 0;
+}
+
+.feature-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.section h3 + .feature-list,
+.section p + .feature-list {
+  margin-top: 12px;
+}
+
+.support-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: support-step;
+}
+
+.support-steps li {
+  position: relative;
+  padding: 12px 0 12px 30px;
+  border-bottom: 1px solid var(--line);
+  counter-increment: support-step;
+}
+
+.support-steps li:first-child {
+  padding-top: 0;
+}
+
+.support-steps li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.support-steps li::before {
+  position: absolute;
+  left: 0;
+  color: var(--accent-ink);
+  content: counter(support-step) ".";
+}
+
+.privacy-page .app-header {
+  padding-bottom: 56px;
+}
+
+.privacy-page .section {
+  padding-block: 32px;
+}
+
+.privacy-page .section > h2 {
+  font-size: clamp(24px, 2.3vw, 28px);
+}
+
+.site-footer {
+  display: flex;
+  width: min(1160px, calc(100% - 2 * var(--page-gutter)));
+  min-height: 108px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-inline: auto;
+  padding-block: 24px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.site-footer::before {
+  content: "Keisuke Karijuku";
+}
+
+main.page-shell {
+  min-height: calc(100svh - 108px);
+  padding-top: clamp(64px, 12vh, 144px);
+}
+
+@media (max-width: 760px) {
+  .breadcrumb {
+    min-height: 76px;
+    padding-block: 22px;
+    font-size: 0.75rem;
+  }
+
+  .app-header {
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 28px;
+    padding-block: 28px 52px;
+  }
+
+  .app-icon,
+  .app-icon-large {
+    width: 104px;
+    height: 104px;
+  }
+
+  .app-icon-large {
+    border-radius: 23px;
+  }
+
+  .app-title {
+    font-size: clamp(42px, 6.5vw, 58px);
+  }
+
+  .section {
+    --section-gap: 32px;
+  }
+
+  .section > h2,
+  .privacy-page .section > h2 {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 560px) {
+  .page-shell,
+  .site-footer {
+    width: calc(100% - 48px);
+  }
+
+  .breadcrumb {
+    min-height: 72px;
+    gap: 4px 9px;
+  }
+
+  .app-header {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    padding-block: 20px 44px;
+  }
+
+  .app-header::before {
+    top: -72px;
+    right: -24px;
+    width: 240px;
+    height: 300px;
+    opacity: 0.55;
+  }
+
+  .app-title {
+    font-size: clamp(42px, 11.8vw, 58px);
+    letter-spacing: -0.06em;
+    line-height: 1.08;
+    text-wrap: pretty;
+  }
+
+  .app-subtitle {
+    margin-top: 14px;
+    font-size: 17px;
+    line-height: 1.55;
+  }
+
+  .store-buttons {
+    margin-top: 22px;
+  }
+
+  .section,
+  .privacy-page .section {
+    display: block;
+    padding-block: 32px;
+  }
+
+  .section > h2,
+  .privacy-page .section > h2 {
+    float: none;
+    width: auto;
+    margin-bottom: 24px;
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .section > h2::before {
+    margin-bottom: 9px;
+  }
+
+  .section > :not(h2) {
+    margin-left: 0;
+  }
+
+  .section p,
+  .section li {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .section h3 {
+    font-size: 1.0625rem;
+  }
+
+  .privacy-page .app-header {
+    padding-bottom: 42px;
+  }
+
+  .site-footer {
+    min-height: 108px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  main.page-shell {
+    padding-top: 48px;
+  }
+}

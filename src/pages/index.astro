@@ -12,10 +12,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 >
   <main id="main-content" class="home-page">
     <section class="home-hero" aria-labelledby="hero-title">
-      <div class="dot-field dot-field-left" aria-hidden="true"></div>
-      <div class="dot-field dot-field-right" aria-hidden="true"></div>
+      <div class="dot-field" aria-hidden="true"></div>
       <div class="hero-copy">
-        <h1 id="hero-title">Keisuke Karijuku</h1>
+        <h1 id="hero-title">Keisuke <span>Karijuku</span></h1>
         <p>iOS and Android apps for everyday moments.</p>
       </div>
 
@@ -30,14 +29,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 <img
                   src={app.icon}
                   alt=""
-                  width="68"
-                  height="68"
+                  width="88"
+                  height="88"
                   loading={index === 0 ? undefined : "lazy"}
                   decoding="async"
                 />
               </span>
-              <strong>{app.name}</strong>
-              <span>{app.cardDescription}</span>
+              <span class="signal-copy">
+                <strong>{app.name}</strong>
+                <span class="signal-description">{app.cardDescription}</span>
+              </span>
               <span class="signal-arrow" aria-hidden="true">→</span>
             </a>
           ))
