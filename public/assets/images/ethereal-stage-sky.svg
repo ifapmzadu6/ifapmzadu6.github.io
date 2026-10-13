@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#8eacd2"/>
+      <stop offset=".36" stop-color="#b4aed3"/>
+      <stop offset=".51" stop-color="#d3d9e8"/>
+      <stop offset=".61" stop-color="#a1bfd0"/>
+      <stop offset=".65" stop-color="#b7cadb"/>
+      <stop offset=".82" stop-color="#b7cadb" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".72" cy=".28" r=".42">
+      <stop stop-color="#ffe0d9" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#ffe0d9" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="edge" gradientUnits="userSpaceOnUse" cx="500" cy="430" r="500" gradientTransform="translate(0 -172) scale(1 1.4)">
+      <stop offset=".45" stop-color="white"/>
+      <stop offset="1" stop-color="black"/>
+    </radialGradient>
+    <mask id="fade" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1000">
+      <path fill="url(#edge)" d="M0 0h1000v1000H0z"/>
+    </mask>
+  </defs>
+  <g mask="url(#fade)">
+    <path fill="url(#sky)" d="M0 0h1000v1000H0z"/>
+    <path fill="url(#glow)" d="M0 0h1000v1000H0z"/>
+  </g>
+</svg>
