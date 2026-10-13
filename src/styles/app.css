@@ -2,7 +2,7 @@
 
 :root {
     color-scheme: light;
-    --paper: #f7f8fc;
+    --paper: #ffffff;
     --ink: #171b26;
     --muted: #606b80;
     --line: #dce1eb;
@@ -16,7 +16,7 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; background: var(--paper); }
 
 body {
     margin: 0;
@@ -65,18 +65,6 @@ a:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 5px; }
     isolation: isolate;
     padding-top: clamp(280px, 85vw, 350px);
     padding-bottom: 28px;
-}
-
-.hero-copy::before {
-    position: absolute;
-    z-index: -2;
-    content: "";
-    inset: -100px -140px 0 -40px;
-    pointer-events: none;
-    mask-image: linear-gradient(90deg, transparent, #000 20%, #000 70%, transparent);
-    background:
-        radial-gradient(ellipse at 67% 30%, rgb(178 220 255 / 25%), transparent 47%),
-        radial-gradient(ellipse at 88% 47%, rgb(224 200 253 / 27%), transparent 45%);
 }
 
 .hero-copy .ethereal-backdrop {
@@ -207,7 +195,6 @@ a:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 5px; }
     .hero-copy h1 { font-size: 86px; }
     .hero-copy p { max-width: 390px; font-size: 21px; margin-top: 24px; }
     .hero-copy .ethereal-backdrop { top: -45px; left: auto; right: -90px; width: 570px; transform: none; }
-    .hero-copy::before { inset: -80px -130px -20px 300px; }
     .app-signal { padding-block: 27px; }
 }
 
