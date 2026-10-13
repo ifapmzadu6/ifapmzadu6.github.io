@@ -18,11 +18,15 @@ for (let t = 0; t <= 120; t += .025) {
   assert.ok(Math.hypot(Math.sin(next.heading) - Math.sin(pose.heading), Math.cos(next.heading) - Math.cos(pose.heading)) < .065, `heading jumps at ${t}`);
 }
 assert.deepEqual(travelerPose(0), travelerPose(120), 'controller clock wrap must not teleport the traveler');
-for (const [start, end] of [[0, 3], [19, 20], [28, 33], [41, 42], [58, 60]]) {
+for (const [start, end] of [[16, 17], [25, 30], [38, 39], [55, 60]]) {
   const first = travelerPose(start);
   const last = travelerPose(end);
   assert.ok(Math.hypot(first.x - last.x, first.z - last.z) < 1e-10, 'rests and turns must stay planted');
   assert.equal(travelerPose((start + end) / 2).walking, 0);
+}
+assert.ok(travelerPose(.5).x > travelerPose(0).x, 'walk from the start without an opening pause');
+for (const t of [0, .5, 1, 2, 3]) {
+  assert.equal(travelerPose(t).heading, Math.PI / 2, 'start facing the path without an opening turn');
 }
 const traveler = createTraveler();
 const geometries = new Set();
