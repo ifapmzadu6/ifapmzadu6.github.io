@@ -15,13 +15,13 @@ export function travelerPose(time: number) {
     return progress;
   };
   // Start facing along the path and walk immediately; turns happen only at destinations.
-  if (t < 16) { x += 3.32 * move(0, 16, 12); heading = Math.PI / 2; }
+  if (t < 16) { x += 3.32 * move(0, 16, 18); heading = Math.PI / 2; }
   else if (t < 17) { x = 1.68; heading = Math.PI / 2 + ease(t - 16) * Math.PI / 2; }
-  else if (t < 25) { x = 1.68; z -= 1.47 * move(17, 8, 5); heading = Math.PI; }
+  else if (t < 25) { x = 1.68; z -= 1.47 * move(17, 8, 8); heading = Math.PI; }
   else if (t < 30) { x = 1.68; z = -0.10; heading = Math.PI + ease((t - 25) / 5) * Math.PI; }
-  else if (t < 38) { x = 1.68; z = -0.10 + 1.47 * move(30, 8, 5); heading = TAU; }
+  else if (t < 38) { x = 1.68; z = -0.10 + 1.47 * move(30, 8, 8); heading = TAU; }
   else if (t < 39) { x = 1.68; heading = TAU - ease(t - 38) * Math.PI / 2; }
-  else if (t < 55) { x = 1.68 - 3.32 * move(39, 16, 12); heading = Math.PI * 1.5; }
+  else if (t < 55) { x = 1.68 - 3.32 * move(39, 16, 18); heading = Math.PI * 1.5; }
   else heading = Math.PI * 1.5 - ease((t - 55) / 5) * Math.PI;
   return { x, z, heading, stride, walking };
 }
@@ -34,7 +34,7 @@ export function createTraveler() {
   group.add(figure);
   const sphere = new SphereGeometry(1, 12, 8);
   const cylinder = new CylinderGeometry(1, 1, 1, 10);
-  const coatShape = new CylinderGeometry(.054, .081, .14, 10);
+  const coatShape = new CylinderGeometry(.054, .081, .185, 10);
   const shadowShape = new CircleGeometry(.105, 20);
   const hood = new MeshStandardMaterial({ color: "#fffdf6", roughness: .9 });
   const coat = new MeshStandardMaterial({ color: "#f0f1ed", roughness: .9 });
@@ -54,7 +54,7 @@ export function createTraveler() {
     return mesh;
   }
   const robe = new Mesh(coatShape, coat);
-  robe.position.y = .22;
+  robe.position.y = .1975;
   figure.add(robe);
   ball(figure, hood, 0, .343, 0, .068, .075, .064);
   ball(figure, face, 0, .34, .049, .043, .047, .021);
@@ -89,15 +89,15 @@ export function createTraveler() {
       // The stance foot stays on the stone; only the returning foot lifts.
       const stance = phase < .6;
       const swing = (phase - .6) / .4;
-      const z = (stance ? .07 - phase / .6 * .14 : -.07 + ease(swing) * .14) * pose.walking;
-      const y = .015 + (stance ? 0 : Math.sin(swing * Math.PI) * .042 * pose.walking);
+      const z = (stance ? .045 - phase / .6 * .09 : -.045 + ease(swing) * .09) * pose.walking;
+      const y = .015 + (stance ? 0 : Math.sin(swing * Math.PI) * .028 * pose.walking);
       foot.position.set(x, y, z + .01);
-      const dy = y - .15;
+      const dy = y - .105;
       const distance = Math.hypot(dy, z);
-      const bend = Math.sqrt(Math.max(0, .09 ** 2 - (distance / 2) ** 2));
-      const kneeY = (.15 + y) / 2 + z / distance * bend;
+      const bend = Math.sqrt(Math.max(0, .06 ** 2 - (distance / 2) ** 2));
+      const kneeY = (.105 + y) / 2 + z / distance * bend;
       const kneeZ = z / 2 - dy / distance * bend;
-      bone(upper, x, .15, 0, kneeY, kneeZ);
+      bone(upper, x, .105, 0, kneeY, kneeZ);
       bone(lower, x, kneeY, kneeZ, y, z);
       arms[index].rotation.x = Math.sin(pose.stride + index * Math.PI) * .36 * pose.walking;
     });
