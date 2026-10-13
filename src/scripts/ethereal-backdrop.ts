@@ -1,8 +1,7 @@
-// A small texture treatment for the original artwork, not a geometry renderer.
-// The five-second introduction settles back to the original image; subsequent
-// fine-pointer movement requests individual frames without an idle render loop.
-const INTRO_DURATION = 5_000;
-const FRAME_INTERVAL = 1_000 / 30;
+// Move light through the glass while the artwork's position and silhouette stay
+// fixed. Touch screens need no pointer input; hidden/reduced-motion pages stop.
+const LIGHT_CYCLE = 12_000;
+const FRAME_INTERVAL = 1_000 / 24;
 const MAX_DRAWING_PIXELS = 700_000;
 
 const vertexSource = `
@@ -20,28 +19,27 @@ const fragmentSource = `
   uniform vec2 u_fit;
   uniform vec2 u_pointer;
   uniform float u_time;
-  uniform float u_motion;
   varying vec2 v_uv;
 
   void main() {
     vec2 uv = (v_uv - 0.5) / u_fit + 0.5;
-    float breath = 1.0 + 0.005 * u_motion * sin(u_time * 0.7);
-    uv = (uv - 0.5) / breath + 0.5;
-    vec2 ripple = vec2(
-      sin(uv.y * 9.0 + u_time * 0.6),
-      cos(uv.x * 8.0 - u_time * 0.5)
-    );
-    uv += ripple * 0.0018 * u_motion + u_pointer * 0.003;
     if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
       gl_FragColor = vec4(0.0);
       return;
     }
     vec4 color = texture2D(u_image, uv);
-    float light = 1.0 + 0.025 * u_motion
-      * sin(uv.x * 8.0 + uv.y * 4.0 - u_time * 0.6);
+    float phase = u_time * 0.5235987756 + dot(u_pointer, vec2(0.35, -0.2));
+    float wave = sin(uv.x * 8.0 + uv.y * 5.0 - phase);
+    float crossLight = sin(uv.x * 4.0 - uv.y * 7.0 + phase);
+    float light = 0.96 + 0.10 * wave;
+    float highlight = 0.04 * (0.5 + 0.5 * crossLight);
+    vec3 tint = mix(vec3(0.65, 0.84, 1.0), vec3(1.0, 0.72, 0.92),
+      0.5 + 0.5 * sin(phase + uv.y * 3.0));
     // Both the uploaded texture and drawing buffer use premultiplied alpha.
     // Keep transparent edges transparent when compositing over the light page.
-    gl_FragColor = vec4(min(color.rgb * light, vec3(color.a)), color.a);
+    // Sampling coordinates and alpha never animate: only reflected light does.
+    gl_FragColor = vec4(min(color.rgb * light + tint * highlight * color.a,
+      vec3(color.a)), color.a);
   }
 `;
 
@@ -53,7 +51,6 @@ interface Graphics {
   fit: WebGLUniformLocation | null;
   pointer: WebGLUniformLocation | null;
   time: WebGLUniformLocation | null;
-  motion: WebGLUniformLocation | null;
 }
 
 function createGraphics(canvas: HTMLCanvasElement, image: HTMLImageElement): Graphics | null {
@@ -131,7 +128,6 @@ function createGraphics(canvas: HTMLCanvasElement, image: HTMLImageElement): Gra
     fit: gl.getUniformLocation(program, "u_fit"),
     pointer: gl.getUniformLocation(program, "u_pointer"),
     time: gl.getUniformLocation(program, "u_time"),
-    motion: gl.getUniformLocation(program, "u_motion"),
   };
 }
 
@@ -159,7 +155,6 @@ function enhanceBackdrop(
   let elapsed = 0;
   let previousTime = 0;
   let lastDraw = 0;
-  let dirty = true;
   let needsResize = true;
   let pointerX = 0;
   let pointerY = 0;
@@ -172,7 +167,9 @@ function enhanceBackdrop(
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
     previousTime = 0;
-    root.dataset.state = graphics && !reducedMotion.matches ? "ready" : "static";
+    // A non-preserved drawing buffer may be cleared when rendering pauses.
+    // Always expose the original image until a fresh frame has been drawn.
+    root.dataset.state = "static";
   }
 
   function schedule() {
@@ -196,11 +193,9 @@ function enhanceBackdrop(
       needsResize = true;
     }
 
-    if (previousTime) elapsed = Math.min(INTRO_DURATION, elapsed + now - previousTime);
+    if (previousTime) elapsed = (elapsed + now - previousTime) % LIGHT_CYCLE;
     previousTime = now;
-    const moving = elapsed < INTRO_DURATION;
-    const settling = !moving && root.dataset.state === "running";
-    if (needsResize || now - lastDraw >= FRAME_INTERVAL || settling) {
+    if (needsResize || now - lastDraw >= FRAME_INTERVAL) {
       const { gl } = graphics;
       if (needsResize) {
         const width = Math.max(1, root.clientWidth);
@@ -218,21 +213,16 @@ function enhanceBackdrop(
       }
       gl.uniform2f(graphics.pointer, pointerX, pointerY);
       gl.uniform1f(graphics.time, elapsed / 1_000);
-      gl.uniform1f(graphics.motion, moving ? Math.sin(Math.PI * elapsed / INTRO_DURATION) : 0);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
-      root.dataset.state = moving ? "running" : "ready";
+      root.dataset.state = "running";
       lastDraw = now;
-      dirty = false;
     }
-    if (moving || dirty) schedule();
+    schedule();
   }
 
   function updateActivity() {
     if (!canRender()) pause();
-    else {
-      dirty = true;
-      schedule();
-    }
+    else schedule();
   }
 
   const intersection = new IntersectionObserver(([entry]) => {
@@ -243,7 +233,6 @@ function enhanceBackdrop(
 
   const resize = new ResizeObserver(() => {
     needsResize = true;
-    dirty = true;
     schedule();
   });
   resize.observe(root);
@@ -256,7 +245,7 @@ function enhanceBackdrop(
   }
   function updateResolution() {
     watchResolution();
-    needsResize = dirty = true;
+    needsResize = true;
     schedule();
   }
   watchResolution();
@@ -269,7 +258,6 @@ function enhanceBackdrop(
   }, eventOptions);
   finePointer.addEventListener("change", () => {
     pointerX = pointerY = 0;
-    dirty = true;
     schedule();
   }, eventOptions);
 
@@ -279,12 +267,10 @@ function enhanceBackdrop(
     const bounds = root.getBoundingClientRect();
     pointerX = Math.max(-1, Math.min(1, (event.clientX - bounds.left) / Math.max(1, bounds.width) * 2 - 1));
     pointerY = Math.max(-1, Math.min(1, 1 - (event.clientY - bounds.top) / Math.max(1, bounds.height) * 2));
-    dirty = true;
     schedule();
   }, { ...eventOptions, passive: true });
   pointerArea?.addEventListener("pointerleave", () => {
     pointerX = pointerY = 0;
-    dirty = true;
     schedule();
   }, eventOptions);
 
@@ -297,7 +283,7 @@ function enhanceBackdrop(
   canvas.addEventListener("webglcontextrestored", () => {
     contextLost = false;
     failed = false;
-    needsResize = dirty = true;
+    needsResize = true;
     updateActivity();
   }, eventOptions);
   window.addEventListener("pagehide", () => {
