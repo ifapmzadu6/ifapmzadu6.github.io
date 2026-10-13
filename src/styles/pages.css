@@ -49,21 +49,6 @@
   padding-block: 20px 36px;
 }
 
-/* A static garden detail keeps the reading pages light and inexpensive. */
-.app-header::before {
-  position: absolute;
-  z-index: -1;
-  top: -100px;
-  right: calc(-1 * var(--page-gutter));
-  bottom: 10%;
-  left: 44%;
-  background: url('/assets/images/ethereal-water-garden.webp') 36% 0 / 350px auto no-repeat;
-  mask-image: linear-gradient(to right, transparent, #000 32%);
-  opacity: 0.23;
-  content: "";
-  pointer-events: none;
-}
-
 .app-header-content {
   display: contents;
 }
@@ -289,10 +274,6 @@
   padding-bottom: 32px;
 }
 
-.privacy-page .app-header::before {
-  opacity: 0.36;
-}
-
 .privacy-page .app-title {
   font-size: clamp(2rem, 8.6vw, 2.75rem);
 }
@@ -349,14 +330,6 @@ main.page-shell {
     grid-template-columns: minmax(0, 1fr) 144px;
     gap: 16px 48px;
     padding-block: 40px 48px;
-  }
-
-  .app-header::before {
-    top: -124px;
-    bottom: -8px;
-    left: 52%;
-    background-position: 32% 0;
-    background-size: 470px auto;
   }
 
   .app-title {
@@ -420,14 +393,6 @@ main.page-shell {
     column-gap: 80px;
     min-height: 310px;
     padding-block: 46px 62px;
-  }
-
-  .app-header::before {
-    top: -150px;
-    right: calc(-1 * var(--page-gutter));
-    left: 56%;
-    background-size: 600px auto;
-    opacity: 0.72;
   }
 
   .app-title {
