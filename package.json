@@ -7,13 +7,15 @@
     "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
-    "test": "npm run check && npm run build && node scripts/validate-site.mjs"
+    "test": "npm run check && npm run build && node scripts/validate-site.mjs && node scripts/test-backdrop.mjs"
   },
   "dependencies": {
-    "astro": "^7.1.6"
+    "astro": "^7.1.6",
+    "three": "0.186.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@types/three": "0.186.0",
     "typescript": "^6.0.3"
   }
 }

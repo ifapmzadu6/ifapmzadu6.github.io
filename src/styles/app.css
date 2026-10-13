@@ -63,7 +63,7 @@ a:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 5px; }
 .hero-copy {
     position: relative;
     isolation: isolate;
-    padding-top: clamp(205px, 62vw, 250px);
+    padding-top: clamp(280px, 85vw, 350px);
     padding-bottom: 28px;
 }
 
@@ -82,11 +82,13 @@ a:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 5px; }
 .hero-copy .ethereal-backdrop {
     position: absolute;
     z-index: -1;
-    width: clamp(290px, 90vw, 370px);
+    width: min(110vw, 460px);
     height: auto;
     aspect-ratio: 1;
-    top: -2px;
-    right: -98px;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    mask-image: linear-gradient(#000 76%, transparent 97%);
     pointer-events: none;
 }
 
@@ -186,13 +188,12 @@ a:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 5px; }
 }
 
 @media (min-width: 600px) {
-    .hero-copy { padding-top: 140px; padding-bottom: 64px; }
+    .hero-copy { padding-top: 400px; padding-bottom: 48px; }
     .hero-copy h1 { font-size: clamp(56px, 8.5vw, 82px); }
     .hero-copy p { max-width: 330px; font-size: 19px; }
     .hero-copy .ethereal-backdrop {
-        width: 490px;
-        top: -65px;
-        right: -110px;
+        width: 520px;
+        top: -35px;
     }
     .app-signal { grid-template-columns: 56px minmax(0, 1fr) 22px; gap: 24px; padding-block: 25px; }
     .signal-icon-frame img { width: 56px; height: 56px; border-radius: 14px; }
@@ -205,7 +206,7 @@ a:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 5px; }
     .hero-copy { padding-top: 140px; padding-bottom: 100px; }
     .hero-copy h1 { font-size: 86px; }
     .hero-copy p { max-width: 390px; font-size: 21px; margin-top: 24px; }
-    .hero-copy .ethereal-backdrop { top: -5px; right: -95px; width: 570px; }
+    .hero-copy .ethereal-backdrop { top: -45px; left: auto; right: -90px; width: 570px; transform: none; }
     .hero-copy::before { inset: -80px -130px -20px 300px; }
     .app-signal { padding-block: 27px; }
 }
