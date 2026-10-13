@@ -139,7 +139,8 @@ assert(
 
 const shortcutsIndex = await read("apps/shortcuts-browser/index.html");
 const tripleTakeIndex = await read("apps/triple-take/index.html");
-assert(tripleTakeIndex.includes("App Store release planned"), "Triple Take release status is missing");
+assert(tripleTakeIndex.includes('href="https://apps.apple.com/app/id6816802473"'), "Triple Take App Store link is missing");
+assert(!tripleTakeIndex.includes("App Store release planned"), "Triple Take must not show a planned release after launch");
 assert(tripleTakeIndex.includes('content="index,follow"'), "Triple Take introduction must be publicly indexed");
 const tripleTakePrivacy = await read("apps/triple-take/privacy.html");
 assert(tripleTakePrivacy.includes("October 1, 2026"), "Triple Take policy revision date is missing");

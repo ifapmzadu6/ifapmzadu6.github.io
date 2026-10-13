@@ -60,8 +60,12 @@ export const apps: AppDefinition[] = [
     subtitle: "One photo. Three surprises.",
     icon: "/assets/images/apps/triple-take.png",
     isPublic: true,
-    storeLinks: [],
-    statusLabel: "App Store release planned",
+    storeLinks: [
+      {
+        label: "View on App Store",
+        url: "https://apps.apple.com/app/id6816802473",
+      },
+    ],
     privacyDescription: "How Triple Take handles selected photos, local editing, and saved images",
     privacyShowIcon: true,
   },
