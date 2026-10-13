@@ -19,6 +19,7 @@ import {
   WebGLRenderer,
 } from "three";
 import { createStageArchitecture } from "./ethereal-stage-geometry";
+import { createTraveler } from "./ethereal-traveler";
 
 export interface StageScene {
   resize(width: number, height: number, pixelRatio: number): void;
@@ -26,7 +27,7 @@ export interface StageScene {
   dispose(): void;
 }
 
-/** A fixed orthographic water garden. Only the water and fill light change. */
+/** A fixed orthographic water garden with a quiet poolside traveler. */
 export async function createStageScene(canvas: HTMLCanvasElement): Promise<StageScene> {
   const renderer = new WebGLRenderer({
     canvas, alpha: true, antialias: true, powerPreference: "low-power",
@@ -58,6 +59,8 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
   camera.lookAt(0, 0.65, 0);
   const architecture = createStageArchitecture();
   scene.add(architecture.group);
+  const traveler = createTraveler();
+  scene.add(traveler.group);
 
   const sky = new HemisphereLight("#e5ecff", "#b7acd3", 2.1);
   const sun = new DirectionalLight("#fff3df", 2.1);
@@ -198,6 +201,7 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
     if (disposed) return;
     disposed = true;
     architecture.dispose();
+    traveler.dispose();
     portals.forEach(({ geometry, material }) => { geometry.dispose(); material.dispose(); });
     waterGeometry.dispose();
     waterMaterial.dispose();
@@ -275,6 +279,7 @@ async function initializeStage(renderer: WebGLRenderer, canvas: HTMLCanvasElemen
       gateTime.value = timeSeconds * Math.PI * 2 / 12;
       lavender.intensity = 0.65 + 0.22 * Math.sin(timeSeconds * Math.PI * 2 / 24) + pointerX * .05;
       sky.intensity = 2.1 + pointerY * .025;
+      traveler.update(timeSeconds);
       renderer.render(scene, camera);
       if (shaderFailed) throw new Error("Stage shader unavailable");
     },

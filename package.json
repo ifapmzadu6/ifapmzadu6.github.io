@@ -7,7 +7,7 @@
     "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
-    "test": "npm run check && npm run build && node scripts/validate-site.mjs && node scripts/test-backdrop.mjs"
+    "test": "npm run check && npm run build && node scripts/validate-site.mjs && node scripts/test-backdrop.mjs && node scripts/test-traveler.mjs"
   },
   "dependencies": {
     "astro": "^7.1.6",
