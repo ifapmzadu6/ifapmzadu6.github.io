@@ -58,14 +58,6 @@ export function createTraveler() {
   figure.add(robe);
   ball(figure, hood, 0, .343, 0, .068, .075, .064);
   ball(figure, face, 0, .34, .049, .043, .047, .021);
-  const arms = [-1, 1].map(side => {
-    const pivot = new Group();
-    pivot.position.set(side * .065, .265, 0);
-    figure.add(pivot);
-    ball(pivot, coat, 0, -.043, 0, .021, .057, .022);
-    ball(pivot, hood, 0, -.096, 0, .018, .019, .019);
-    return pivot;
-  });
   const legs = [-1, 1].map(side => {
     const upper = new Mesh(cylinder, hood);
     const lower = new Mesh(cylinder, hood);
@@ -99,7 +91,6 @@ export function createTraveler() {
       const kneeZ = z / 2 - dy / distance * bend;
       bone(upper, x, .105, 0, kneeY, kneeZ);
       bone(lower, x, kneeY, kneeZ, y, z);
-      arms[index].rotation.x = Math.sin(pose.stride + index * Math.PI) * .36 * pose.walking;
     });
   }
   update(0);
