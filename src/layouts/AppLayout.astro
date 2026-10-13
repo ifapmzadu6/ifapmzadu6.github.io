@@ -35,7 +35,7 @@ const privacySubtitle =
   ogImage={app.icon}
   showFooter={app.isPublic}
 >
-  <div class="page-shell">
+  <div class="page-shell" data-app={app.slug}>
     <Breadcrumb
       items={[
         { label: "Home", href: "/" },
