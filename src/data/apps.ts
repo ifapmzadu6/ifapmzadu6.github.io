@@ -4,7 +4,8 @@ export type AppSlug =
   | "shortcuts-browser"
   | "tax-calculator"
   | "triple-take"
-  | "sake-rhythm";
+  | "sake-rhythm"
+  | "flickless-keyboard";
 
 export interface StoreLink {
   label: string;
@@ -150,6 +151,22 @@ export const apps: AppDefinition[] = [
     privacyDescription:
       "Privacy Policy for SakeRhythm - Healthy Drinking Support App",
     privacyShowIcon: false,
+  },
+  {
+    slug: "flickless-keyboard",
+    name: "Flickless Keyboard",
+    pageTitle: "Flickless Keyboard - Japanese Keyboard Without Flicks",
+    description:
+      "A Japanese keyboard for iPhone where you hold a key and feel haptic ticks to choose each kana, no flicking required",
+    cardDescription: "Hold a key and feel the haptics to type Japanese kana",
+    subtitle: "Hold, feel, and release to type Japanese",
+    icon: "/assets/images/apps/flickless-keyboard.png",
+    isPublic: false,
+    storeLinks: [],
+    statusLabel: "App Store release planned",
+    privacyDescription:
+      "How Flickless Keyboard handles typed text, Full Access, and data stored on your device",
+    privacyShowIcon: true,
   },
 ];
 

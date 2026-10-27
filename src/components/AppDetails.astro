@@ -313,3 +313,35 @@ const { app } = Astro.props;
     </Fragment>
   )
 }
+
+{
+  app.slug === "flickless-keyboard" && (
+    <Fragment>
+      <section class="section">
+        <h2>How It Works</h2>
+        <ul class="feature-list">
+          <li>
+            Hold a key and the selection moves through its row (a, i, u, e, o)
+            in a steady rhythm
+          </li>
+          <li>Each step plays a haptic tick, so you can type without looking</li>
+          <li>Release to enter the selected kana; slide off the key to cancel</li>
+          <li>Kana-to-kanji conversion with Mozc, entirely on your device</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>App Info</h2>
+        <p>
+          <strong>Compatibility:</strong> iOS 27.0 or later, iPhone
+        </p>
+        <p>
+          <strong>Developer:</strong> Keisuke Karijuku
+        </p>
+        <p>
+          <strong>Privacy:</strong> <a href="privacy.html">Privacy Policy</a>
+        </p>
+      </section>
+    </Fragment>
+  )
+}
