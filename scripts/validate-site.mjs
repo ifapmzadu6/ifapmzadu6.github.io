@@ -25,6 +25,8 @@ const allPages = [
   ...publicPages,
   "apps/sake-rhythm/index.html",
   "apps/sake-rhythm/privacy.html",
+  "apps/flickless-keyboard/index.html",
+  "apps/flickless-keyboard/privacy.html",
   "404.html",
 ];
 const footerPages = [
@@ -44,6 +46,7 @@ const staticFiles = [
   "assets/images/apps/tax-calculator.jpg",
   "assets/images/apps/sake-rhythm.jpg",
   "assets/images/apps/triple-take.png",
+  "assets/images/apps/flickless-keyboard.png",
 ];
 
 function assert(condition, message) {
@@ -176,7 +179,12 @@ const robots = await read("robots.txt");
 assert(!robots.includes("Disallow: /apps/sake-rhythm/"), "robots.txt: noindex pages must remain crawlable so crawlers can read the directive");
 assert(robots.includes("Sitemap: https://ifapmzadu6.github.io/sitemap.xml"), "robots.txt: sitemap declaration is missing");
 
-for (const relativePath of ["apps/sake-rhythm/index.html", "apps/sake-rhythm/privacy.html"]) {
+for (const relativePath of [
+  "apps/sake-rhythm/index.html",
+  "apps/sake-rhythm/privacy.html",
+  "apps/flickless-keyboard/index.html",
+  "apps/flickless-keyboard/privacy.html",
+]) {
   const html = await read(relativePath);
   assert(html.includes('content="noindex,nofollow,noarchive"'), `${relativePath}: hidden page must be noindex`);
 }
