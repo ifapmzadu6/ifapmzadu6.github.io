@@ -16,6 +16,7 @@ const publicPages = [
   "apps/tax-calculator/privacy.html",
 ];
 const privacyPages = [
+  "apps/flickless-keyboard/privacy.html",
   "apps/triple-take/privacy.html",
   "apps/otolume/privacy.html",
   "apps/shortcuts-browser/privacy.html",
