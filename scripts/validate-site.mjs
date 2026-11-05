@@ -151,6 +151,11 @@ assert(home.includes('href="/apps/flickless-keyboard/"'), "index.html: Flickless
 assert(flicklessIndex.includes('href="https://apps.apple.com/app/id6826770157"'), "Flickless Keyboard App Store link is missing");
 assert(!flicklessIndex.includes("App Store release planned"), "Flickless Keyboard must not show a planned release after launch");
 assert(flicklessIndex.includes('content="index,follow"'), "Flickless Keyboard introduction must be publicly indexed");
+assert(flicklessIndex.includes("Allow Full Access"), "Flickless Keyboard setup steps are missing");
+const flicklessPrivacy = await read("apps/flickless-keyboard/privacy.html");
+assert(flicklessPrivacy.includes("November 5, 2026"), "Flickless Keyboard policy revision date is missing");
+assert(flicklessPrivacy.includes("skin tone"), "Flickless Keyboard skin tone storage disclosure is missing");
+assert(flicklessPrivacy.includes("Typing statistics"), "Flickless Keyboard typing statistics disclosure is missing");
 const tripleTakePrivacy = await read("apps/triple-take/privacy.html");
 assert(tripleTakePrivacy.includes("October 1, 2026"), "Triple Take policy revision date is missing");
 assert(tripleTakePrivacy.includes("does not upload your photos"), "Triple Take local-processing disclosure is missing");

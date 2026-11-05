@@ -618,7 +618,7 @@ const { app } = Astro.props;
           the app and a keyboard extension. Neither collects the text you type
           or any personal information, and neither sends data off your device.
         </p>
-        <p><strong>Effective date:</strong> October 27, 2026</p>
+        <p><strong>Effective date:</strong> November 5, 2026</p>
       </section>
 
       <section class="section">
@@ -641,14 +641,26 @@ const { app } = Astro.props;
         </p>
         <ul class="feature-list">
           <li>
-            Settings: hold speed, haptic strength, and whether prediction and
-            English word completion are on
+            Settings: hold speed, haptic strength, dialect mode, and secret
+            mode
           </li>
           <li>
             Conversion learning: the candidates you choose, so frequently used
-            ones appear first
+            ones appear first. Nothing is learned while secret mode is on.
           </li>
-          <li>Recently used emoji</li>
+          <li>
+            Recently used emoji (not recorded while secret mode is on) and the
+            skin tone you chose for each emoji
+          </li>
+          <li>
+            How often you use the small kana and dakuten key, so typo
+            correction can adapt to how you type
+          </li>
+          <li>
+            Typing statistics: counts and timings, such as how long you hold a
+            key before releasing it and how often you correct a typo. They do
+            not include the text you type.
+          </li>
           <li>
             Setup progress: whether the keyboard has been added and whether
             Full Access has been allowed

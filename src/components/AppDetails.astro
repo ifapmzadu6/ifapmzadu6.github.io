@@ -318,20 +318,106 @@ const { app } = Astro.props;
   app.slug === "flickless-keyboard" && (
     <Fragment>
       <section class="section">
-        <h2>How It Works</h2>
+        <h2>Features</h2>
         <ul class="feature-list">
           <li>
-            Hold a key and the selection moves through its row (a, i, u, e, o)
-            in a steady rhythm
+            Hold a key and the kana moves through its row (a, i, u, e, o) at a
+            steady rhythm. Release to enter the one you want: no flicks, no
+            repeated taps, and the same layout as the standard iPhone keyboard.
           </li>
-          <li>Each step plays a haptic tick, so you can type without looking</li>
-          <li>Release to enter the selected kana; slide off the key to cancel</li>
-          <li>Kana-to-kanji conversion with Mozc, entirely on your device</li>
+          <li>
+            Every step plays a haptic tick, so you can count by feel and type
+            without looking at the keys.
+          </li>
+          <li>
+            Forgiving of near misses. If you hold a key one step too long, let
+            go too early, or skip the small kana and dakuten key, the
+            candidates still offer the word you meant. While you type, the
+            space key moves the last kana back by one step.
+          </li>
+          <li>
+            A built-in kana-to-kanji conversion engine that runs on your
+            iPhone. Words from your iOS Text Replacements appear first, and if
+            you choose the wrong conversion, the undo button brings back the
+            reading so you can choose again.
+          </li>
+          <li>
+            Suggestions that think ahead: greetings for the time of day and the
+            season, dates with the day of the week for words like "the day
+            after tomorrow", and times and prices typed in kana shown as
+            numbers.
+          </li>
+          <li>
+            Starts on the number keys for postal codes and phone numbers, and on
+            the letter keys for email addresses. In verification code fields,
+            it points you to the standard keyboard, which can fill in the code
+            you received.
+          </li>
+          <li>
+            Letters and numbers work with the same hold and release, with
+            completion for English words.
+          </li>
+          <li>
+            Search for emoji by typing a word in hiragana. Includes Unicode 17.0
+            emoji and remembers the skin tone you choose for each one.
+          </li>
+          <li>
+            Dialect mode for Kansai, Hakata, Hiroshima, and Hokkaido phrases,
+            and a secret mode that stops learning what you type.
+          </li>
+          <li>Adjust how fast the kana moves and how strong the haptics are.</li>
         </ul>
       </section>
 
       <section class="section">
+        <h2>How to Use</h2>
+        <ol class="support-steps">
+          <li>Open the app and tap the button that opens Settings.</li>
+          <li>
+            Tap Keyboards, turn on the keyboard, then turn on Allow Full Access
+            and tap Allow.
+          </li>
+          <li>
+            In any text field, touch and hold the globe key and choose the
+            keyboard.
+          </li>
+          <li>Hold a key, feel the ticks, and release on the kana you want.</li>
+        </ol>
+      </section>
+
+      <section class="section">
+        <h2>Support</h2>
+        <h3>There are no haptics</h3>
+        <p>
+          iOS lets a keyboard play haptics only with Full Access. Open the app,
+          tap the button that opens Settings, then tap Keyboards and check that
+          Allow Full Access is on.
+        </p>
+
+        <h3>The keyboard does not appear</h3>
+        <p>
+          In a text field, touch and hold the globe key and choose the
+          keyboard. iOS always uses its standard keyboard for password fields
+          and phone number pads.
+        </p>
+
+        <h3>What happens to the text I type</h3>
+        <p>
+          Conversion and learning happen on your iPhone. The keyboard does not
+          use the network, and the text you type never leaves your device. To
+          clear what it has learned, use Reset Conversion Learning in the
+          app's Customize tab.
+        </p>
+      </section>
+
+      <section class="section">
         <h2>App Info</h2>
+        <p>
+          <strong>Price:</strong> Free
+        </p>
+        <p>
+          <strong>Language:</strong> Japanese
+        </p>
         <p>
           <strong>Compatibility:</strong> iOS 27.0 or later, iPhone
         </p>
