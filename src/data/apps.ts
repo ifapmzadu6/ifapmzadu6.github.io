@@ -161,9 +161,13 @@ export const apps: AppDefinition[] = [
     cardDescription: "Hold a key and feel the haptics to type Japanese kana",
     subtitle: "Hold, feel, and release to type Japanese",
     icon: "/assets/images/apps/flickless-keyboard.png",
-    isPublic: false,
-    storeLinks: [],
-    statusLabel: "App Store release planned",
+    isPublic: true,
+    storeLinks: [
+      {
+        label: "View on App Store",
+        url: "https://apps.apple.com/app/id6826770157",
+      },
+    ],
     privacyDescription:
       "How Flickless Keyboard handles typed text, Full Access, and data stored on your device",
     privacyShowIcon: true,
