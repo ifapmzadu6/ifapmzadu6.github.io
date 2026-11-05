@@ -14,6 +14,8 @@ const publicPages = [
   "apps/shortcuts-browser/privacy.html",
   "apps/tax-calculator/index.html",
   "apps/tax-calculator/privacy.html",
+  "apps/flickless-keyboard/index.html",
+  "apps/flickless-keyboard/privacy.html",
 ];
 const privacyPages = [
   "apps/flickless-keyboard/privacy.html",
@@ -26,8 +28,6 @@ const allPages = [
   ...publicPages,
   "apps/sake-rhythm/index.html",
   "apps/sake-rhythm/privacy.html",
-  "apps/flickless-keyboard/index.html",
-  "apps/flickless-keyboard/privacy.html",
   "404.html",
 ];
 const footerPages = [
@@ -137,8 +137,8 @@ assert(
   "index.html: tttt.. must be the first app",
 );
 assert(
-  (home.match(/class="app-signal"/g) ?? []).length === 5,
-  "index.html: expected five public app links",
+  (home.match(/class="app-signal"/g) ?? []).length === 6,
+  "index.html: expected six public app links",
 );
 
 const shortcutsIndex = await read("apps/shortcuts-browser/index.html");
@@ -146,6 +146,11 @@ const tripleTakeIndex = await read("apps/triple-take/index.html");
 assert(tripleTakeIndex.includes('href="https://apps.apple.com/app/id6816802473"'), "Triple Take App Store link is missing");
 assert(!tripleTakeIndex.includes("App Store release planned"), "Triple Take must not show a planned release after launch");
 assert(tripleTakeIndex.includes('content="index,follow"'), "Triple Take introduction must be publicly indexed");
+const flicklessIndex = await read("apps/flickless-keyboard/index.html");
+assert(home.includes('href="/apps/flickless-keyboard/"'), "index.html: Flickless Keyboard introduction is missing");
+assert(flicklessIndex.includes('href="https://apps.apple.com/app/id6826770157"'), "Flickless Keyboard App Store link is missing");
+assert(!flicklessIndex.includes("App Store release planned"), "Flickless Keyboard must not show a planned release after launch");
+assert(flicklessIndex.includes('content="index,follow"'), "Flickless Keyboard introduction must be publicly indexed");
 const tripleTakePrivacy = await read("apps/triple-take/privacy.html");
 assert(tripleTakePrivacy.includes("October 1, 2026"), "Triple Take policy revision date is missing");
 assert(tripleTakePrivacy.includes("does not upload your photos"), "Triple Take local-processing disclosure is missing");
@@ -172,6 +177,7 @@ for (const url of [
   "https://ifapmzadu6.github.io/apps/otolume/",
   "https://ifapmzadu6.github.io/apps/shortcuts-browser/",
   "https://ifapmzadu6.github.io/apps/tax-calculator/",
+  "https://ifapmzadu6.github.io/apps/flickless-keyboard/",
 ]) {
   assert(sitemap.includes(`<loc>${url}</loc>`), `sitemap.xml: missing ${url}`);
 }
@@ -183,8 +189,6 @@ assert(robots.includes("Sitemap: https://ifapmzadu6.github.io/sitemap.xml"), "ro
 for (const relativePath of [
   "apps/sake-rhythm/index.html",
   "apps/sake-rhythm/privacy.html",
-  "apps/flickless-keyboard/index.html",
-  "apps/flickless-keyboard/privacy.html",
 ]) {
   const html = await read(relativePath);
   assert(html.includes('content="noindex,nofollow,noarchive"'), `${relativePath}: hidden page must be noindex`);
