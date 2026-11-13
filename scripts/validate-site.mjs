@@ -28,6 +28,8 @@ const allPages = [
   ...publicPages,
   "apps/sake-rhythm/index.html",
   "apps/sake-rhythm/privacy.html",
+  "apps/tsugidopa/index.html",
+  "apps/tsugidopa/privacy.html",
   "404.html",
 ];
 const footerPages = [
@@ -48,6 +50,7 @@ const staticFiles = [
   "assets/images/apps/sake-rhythm.jpg",
   "assets/images/apps/triple-take.png",
   "assets/images/apps/flickless-keyboard.png",
+  "assets/images/apps/tsugidopa.png",
 ];
 
 function assert(condition, message) {
@@ -194,10 +197,16 @@ assert(robots.includes("Sitemap: https://ifapmzadu6.github.io/sitemap.xml"), "ro
 for (const relativePath of [
   "apps/sake-rhythm/index.html",
   "apps/sake-rhythm/privacy.html",
+  "apps/tsugidopa/index.html",
+  "apps/tsugidopa/privacy.html",
 ]) {
   const html = await read(relativePath);
   assert(html.includes('content="noindex,nofollow,noarchive"'), `${relativePath}: hidden page must be noindex`);
 }
+
+const tsugidopaPrivacy = await read("apps/tsugidopa/privacy.html");
+assert(tsugidopaPrivacy.includes("November 14, 2026"), "Tsugidopa policy revision date is missing");
+assert(tsugidopaPrivacy.includes("only on your device"), "Tsugidopa on-device storage disclosure is missing");
 
 const generatedCssFiles = (await listFiles(root)).filter((filePath) =>
   filePath.endsWith(".css"),
