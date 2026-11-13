@@ -5,7 +5,8 @@ export type AppSlug =
   | "tax-calculator"
   | "triple-take"
   | "sake-rhythm"
-  | "flickless-keyboard";
+  | "flickless-keyboard"
+  | "tsugidopa";
 
 export interface StoreLink {
   label: string;
@@ -170,6 +171,22 @@ export const apps: AppDefinition[] = [
     ],
     privacyDescription:
       "How Flickless Keyboard handles typed text, Full Access, and data stored on your device",
+    privacyShowIcon: true,
+  },
+  {
+    slug: "tsugidopa",
+    name: "Tsugidopa",
+    pageTitle: "Tsugidopa - Keep Tapping Next",
+    description:
+      "A joke tapping game for iPhone: keep mashing the onboarding Next button and agree to ever more absurd terms without reading them",
+    cardDescription: "Mash the Next button and agree to everything without reading",
+    subtitle: "Keep tapping Next. Never read.",
+    icon: "/assets/images/apps/tsugidopa.png",
+    isPublic: false,
+    storeLinks: [],
+    statusLabel: "App Store release planned",
+    privacyDescription:
+      "How Tsugidopa handles your tap count and the data stored on your device",
     privacyShowIcon: true,
   },
 ];
