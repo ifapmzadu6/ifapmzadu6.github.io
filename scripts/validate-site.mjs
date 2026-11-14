@@ -16,8 +16,11 @@ const publicPages = [
   "apps/tax-calculator/privacy.html",
   "apps/flickless-keyboard/index.html",
   "apps/flickless-keyboard/privacy.html",
+  "apps/tsugidopa/index.html",
+  "apps/tsugidopa/privacy.html",
 ];
 const privacyPages = [
+  "apps/tsugidopa/privacy.html",
   "apps/flickless-keyboard/privacy.html",
   "apps/triple-take/privacy.html",
   "apps/otolume/privacy.html",
@@ -28,8 +31,6 @@ const allPages = [
   ...publicPages,
   "apps/sake-rhythm/index.html",
   "apps/sake-rhythm/privacy.html",
-  "apps/tsugidopa/index.html",
-  "apps/tsugidopa/privacy.html",
   "404.html",
 ];
 const footerPages = [
@@ -140,8 +141,8 @@ assert(
   "index.html: tttt.. must be the first app",
 );
 assert(
-  (home.match(/class="app-signal"/g) ?? []).length === 6,
-  "index.html: expected six public app links",
+  (home.match(/class="app-signal"/g) ?? []).length === 7,
+  "index.html: expected seven public app links",
 );
 
 const shortcutsIndex = await read("apps/shortcuts-browser/index.html");
@@ -186,6 +187,7 @@ for (const url of [
   "https://ifapmzadu6.github.io/apps/shortcuts-browser/",
   "https://ifapmzadu6.github.io/apps/tax-calculator/",
   "https://ifapmzadu6.github.io/apps/flickless-keyboard/",
+  "https://ifapmzadu6.github.io/apps/tsugidopa/",
 ]) {
   assert(sitemap.includes(`<loc>${url}</loc>`), `sitemap.xml: missing ${url}`);
 }
@@ -197,13 +199,16 @@ assert(robots.includes("Sitemap: https://ifapmzadu6.github.io/sitemap.xml"), "ro
 for (const relativePath of [
   "apps/sake-rhythm/index.html",
   "apps/sake-rhythm/privacy.html",
-  "apps/tsugidopa/index.html",
-  "apps/tsugidopa/privacy.html",
 ]) {
   const html = await read(relativePath);
   assert(html.includes('content="noindex,nofollow,noarchive"'), `${relativePath}: hidden page must be noindex`);
 }
 
+const tsugidopaIndex = await read("apps/tsugidopa/index.html");
+assert(home.includes('href="/apps/tsugidopa/"'), "index.html: Tsugidopa introduction is missing");
+assert(tsugidopaIndex.includes('href="https://apps.apple.com/app/id6834001911"'), "Tsugidopa App Store link is missing");
+assert(!tsugidopaIndex.includes("App Store release planned"), "Tsugidopa must not show a planned release after launch");
+assert(tsugidopaIndex.includes('content="index,follow"'), "Tsugidopa introduction must be publicly indexed");
 const tsugidopaPrivacy = await read("apps/tsugidopa/privacy.html");
 assert(tsugidopaPrivacy.includes("November 14, 2026"), "Tsugidopa policy revision date is missing");
 assert(tsugidopaPrivacy.includes("only on your device"), "Tsugidopa on-device storage disclosure is missing");
