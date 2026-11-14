@@ -182,9 +182,13 @@ export const apps: AppDefinition[] = [
     cardDescription: "Mash the Next button and agree to everything without reading",
     subtitle: "Keep tapping Next. Never read.",
     icon: "/assets/images/apps/tsugidopa.png",
-    isPublic: false,
-    storeLinks: [],
-    statusLabel: "App Store release planned",
+    isPublic: true,
+    storeLinks: [
+      {
+        label: "View on App Store",
+        url: "https://apps.apple.com/app/id6834001911",
+      },
+    ],
     privacyDescription:
       "How Tsugidopa handles your tap count and the data stored on your device",
     privacyShowIcon: true,
