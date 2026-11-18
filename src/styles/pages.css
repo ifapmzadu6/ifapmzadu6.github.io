@@ -297,10 +297,6 @@
   line-height: 1.6;
 }
 
-.site-footer::before {
-  content: "Keisuke Karijuku";
-}
-
 main.page-shell {
   min-height: calc(100svh - 108px);
   padding-top: 68px;
