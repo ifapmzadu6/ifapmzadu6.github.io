@@ -1,6 +1,8 @@
 ---
 import "../styles/app.css";
 import { siteName } from "../data/site";
+import nunitoFont from "../assets/fonts/nunito-latin-variable.woff2?url";
+import spaceMonoFont from "../assets/fonts/space-mono-latin-bold.woff2?url";
 
 interface Props {
   title: string;
@@ -43,6 +45,8 @@ const useLargeCard = largeSocialCard && Boolean(ogImageUrl);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" href={nunitoFont} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={spaceMonoFont} as="font" type="font/woff2" crossorigin="anonymous" />
     {themeColor && <meta name="theme-color" content={themeColor} />}
     <title>{title}</title>
     <meta name="description" content={description} />
