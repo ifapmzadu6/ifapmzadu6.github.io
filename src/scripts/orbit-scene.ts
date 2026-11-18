@@ -8,7 +8,8 @@ export interface OrbitApp {
 }
 
 export const HOME = -1;
-const STATION_SPACING = 164;
+const STATION_SPACING = 144;
+const HOME_DISTANCE = 50;
 const STAR = ["   *   ", "  ***  ", "*******", " ***** ", "  ***  ", " ** ** "];
 const STONES = [[15, 127], [37, 125], [58, 129], [74, 126], [102, 128], [122, 125], [154, 127]];
 
@@ -58,6 +59,15 @@ function ease(value: number) {
   return t * t * (3 - 2 * t);
 }
 
+// Ease into and out of a walk, with a steady pace between the two ramps.
+function walkProgress(value: number) {
+  const t = Math.max(0, Math.min(1, value));
+  const ramp = 0.12;
+  if (t < ramp) return t * t / (2 * ramp * (1 - ramp));
+  if (t > 1 - ramp) return 1 - (1 - t) ** 2 / (2 * ramp * (1 - ramp));
+  return (t - ramp / 2) / (1 - ramp);
+}
+
 async function loadImage(url: string) {
   const image = new Image();
   image.src = url;
@@ -69,8 +79,8 @@ export async function createOrbitScene(
   ctx: CanvasRenderingContext2D, sign: HTMLElement, apps: OrbitApp[],
 ) {
   const canvas = ctx.canvas;
-  const sprites = await Promise.all(
-    ["walk-0", "walk-1", "walk-2", "walk-3", "look"].map(name =>
+  const [moon, readingMoon] = await Promise.all(
+    ["walk-1", "look"].map(name =>
       loadImage(`/assets/images/orbit/${name}.png`)),
   );
   const icons = new Map<number, HTMLImageElement>();
@@ -108,17 +118,43 @@ export async function createOrbitScene(
     });
   }
 
-  function drawMoon(center: number, stride: number | null, left: boolean, looking: boolean) {
-    const frame = stride === null ? 1 : Math.floor(stride / 5) % 4;
-    const lift = stride === null ? 0 : frame % 2;
+  function drawFoot(phase: number, stepLength: number, near: boolean, bob: number) {
+    const swinging = phase > 0.5;
+    const swing = (phase - 0.5) * 2;
+    // A planted foot travels back exactly as far as the ground beneath it.
+    const offset = swinging ? (ease(swing) - 0.5) * stepLength : (0.5 - 2 * phase) * stepLength;
+    // Match the generated resting pose at both ends of a whole gait cycle.
+    const hip = near ? 17 + stepLength / 2 : 29 - stepLength / 2;
+    const toe = Math.round(hip + offset);
+    const sole = 46 - (swinging ? Math.round(4 * Math.sin(swing * Math.PI)) : 0);
+    const top = 38 + bob;
+    const color = near ? "#ccabe8" : "#a885ca";
+    for (let y = top; y < sole - 1; y++) {
+      const ankle = mix(hip, toe, (y - top) / (sole - 1 - top));
+      box(ankle - 2, y, 5, 1, near ? color : "#8862b1");
+    }
+    box(toe - 2, sole - 1, 7, 2, color);
+  }
+
+  function drawMoon(center: number, distance: number | null, left: boolean, looking: boolean, stepLength = STATION_SPACING / 8) {
     box(center - 13, 122, 27, 1, "#51416e");
     ctx.save();
-    ctx.translate(Math.round(center) + (left ? 24 : -24), 76 - lift);
+    ctx.translate(Math.round(center) + (left ? 24 : -24), 76);
     if (left) ctx.scale(-1, 1);
-    ctx.drawImage(sprites[looking ? 4 : frame], 0, 0);
+    let bob = 0;
+    if (distance === null) {
+      ctx.drawImage(looking ? readingMoon : moon, 0, 0);
+    } else {
+      const cycles = distance / (2 * stepLength);
+      const phase = cycles - Math.floor(cycles);
+      bob = -Math.round(Math.sin(phase * 2 * Math.PI) ** 2);
+      drawFoot(phase, stepLength, false, bob);
+      drawFoot((phase + 0.5) % 1, stepLength, true, bob);
+      ctx.drawImage(moon, 0, 0, 48, 41, 0, bob, 48, 41);
+    }
     STAR.forEach((row, y) => {
       for (let x = 0; x < row.length; x++) {
-        if (row[x] === "*") box(25 + x, y, 1, 1, y < 4 ? "#ffdd58" : "#eda348");
+        if (row[x] === "*") box(25 + x, y + bob, 1, 1, y < 4 ? "#ffdd58" : "#eda348");
       }
     });
     ctx.restore();
@@ -197,20 +233,21 @@ export async function createOrbitScene(
 
     if (from === HOME || to === HOME) {
       const approach = from === HOME ? t : 1 - t;
-      const center = 30 + 50 * ease((approach - 0.04) / 0.79);
-      const moving = approach > 0.04 && approach < 0.83;
+      const travel = walkProgress((approach - 0.04) / 0.82);
+      const center = 30 + HOME_DISTANCE * travel;
+      const moving = travel > 0 && travel < 1;
       const stop = approach < 0.12 ? HOME : Math.max(from, to);
       const reveal = ease((approach - 0.79) / 0.15);
-      const distance = from === HOME ? center - 30 : 80 - center;
       const left = to === HOME ? heading > 0 : heading < 0;
       drawGround(0);
       drawPost(stop, 0, reveal);
       showSign(stop, 0, reveal);
-      drawMoon(center, moving ? distance : null, left && moving, approach > 0.94);
+      const distance = (left ? -1 : 1) * HOME_DISTANCE * travel;
+      drawMoon(center, moving ? distance : null, left && moving, travel === 1, HOME_DISTANCE / 4);
       return;
     }
 
-    const travel = ease((t - 0.035) / 0.88);
+    const travel = walkProgress((t - 0.035) / 0.89);
     // Keep the whole 48-pixel moon on screen; the camera follows the path beneath its feet.
     const center = 80 + direction * 3 * Math.sin(travel * Math.PI);
     const origin = center - 80 - direction * STATION_SPACING * travel;
@@ -224,8 +261,8 @@ export async function createOrbitScene(
     else showSign(to, destination, arriving);
 
     const moving = travel > 0 && travel < 1;
-    const stride = STATION_SPACING * (heading > 0 ? travel : 1 - travel);
-    drawMoon(center, moving ? stride : null, direction * heading < 0 && moving, t < 0.035 || t > 0.965);
+    const distance = heading * STATION_SPACING * travel;
+    drawMoon(center, moving ? distance : null, direction * heading < 0 && moving, !moving);
   }
 
   return { prepareStop, rest, walk, getSky: () => currentSky };
