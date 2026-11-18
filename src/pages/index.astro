@@ -1,5 +1,4 @@
 ---
-import OrbitMap from "../components/OrbitMap.astro";
 import { publicApps } from "../data/apps";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/orbit.css";
@@ -30,13 +29,6 @@ const stops = publicApps.map((app) => ({
           <img src="/assets/images/orbit/wordmark.png" width="104" height="21" alt="little orbit" />
         </a>
       </h1>
-      <button type="button" id="map-toggle" aria-haspopup="dialog" aria-controls="app-map" aria-expanded="false" hidden>
-        <svg viewBox="0 0 18 18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="m3 12 5-6 7 3" />
-          <path d="M2 11h3v3H2zM7 4h3v3H7zm7 4h3v3h-3z" fill="currentColor" stroke="none" />
-        </svg>
-        App map
-      </button>
     </header>
 
     <div class="world">
@@ -60,7 +52,16 @@ const stops = publicApps.map((app) => ({
       </div>
     </nav>
     <p id="status" role="status" class="orbit-sr"></p>
-    <OrbitMap stops={stops} />
+    <nav id="apps" class="fallback-apps" aria-label="Apps">
+      <ul>
+        {stops.map((app) => (
+          <li>
+            <a href={app.url} data-stop={app.slug}>{app.name}</a>
+            <p>{app.description}</p>
+          </li>
+        ))}
+      </ul>
+    </nav>
   </main>
 </BaseLayout>
 
