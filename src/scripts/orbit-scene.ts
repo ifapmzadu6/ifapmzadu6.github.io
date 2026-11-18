@@ -37,6 +37,10 @@ const skies: Record<string, Sky> = {
   tsugidopa: sky(0x271a38, 0x6e426f, 46),
 };
 
+export function stationSky(slug?: string): Sky {
+  return (slug && skies[slug]) || homeSky;
+}
+
 export interface Journey {
   from: number;
   to: number;
@@ -87,7 +91,7 @@ export async function createOrbitScene(
   }
 
   function skyFor(stop: number) {
-    return stop === HOME ? homeSky : skies[apps[stop].slug] ?? homeSky;
+    return stationSky(stop === HOME ? undefined : apps[stop].slug);
   }
 
   function box(x: number, y: number, w: number, h: number, color: string) {

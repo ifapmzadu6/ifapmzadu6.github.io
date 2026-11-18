@@ -18,6 +18,7 @@ const {
   storeLinks = [],
   statusLabel,
 } = Astro.props;
+const iconPath = "/assets/images/orbit/icons/" + app.slug;
 ---
 
 <header class:list={["app-header", { "app-header--without-icon": !showIcon }]}>
@@ -25,7 +26,9 @@ const {
     showIcon && (
       <div class="app-icon">
         <img
-          src={app.icon}
+          src={iconPath + "-256.webp"}
+          srcset={iconPath + ".webp 64w, " + iconPath + "-256.webp 256w"}
+          sizes="(max-width: 440px) 44px, (max-width: 760px) 10vw, 76px"
           alt=""
           class="app-icon-large"
           width="176"

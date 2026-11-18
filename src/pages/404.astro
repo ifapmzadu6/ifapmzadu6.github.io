@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteName } from "../data/site";
 ---
 
 <BaseLayout
-  title="Page Not Found · little orbit"
+  title={"Page Not Found · " + siteName}
   description="The requested page could not be found."
   robots="noindex,nofollow"
 >
@@ -16,7 +17,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           The page may have moved or is no longer available.
         </p>
         <div class="store-buttons">
-          <a href="/" class="download-btn">Back to little orbit</a>
+          <a href="/" class="download-btn">Back to {siteName}</a>
         </div>
       </div>
     </header>

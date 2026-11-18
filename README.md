@@ -1,4 +1,4 @@
-# Keisuke Karijuku Apps
+# bits by me
 
 Static app and privacy-policy pages built with Astro.
 

@@ -12,6 +12,8 @@ async function initialize(root: HTMLElement) {
   const home = root.querySelector<HTMLAnchorElement>("#home")!;
   const walk = root.querySelector<HTMLButtonElement>("#walk")!;
   const open = root.querySelector<HTMLAnchorElement>("#open")!;
+  const openLabel = open.querySelector<HTMLElement>("[data-open-label]")!;
+  const openArrow = open.querySelector<HTMLElement>("[aria-hidden]")!;
   const previous = root.querySelector<HTMLButtonElement>("#prev")!;
   const next = root.querySelector<HTMLButtonElement>("#next")!;
   const pager = root.querySelector<HTMLElement>(".pager")!;
@@ -44,9 +46,13 @@ async function initialize(root: HTMLElement) {
 
     if (detail) {
       const app = apps[target];
-      document.title = app.name + " · little orbit";
+      document.title = app.name + " · " + siteTitle;
       open.href = app.url;
-      open.setAttribute("aria-label", "Open " + app.name);
+      const external = open.origin !== location.origin;
+      const label = external ? "Visit website" : "App details";
+      openLabel.textContent = label;
+      openArrow.textContent = external ? "↗" : "→";
+      open.setAttribute("aria-label", label + " for " + app.name);
       previous.setAttribute("aria-label", "Previous app: " + apps[wrap(target - 1)].name);
       next.setAttribute("aria-label", "Next app: " + apps[wrap(target + 1)].name);
       count.textContent = (target + 1) + " / " + apps.length;
