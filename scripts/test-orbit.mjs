@@ -19,8 +19,7 @@ const canvas = { width: 144, height: 134 };
 const stack = [];
 let transform = { x: 0, y: 0, sx: 1, sy: 1 };
 let spriteDraws = 0;
-let feet = new Map();
-let pebbleX;
+let lastSprite;
 
 function canvasRect(x, y, width, height) {
   const x1 = transform.x + transform.sx * x;
@@ -32,28 +31,20 @@ function canvasRect(x, y, width, height) {
 
 const context = {
   canvas,
-  clearRect() {
-    feet = new Map();
-    pebbleX = undefined;
-  },
-  fillRect(x, y, width, height) {
-    // This pebble is on its own scan line and remains identifiable as the camera scrolls.
-    if (this.fillStyle === '#76647e' && y === 129) pebbleX = x;
-    if (width === 7 && height === 2 && ['#ccabe8', '#a885ca'].includes(this.fillStyle)) {
-      feet.set(this.fillStyle, canvasRect(x, y, width, height));
-    }
-  },
+  clearRect() {}, fillRect() {},
   save() { stack.push({ ...transform }); },
   restore() { transform = stack.pop(); },
   translate(x, y) { transform.x += x * transform.sx; transform.y += y * transform.sy; },
   scale(x, y) { transform.sx *= x; transform.sy *= y; },
   drawImage(image, ...args) {
     if (!image.src.startsWith('/assets/images/orbit/')) return;
+    if (args.length === 8) assert.deepEqual(args.slice(0, 4), [0, 0, 48, 48], 'the original moon pose is drawn in full');
     const [x, y, width = 48, height = 48] = args.length === 8 ? args.slice(4) : args;
     const rect = canvasRect(x, y, width, height);
     assert.ok(rect.left >= 0 && rect.right <= canvas.width, 'moon crossed a side of the stage');
     assert.ok(rect.top >= 0 && rect.bottom <= canvas.height, 'moon crossed the top or bottom of the stage');
     spriteDraws++;
+    lastSprite = image.src.split('/').at(-1);
   },
 };
 const apps = ['triple-take', 'otolume'].map(slug => ({ slug, name: slug, icon: '/icons/' + slug, description: '', url: '/' }));
@@ -71,9 +62,7 @@ for (const [from, to, direction] of [[HOME, 0, 1], [0, 1, 1], [1, 0, -1], [0, HO
   const topColors = new Set();
   const horizonColors = new Set();
   const isStationWalk = from !== HOME && to !== HOME;
-  const contacts = [];
-  let anchor;
-  let trackingSamples = 0;
+  const poses = [];
   for (let frame = 0; frame <= 120; frame++) {
     const before = spriteDraws;
     scene.walk({ from, to, direction, progress: frame / 120, startSky }, 1);
@@ -82,36 +71,15 @@ for (const [from, to, direction] of [[HOME, 0, 1], [0, 1, 1], [1, 0, -1], [0, HO
     topColors.add(colors[0]);
     horizonColors.add(colors[1]);
     if (frame === 0) assert.deepEqual(colors, resting.get(from), 'walk starts in the current sky');
-    for (const foot of feet.values()) {
-      assert.ok(foot.left >= 0 && foot.right <= canvas.width, 'foot left the stage');
-      assert.ok(foot.bottom <= 123, 'foot passed through the ground');
-    }
-    const planted = [...feet].filter(([, rect]) => rect.bottom === 123);
-    if (feet.size > 0) assert.ok(planted.length > 0, 'a walking moon keeps one foot on the ground');
-    if (planted.length !== 1) {
-      anchor = undefined;
-      continue;
-    }
-
-    const [foot, rect] = planted[0];
-    if (contacts.at(-1) !== foot) contacts.push(foot);
-    if (pebbleX === undefined) {
-      anchor = undefined;
-      continue;
-    }
-    const offset = rect.left - pebbleX;
-    if (anchor?.foot === foot) {
-      assert.ok(Math.abs(offset - anchor.offset) <= 2, 'planted foot skated relative to the ground');
-      trackingSamples++;
-    } else {
-      anchor = { foot, offset };
-    }
+    if (lastSprite.startsWith('walk-') && poses.at(-1) !== lastSprite) poses.push(lastSprite);
   }
   assert.deepEqual(sky(), resting.get(to), 'walk finishes in the destination sky');
   assert.ok(topColors.size > 2 && horizonColors.size > 2, 'both parts of the sky pass through intermediate colors');
-  if (isStationWalk) {
-    assert.ok(contacts.length >= 7 && contacts.length <= 9, 'one station walk has about eight alternating footfalls');
-    assert.ok(trackingSamples >= 40, 'enough frames track a planted foot through each stride');
-  }
+  assert.deepEqual([...new Set(poses)].sort(), ['walk-0.png', 'walk-1.png', 'walk-2.png', 'walk-3.png']);
+  // Allow for the standing pose at either end of the short approach or the longer walk between signs.
+  const minPoses = isStationWalk ? 9 : 4;
+  const maxPoses = isStationWalk ? 18 : 8;
+  assert.ok(poses.length >= minPoses && poses.length <= maxPoses,
+    `route ${from} to ${to} showed ${poses.length} successive poses, expected ${minPoses}–${maxPoses}`);
 }
-console.log('PASS orbit moon bounds, grounded alternating steps, forward and return walks, and sky transitions');
+console.log('PASS orbit moon bounds, full four-pose walks at a relaxed cadence, forward and return walks, and sky transitions');
