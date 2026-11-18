@@ -1,5 +1,6 @@
 ---
 import "../styles/app.css";
+import { siteName } from "../data/site";
 
 interface Props {
   title: string;
@@ -48,7 +49,7 @@ const useLargeCard = largeSocialCard && Boolean(ogImageUrl);
     <meta name="robots" content={robots} />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <meta property="og:type" content={ogType} />
-    <meta property="og:site_name" content="little orbit" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

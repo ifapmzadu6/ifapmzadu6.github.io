@@ -8,6 +8,7 @@ const expectedApps = [
   "tttt", "triple-take", "otolume", "shortcuts-browser",
   "tax-calculator", "flickless-keyboard", "tsugidopa",
 ];
+const localApps = [...expectedApps.filter((slug) => slug !== "tttt"), "sake-rhythm"];
 const publicPages = [
   "index.html",
   "apps/triple-take/index.html",
@@ -51,6 +52,8 @@ const staticFiles = [
   "sitemap.xml",
   shareImagePath,
   ...expectedApps.map((slug) => `assets/images/orbit/icons/${slug}.webp`),
+  "assets/images/orbit/icons/sake-rhythm.webp",
+  ...localApps.map((slug) => `assets/images/orbit/icons/${slug}-256.webp`),
   ...["wordmark", "look", "walk-0", "walk-1", "walk-2", "walk-3"].map(
     (sprite) => `assets/images/orbit/${sprite}.png`,
   ),
@@ -115,6 +118,7 @@ for (const relativePath of publicPages) {
 
 for (const relativePath of allPages) {
   const html = await read(relativePath);
+  assert(html.includes('property="og:site_name" content="bits by me"'), `${relativePath}: missing site identity`);
   assert(html.includes('<html lang="en">'), `${relativePath}: page language must be English`);
   assert(!/[ぁ-んァ-ヶ一-龯]/u.test(html), `${relativePath}: non-English Japanese text found`);
   assert(!html.includes('href="#"'), `${relativePath}: placeholder href found`);
@@ -152,8 +156,10 @@ for (const [tag] of head.matchAll(/<meta\b[^>]*>/g)) {
   const { name, property, content } = attributes(tag);
   if (name || property) metadata.set(name || property, content);
 }
-assert(metadata.get("og:site_name") === "little orbit", "index.html: incorrect site name");
-const shareImageUrl = new URL(shareImagePath, "https://ifapmzadu6.github.io/").href;
+for (const key of ["og:title", "og:site_name", "twitter:title"]) {
+  assert(metadata.get(key) === "bits by me", "index.html: incorrect " + key);
+}
+const shareImageUrl = new URL(shareImagePath + "?v=bits-by-me", "https://ifapmzadu6.github.io/").href;
 for (const [key, expected] of Object.entries({
   "og:image": shareImageUrl,
   "og:image:type": "image/jpeg",

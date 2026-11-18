@@ -1,31 +1,19 @@
 ---
-export interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
+import type { AppDefinition } from "../data/apps";
+import { siteName, wordmarkSrc } from "../data/site";
 
 interface Props {
-  items: BreadcrumbItem[];
+  app: AppDefinition;
+  privacy: boolean;
 }
 
-const { items } = Astro.props;
+const { app, privacy } = Astro.props;
 ---
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
-  {
-    items.map((item, index) => (
-      <Fragment>
-        {index > 0 && (
-          <span class="separator" aria-hidden="true">
-            /
-          </span>
-        )}
-        {item.href ? (
-          <a href={item.href}>{item.label}</a>
-        ) : (
-          <span class="current">{item.label}</span>
-        )}
-      </Fragment>
-    ))
-  }
+  <a class="station-brand" href={app.isPublic ? `/#${app.slug}` : "/"}>
+    <span aria-hidden="true">←</span>
+    <img src={wordmarkSrc} alt={siteName} width="104" height="21" />
+  </a>
+  {privacy && <a class="station-app-link" href={`/apps/${app.slug}/`}>App details</a>}
 </nav>

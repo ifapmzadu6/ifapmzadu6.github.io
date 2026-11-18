@@ -1,5 +1,6 @@
 ---
 import { publicApps } from "../data/apps";
+import { siteName, wordmarkSrc } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import "../styles/orbit.css";
 
@@ -13,11 +14,11 @@ const stops = publicApps.map((app) => ({
 ---
 
 <BaseLayout
-  title="little orbit"
-  description="Take a walk with a little pixel moon and discover independent apps for iOS and Android."
+  title={siteName}
+  description="Apps made by an independent developer. Walk with a little pixel moon to explore them."
   canonicalPath="/"
-  ogImage="/assets/images/orbit/share.jpg"
-  ogImageAlt="A little lavender pixel moon carries a golden star along the little orbit app trail."
+  ogImage="/assets/images/orbit/share.jpg?v=bits-by-me"
+  ogImageAlt="bits by me in cream pixel letters beside a lavender moon wearing a golden star."
   largeSocialCard
   bodyClass="orbit-page"
   themeColor="#181338"
@@ -25,8 +26,8 @@ const stops = publicApps.map((app) => ({
   <main id="main-content" data-orbit data-apps={JSON.stringify(stops)}>
     <header class="brandbar">
       <h1>
-        <a id="home" href="/" aria-label="little orbit, home">
-          <img src="/assets/images/orbit/wordmark.png" width="104" height="21" alt="little orbit" />
+        <a id="home" href="/" aria-label={siteName + ", home"}>
+          <img src={wordmarkSrc} width="104" height="21" alt={siteName} />
         </a>
       </h1>
     </header>
@@ -43,8 +44,10 @@ const stops = publicApps.map((app) => ({
     </div>
 
     <nav class="trail-actions" aria-label="Explore the apps">
-      <button type="button" id="walk" hidden>Walk to the apps <span aria-hidden="true">→</span></button>
-      <a id="open" hidden>Open app <span aria-hidden="true">↗</span></a>
+      <button type="button" id="walk" class="primary-action" hidden>Explore apps <span aria-hidden="true">→</span></button>
+      <a id="open" class="primary-action" hidden>
+        <span data-open-label>App details</span><span aria-hidden="true">→</span>
+      </a>
       <div class="pager" hidden>
         <button type="button" id="prev"><span aria-hidden="true">←</span> Previous</button>
         <span class="count"></span>
