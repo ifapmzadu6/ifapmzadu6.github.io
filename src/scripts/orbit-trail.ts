@@ -3,19 +3,13 @@ import { createOrbitScene, HOME, type Journey, type OrbitApp } from "./orbit-sce
 async function initialize(root: HTMLElement) {
   const canvas = root.querySelector("canvas");
   const context = canvas?.getContext("2d");
-  const mapDialog = root.querySelector<HTMLDialogElement>("#app-map");
-  if (!context || !mapDialog || typeof mapDialog.showModal !== "function") return;
-  const dialog = mapDialog;
+  if (!context) return;
 
   const apps: OrbitApp[] = JSON.parse(root.dataset.apps ?? "[]");
-  const stops = root.querySelector<HTMLOListElement>("#orbit-stops")!;
-  const stopLinks = Array.from(stops.querySelectorAll<HTMLAnchorElement>("[data-stop]"));
-  if (!apps.length || stopLinks.length !== apps.length) return;
+  if (!apps.length) return;
 
   const sign = root.querySelector<HTMLElement>(".sign")!;
   const home = root.querySelector<HTMLAnchorElement>("#home")!;
-  const map = root.querySelector<HTMLButtonElement>("#map-toggle")!;
-  const close = dialog.querySelector<HTMLButtonElement>(".map-close")!;
   const walk = root.querySelector<HTMLButtonElement>("#walk")!;
   const open = root.querySelector<HTMLAnchorElement>("#open")!;
   const previous = root.querySelector<HTMLButtonElement>("#prev")!;
@@ -32,8 +26,7 @@ async function initialize(root: HTMLElement) {
   let journey: Journey | null = null;
   let lastHash = location.hash;
 
-  const indexFor = (slug: string) => apps.findIndex(app => app.slug === slug);
-  const route = () => indexFor(location.hash.slice(1));
+  const route = () => location.hash === "#apps" ? 0 : apps.findIndex(app => app.slug === location.hash.slice(1));
   const wrap = (index: number) => (index + apps.length) % apps.length;
 
   function settle(target: number, focus?: HTMLElement) {
@@ -64,12 +57,7 @@ async function initialize(root: HTMLElement) {
       status.textContent = "";
     }
 
-    for (const link of stopLinks) {
-      if (detail && link.dataset.stop === apps[target].slug) link.setAttribute("aria-current", "location");
-      else link.removeAttribute("aria-current");
-    }
-    // Reading the map always takes priority over an animation finishing in the background.
-    if (focus && !dialog.open) (detail ? focus : walk).focus({ preventScroll: true });
+    if (focus) (detail ? focus : walk).focus({ preventScroll: true });
   }
 
   function transition(to: number, direction: number, focus: HTMLElement) {
@@ -122,7 +110,7 @@ async function initialize(root: HTMLElement) {
     return wrap(to - current) <= wrap(current - to) ? 1 : -1;
   }
 
-  function visit(to: number, direction = directionFor(to), focus: HTMLElement = open) {
+  function visit(to: number, direction: number, focus: HTMLElement = open) {
     const url = new URL(location.href);
     url.hash = to === HOME ? "" : apps[to].slug;
     if (url.hash === location.hash && !journey) return;
@@ -131,53 +119,15 @@ async function initialize(root: HTMLElement) {
     transition(to, direction, focus);
   }
 
-  function showMap() {
-    if (dialog.open) return;
-    dialog.showModal();
-    map.setAttribute("aria-expanded", "true");
-    dialog.scrollTop = 0;
-    close.focus({ preventScroll: true });
-  }
-
   function locationChanged() {
     if (lastHash === location.hash) return;
     lastHash = location.hash;
-    if (location.hash === "#apps") {
-      showMap();
-      return;
-    }
-    if (dialog.open) dialog.close();
     if (location.hash === "#main-content") return;
     const to = route();
     transition(to, directionFor(to), to === HOME ? walk : open);
   }
 
-  // Promote the server-rendered app directory to a dialog after the first scene draws.
   settle(route());
-  dialog.append(stops);
-  map.hidden = false;
-  map.setAttribute("aria-expanded", "false");
-  map.addEventListener("click", showMap);
-  close.addEventListener("click", () => dialog.close());
-  dialog.addEventListener("close", () => {
-    map.setAttribute("aria-expanded", "false");
-    if (location.hash === "#apps") {
-      const url = new URL(location.href);
-      url.hash = current === HOME ? "" : apps[current].slug;
-      history.replaceState(null, "", url);
-      lastHash = location.hash;
-    }
-  });
-  for (const link of stopLinks) {
-    link.addEventListener("click", event => {
-      if (!isPlainClick(event)) return;
-      const stop = indexFor(link.dataset.stop ?? "");
-      if (stop === HOME) return;
-      event.preventDefault();
-      dialog.close();
-      visit(stop);
-    });
-  }
 
   home.addEventListener("click", event => {
     if (!isPlainClick(event)) return;
@@ -194,7 +144,6 @@ async function initialize(root: HTMLElement) {
   });
 
   root.dataset.ready = "";
-  if (location.hash === "#apps") showMap();
 }
 
 function isPlainClick(event: MouseEvent) {

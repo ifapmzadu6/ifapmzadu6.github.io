@@ -21,8 +21,6 @@ html:has(.orbit-page) {
   );
 }
 
-.orbit-page:has(dialog[open]) { overflow: hidden; }
-
 .orbit-page > .container {
   min-height: 100svh;
   display: flex;
@@ -39,21 +37,13 @@ html:has(.orbit-page) {
   text-align: center;
 }
 
-.orbit-page .brandbar,
 .orbit-page .sign-head,
-.orbit-page .pager,
-.orbit-page .map-head {
+.orbit-page .pager {
   display: flex;
   align-items: center;
 }
 
-.orbit-page .brandbar {
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.orbit-page :where(.brandbar, .trail-actions) :where(a, button),
-.orbit-page .map-close {
+.orbit-page :where(.brandbar, .trail-actions) :where(a, button) {
   appearance: none;
   display: inline-flex;
   align-items: center;
@@ -77,15 +67,6 @@ html:has(.orbit-page) {
   height: auto;
   image-rendering: pixelated;
 }
-
-.orbit-page #map-toggle {
-  gap: 6px;
-  padding: 8px 2px;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.orbit-page #map-toggle svg { width: 16px; height: 16px; }
 
 .orbit-page :where(a, button):focus-visible {
   outline: 2px dashed var(--orbit-gold);
@@ -158,7 +139,7 @@ html:has(.orbit-page) {
 
 .orbit-page [hidden],
 .orbit-page [data-orbit]:not([data-ready]) :is(.world, .trail-actions),
-.orbit-page [data-ready] .fallback-map { display: none; }
+.orbit-page [data-ready] .fallback-apps { display: none; }
 
 .orbit-page .orbit-sr {
   position: absolute;
@@ -183,94 +164,21 @@ html:has(.orbit-page) {
 
 .orbit-page .skip-link { color: var(--orbit-night); background: var(--orbit-cream); }
 
-.orbit-page #app-map {
-  width: min(384px, calc(100vw - 24px));
-  max-height: calc(100dvh - 30px);
-  margin: auto;
-  padding: 0;
-  overflow: auto;
-  overscroll-behavior: contain;
-  border: 2px solid #9887b5;
-  background: var(--orbit-night);
-  color: var(--orbit-cream);
-  box-shadow: 4px 4px 0 #110c2b;
+.orbit-page .fallback-apps {
+  margin: 24px auto;
   text-align: left;
 }
 
-.orbit-page #app-map::backdrop { background: rgb(18 12 43 / 79%); }
-
-.orbit-page .map-head {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 8px 9px 8px 20px;
-  border-bottom: 1px solid #615279;
-  background: var(--orbit-night);
-}
-
-.orbit-page :where(.map-head, .fallback-map) h2 {
-  margin: 0;
-  font-size: 22px;
-  line-height: 1.1;
-  letter-spacing: -0.045em;
-}
-
-.orbit-page .map-close { width: 44px; padding: 0; }
-.orbit-page .map-stops { margin: 0; padding: 12px 12px 14px 9px; list-style: none; }
-
-.orbit-page .map-stop {
-  position: relative;
-  display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) 15px;
+.orbit-page .fallback-apps ul { padding: 0; list-style: none; }
+.orbit-page .fallback-apps li + li { margin-top: 14px; }
+.orbit-page .fallback-apps a {
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
-  min-height: 49px;
-  padding: 6px 9px 6px 0;
-  color: var(--orbit-cream);
-  font: 600 clamp(14px, 3.8vw, 16px) / 1.3 var(--orbit-mono);
-  text-decoration: none;
-  touch-action: manipulation;
+  min-height: 44px;
+  color: var(--orbit-gold);
+  font-weight: 700;
 }
-
-.orbit-page :is(.map-stop, .map-close):focus-visible { outline-offset: -2px; }
-.orbit-page .map-stop:is(:hover, :focus-visible) { background: #322753; }
-.orbit-page .map-stop[aria-current="location"] { color: var(--orbit-gold); }
-
-.orbit-page .map-path {
-  position: absolute;
-  top: 0;
-  left: 3px;
-  width: 43px;
-  height: 100%;
-  fill: none;
-  stroke: #9887b5;
-  stroke-width: 1.5;
-  pointer-events: none;
-}
-
-.orbit-page .map-path path { vector-effect: non-scaling-stroke; }
-
-.orbit-page .map-node {
-  position: absolute;
-  top: 50%;
-  left: var(--station);
-  width: 9px;
-  height: 9px;
-  transform: translate(-50%, -50%);
-  outline: 2px solid var(--orbit-night);
-  background: var(--tint);
-}
-
-.orbit-page [aria-current="location"] .map-node { outline: 2px solid var(--orbit-gold); outline-offset: 2px; }
-.orbit-page .map-name { grid-column: 2; overflow-wrap: anywhere; }
-.orbit-page .map-chevron { justify-self: end; color: #b8a9cc; font-size: 17px; }
-
-.orbit-page .fallback-map { margin-top: 24px; text-align: left; }
-.orbit-page .fallback-map .map-stop { padding-block: 12px; }
-.orbit-page .map-description { display: block; margin-top: 5px; color: var(--orbit-muted); font: 400 14px/1.4 system-ui, sans-serif; }
-.orbit-page #app-map .map-description { display: none; }
+.orbit-page .fallback-apps p { color: var(--orbit-muted); font: 400 14px/1.4 system-ui, sans-serif; }
 
 @media (max-height: 620px) and (orientation: portrait) {
   .orbit-page [data-orbit] { padding-top: 6px; }
