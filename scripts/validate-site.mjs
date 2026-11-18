@@ -4,6 +4,10 @@ import { fileURLToPath } from "node:url";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const root = path.join(projectRoot, "dist");
+const expectedApps = [
+  "tttt", "triple-take", "otolume", "shortcuts-browser",
+  "tax-calculator", "flickless-keyboard", "tsugidopa",
+];
 const publicPages = [
   "index.html",
   "apps/triple-take/index.html",
@@ -34,9 +38,10 @@ const allPages = [
   "404.html",
 ];
 const footerPages = [
-  ...publicPages.filter((relativePath) => relativePath !== "index.html"),
+  ...publicPages,
   "404.html",
 ];
+const shareImagePath = "assets/images/orbit/share.jpg";
 const staticFiles = [
   "ads.txt",
   "app-ads.txt",
@@ -44,6 +49,11 @@ const staticFiles = [
   "google72183cdf8f2714c0.html",
   "robots.txt",
   "sitemap.xml",
+  shareImagePath,
+  ...expectedApps.map((slug) => `assets/images/orbit/icons/${slug}.webp`),
+  ...["wordmark", "look", "walk-0", "walk-1", "walk-2", "walk-3"].map(
+    (sprite) => `assets/images/orbit/${sprite}.png`,
+  ),
   "assets/images/apps/otolume.png",
   "assets/images/apps/tttt.svg",
   "assets/images/apps/shortcuts-browser.jpg",
@@ -69,6 +79,12 @@ async function fileExists(filePath) {
 
 async function read(relativePath) {
   return readFile(path.join(root, relativePath), "utf8");
+}
+
+function attributes(tag) {
+  return Object.fromEntries(
+    Array.from(tag.matchAll(/\s([\w:-]+)="([^"]*)"/g), ([, name, value]) => [name, value]),
+  );
 }
 
 async function listFiles(directory) {
@@ -130,20 +146,43 @@ for (const relativePath of privacyPages) {
 }
 
 const home = await read("index.html");
+const head = home.match(/<head\b[^>]*>([\s\S]*?)<\/head>/)?.[1] ?? "";
+const metadata = new Map();
+for (const [tag] of head.matchAll(/<meta\b[^>]*>/g)) {
+  const { name, property, content } = attributes(tag);
+  if (name || property) metadata.set(name || property, content);
+}
+assert(metadata.get("og:site_name") === "little orbit", "index.html: incorrect site name");
+const shareImageUrl = new URL(shareImagePath, "https://ifapmzadu6.github.io/").href;
+for (const [key, expected] of Object.entries({
+  "og:image": shareImageUrl,
+  "og:image:type": "image/jpeg",
+  "og:image:width": "1200",
+  "og:image:height": "630",
+  "twitter:card": "summary_large_image",
+  "twitter:image": shareImageUrl,
+})) {
+  assert(metadata.get(key) === expected, "index.html: incorrect " + key);
+}
+const imageAlt = metadata.get("og:image:alt");
+assert(
+  imageAlt?.trim() && imageAlt === metadata.get("twitter:image:alt"),
+  "index.html: missing or inconsistent social image description",
+);
+
 assert(home.includes('href="/apps/triple-take/"') && home.includes("Triple Take"), "index.html: Triple Take introduction is missing");
 assert(!/sake-rhythm|SakeRhythm/.test(home), "index.html: hidden SakeRhythm entry is still public");
-assert(
-  home.includes('href="https://tootiredtotype.com/en/"'),
-  "index.html: tttt.. must link to its English landing page",
-);
-assert(
-  home.indexOf("tttt..") < home.indexOf("OtoLume"),
-  "index.html: tttt.. must be the first app",
-);
-assert(
-  (home.match(/class="app-signal"/g) ?? []).length === 7,
-  "index.html: expected seven public app links",
-);
+const appLinks = Array.from(home.matchAll(/<a\b[^>]*>/g), ([tag]) => attributes(tag))
+  .filter((link) => link["data-stop"]);
+assert(appLinks.length === expectedApps.length, "index.html: expected seven public app links");
+assert(appLinks[0]["data-stop"] === "tttt", "index.html: tttt.. must be the first app");
+for (const slug of expectedApps) {
+  const href = slug === "tttt" ? "https://tootiredtotype.com/en/" : "/apps/" + slug + "/";
+  assert(
+    appLinks.some((link) => link["data-stop"] === slug && link.href === href),
+    "index.html: missing catalogue link for " + slug,
+  );
+}
 
 const shortcutsIndex = await read("apps/shortcuts-browser/index.html");
 const tripleTakeIndex = await read("apps/triple-take/index.html");

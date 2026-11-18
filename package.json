@@ -7,10 +7,11 @@
     "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
-    "test": "npm run check && npm run build && node scripts/validate-site.mjs && node scripts/test-backdrop.mjs && node scripts/test-traveler.mjs"
+    "test": "npm run check && npm run build && node scripts/validate-site.mjs && node scripts/test-backdrop.mjs && node scripts/test-traveler.mjs && node scripts/test-orbit.mjs"
   },
   "dependencies": {
     "astro": "^7.1.6",
+    "sharp": "0.35.3",
     "three": "0.186.1"
   },
   "devDependencies": {
