@@ -87,7 +87,7 @@ async function initialize(root: HTMLElement) {
     const startProgress = trip.progress;
     const endProgress = to === trip.to ? 1 : 0;
     const delta = endProgress - startProgress;
-    const fullDuration = trip.from === HOME || trip.to === HOME ? 1350 : 1900;
+    const fullDuration = trip.from === HOME || trip.to === HOME ? 1350 : 2450;
     const duration = fullDuration * Math.abs(delta);
     if (duration < 16) {
       settle(to, focus);

@@ -123,7 +123,7 @@ html:has(.orbit-page) {
 .orbit-page .trail-actions {
   display: grid;
   grid-template-rows: 48px 44px;
-  row-gap: 12px;
+  row-gap: 21px;
   justify-items: center;
   align-items: center;
   margin-top: 3px;
@@ -143,8 +143,8 @@ html:has(.orbit-page) {
   display: grid;
   align-items: center;
   grid-template-columns: 1fr auto 1fr;
-  width: min(100%, 292px);
-  gap: 10px;
+  width: min(100%, 308px);
+  column-gap: 14px;
 }
 .orbit-page .pager button {
   min-height: 44px;
