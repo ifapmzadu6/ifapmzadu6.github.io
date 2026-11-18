@@ -3,7 +3,6 @@
   --ink: #2f2243;
   --muted: #514458;
   --station-line: #d5c6a9;
-  --station-mono: ui-monospace, "Courier New", monospace;
   color: var(--ink);
   background: #181338;
 }
@@ -31,7 +30,7 @@
   gap: 12px;
   padding-block: clamp(16px, 4vw, 36px) 40px;
   color: #fff3d1;
-  font: 700 14px/1.25 var(--station-mono);
+  font: 700 0.875rem/1.25 var(--font-mono);
 }
 
 .station-page .breadcrumb a {
@@ -86,8 +85,8 @@
 }
 
 .station-page .app-title {
-  font: 800 clamp(1.6rem, 5.4vw, 3.1rem)/1.08 ui-rounded, system-ui, sans-serif;
-  letter-spacing: -0.05em;
+  font: 850 clamp(1.75rem, 5.7vw, 3.25rem)/1.07 var(--font-display);
+  letter-spacing: -0.035em;
   overflow-wrap: anywhere;
   text-wrap: balance;
 }
@@ -96,7 +95,8 @@
   max-width: 62ch;
   color: var(--muted);
   font-size: clamp(1rem, 2.2vw, 1.15rem);
-  line-height: 1.55;
+  font-weight: 550;
+  line-height: 1.5;
 }
 
 .station-page .store-buttons {
@@ -117,14 +117,15 @@
   background: #ffdf82;
   color: var(--ink);
   box-shadow: inset 0 2px #fff0ba, 0 3px #a37b45, 0 5px #312349;
-  font: 700 15px/1.3 var(--station-mono);
+  font: 700 0.9375rem/1.3 var(--font-mono);
+  letter-spacing: -0.035em;
   text-align: center;
   text-decoration: none;
   touch-action: manipulation;
 }
 .station-page .download-btn:hover { background: #ffe9a4; }
 .station-page .download-btn:active { transform: translateY(2px); box-shadow: none; }
-.station-page .status-label { color: var(--muted); font: 700 14px/1.6 var(--station-mono); }
+.station-page .status-label { color: var(--muted); font: 700 0.875rem/1.6 var(--font-mono); }
 
 .station-page .app-sections {
   max-width: 680px;
@@ -135,19 +136,20 @@
 .station-page .section { padding-block: clamp(24px, 4.8vw, 38px); }
 .station-page .section + .section { border-top: 1px solid var(--station-line); }
 .station-page .section h2 {
-  font: 700 clamp(1.15rem, 3vw, 1.45rem)/1.28 var(--station-mono);
+  font: 700 clamp(1.125rem, 2.7vw, 1.375rem)/1.35 var(--font-mono);
   letter-spacing: -0.04em;
 }
 .station-page .section h3 {
   margin-top: 1.25em;
+  font-weight: 800;
   font-size: 1.05rem;
   line-height: 1.4;
 }
 .station-page .section p,
 .station-page .section li {
   color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.65;
+  font-size: clamp(1rem, 0.97rem + 0.14vw, 1.0625rem);
+  line-height: 1.6;
   overflow-wrap: anywhere;
 }
 .station-page .section :is(p, ul, ol) { max-width: 68ch; }
@@ -167,7 +169,8 @@
   min-height: 0;
   padding: 25px 12px 20px;
   color: #e1d4e5;
-  font: 400 10px/1.5 var(--station-mono);
+  font: 550 0.6875rem/1.5 var(--font-sans);
+  letter-spacing: 0.02em;
   text-align: center;
 }
 

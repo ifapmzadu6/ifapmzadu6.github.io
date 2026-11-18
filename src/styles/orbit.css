@@ -8,10 +8,7 @@ html:has(.orbit-page) {
   --orbit-cream: #fff3d1;
   --orbit-gold: #ffdc58;
   --orbit-muted: #e1d4e5;
-  --orbit-mono: ui-monospace, "Courier New", monospace;
   color: var(--orbit-cream);
-  font-family: var(--orbit-mono);
-  -webkit-font-smoothing: auto;
   line-height: normal;
   background-color: var(--sky-top, #181338);
   background-image: radial-gradient(
@@ -53,7 +50,8 @@ html:has(.orbit-page) {
   border: 0;
   background: transparent;
   color: inherit;
-  font: 700 clamp(16px, 4.4vw, 19px) / 1 var(--orbit-mono);
+  font: 700 clamp(1rem, 4.4vw, 1.125rem) / 1.15 var(--font-mono);
+  letter-spacing: -0.035em;
   text-decoration: none;
   cursor: pointer;
   touch-action: manipulation;
@@ -73,6 +71,8 @@ html:has(.orbit-page) {
 }
 
 .orbit-page .world {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -80,6 +80,8 @@ html:has(.orbit-page) {
 }
 
 .orbit-page canvas {
+  grid-area: 1 / 1;
+  align-self: end;
   display: block;
   width: 100%;
   height: auto;
@@ -87,9 +89,10 @@ html:has(.orbit-page) {
 }
 
 .orbit-page .sign {
-  position: absolute;
-  bottom: 48.8%;
-  inset-inline: 6%;
+  grid-area: 1 / 1;
+  align-self: end;
+  /* Anchor to the post at 48.8% of the 144 × 134 canvas height, even as text grows. */
+  margin: 0 6% 45.41%;
   padding: clamp(10px, 3.5vw, 15px);
   background: #f6e9c8;
   box-shadow: 0 3px #9d86ae, 3px 0 #a287ab, -3px 0 #a287ab;
@@ -110,19 +113,20 @@ html:has(.orbit-page) {
 }
 
 .orbit-page .sign h2 {
-  font: 800 clamp(18px, 4.8vw, 23px) / 1.03 ui-rounded, system-ui, sans-serif;
-  letter-spacing: -0.045em;
+  font: 850 clamp(1.2rem, 5.1vw, 1.5rem) / 1.08 var(--font-display);
+  letter-spacing: -0.028em;
   overflow-wrap: anywhere;
 }
 
 .orbit-page .sign p {
   color: #382e49;
-  font: 500 clamp(14px, 3.65vw, 16px) / 1.35 system-ui, sans-serif;
+  font: 550 clamp(0.9rem, 3.85vw, 1rem) / 1.4 var(--font-sans);
 }
 
 .orbit-page .trail-actions {
+  container: trail-actions / inline-size;
   display: grid;
-  grid-template-rows: 48px 44px;
+  grid-template-rows: minmax(48px, auto) minmax(44px, auto);
   row-gap: 21px;
   justify-items: center;
   align-items: center;
@@ -154,7 +158,7 @@ html:has(.orbit-page) {
   background: #302943;
   color: var(--orbit-cream);
   box-shadow: 0 2px #211a32;
-  font-size: 15px;
+  font-size: 0.875rem;
 }
 
 @media (hover: hover) {
@@ -172,7 +176,14 @@ html:has(.orbit-page) {
   outline-offset: 5px;
 }
 
-.orbit-page .count { min-width: 45px; color: var(--orbit-muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.orbit-page .count { min-width: 45px; color: var(--orbit-muted); font: 700 0.75rem/1.2 var(--font-mono); }
+
+@container trail-actions (width < 16.5rem) {
+  .orbit-page .pager { display: flex; flex-wrap: wrap; justify-content: center; row-gap: 12px; }
+  .orbit-page .count { order: -1; flex-basis: 100%; }
+  .orbit-page .pager button { flex: 1 1 6.5em; }
+}
+
 .orbit-page [data-screen="walking"] .trail-actions { visibility: hidden; }
 
 .orbit-page [hidden],
@@ -195,7 +206,8 @@ html:has(.orbit-page) {
   padding: 11px 0 18px;
   color: var(--orbit-muted);
   text-align: center;
-  font-size: 10px;
+  font-size: 0.6875rem;
+  font-weight: 550;
   line-height: normal;
   letter-spacing: 0.02em;
 }
@@ -216,7 +228,7 @@ html:has(.orbit-page) {
   color: var(--orbit-gold);
   font-weight: 700;
 }
-.orbit-page .fallback-apps p { color: var(--orbit-muted); font: 400 14px/1.4 system-ui, sans-serif; }
+.orbit-page .fallback-apps p { color: var(--orbit-muted); font-size: 0.9375rem; line-height: 1.5; }
 
 @media (max-height: 620px) and (orientation: portrait) {
   .orbit-page [data-orbit] { padding-top: 6px; }
