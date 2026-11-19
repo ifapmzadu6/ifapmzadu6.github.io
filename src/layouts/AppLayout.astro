@@ -1,5 +1,6 @@
 ---
 import AppHeader from "../components/AppHeader.astro";
+import ArrivalSky from "../components/ArrivalSky.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import type { AppDefinition } from "../data/apps";
 import { siteName } from "../data/site";
@@ -49,7 +50,10 @@ const privacySubtitle =
       id="main-content"
       class:list={["app-page", { "privacy-page": privacy }]}
     >
-      <img class="station-moon" src={restingMoon} alt="" width="48" height="48" />
+      <div class="station-moon" aria-hidden="true">
+        <img src={restingMoon} alt="" width="48" height="48" />
+        <ArrivalSky />
+      </div>
       <AppHeader
         app={app}
         title={privacy ? "Privacy Policy" : app.name}

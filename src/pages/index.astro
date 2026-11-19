@@ -1,6 +1,8 @@
 ---
 import { publicApps } from "../data/apps";
-import { siteName, wordmarkSrc } from "../data/site";
+import { siteName } from "../data/site";
+import Wordmark from "../components/Wordmark.astro";
+import ArrivalSky from "../components/ArrivalSky.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import OrbitEntry from "../components/OrbitEntry.astro";
 import { stationSky } from "../scripts/orbit-scene";
@@ -43,6 +45,7 @@ const skies = Object.fromEntries(
       theme.content = top;
     }
     paintEntrySky();
+    html.toggleAttribute("data-arrival-at-stop", html.dataset.trailEntry !== "home");
     window.addEventListener("hashchange", () => {
       if (html.hasAttribute("data-trail-entry")) paintEntrySky();
     });
@@ -56,13 +59,14 @@ const skies = Object.fromEntries(
     <header class="brandbar">
       <h1>
         <a id="home" href="/" aria-label={siteName + ", home"}>
-          <img src={wordmarkSrc} width="104" height="21" alt={siteName} />
+          <Wordmark />
         </a>
       </h1>
     </header>
 
     <div class="world">
       <canvas width="144" height="134" aria-hidden="true"></canvas>
+      <ArrivalSky />
       <article class="sign" aria-hidden="true">
         <div class="sign-head">
           <img alt="" width="32" height="32" />

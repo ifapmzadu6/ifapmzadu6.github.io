@@ -1,6 +1,6 @@
 ---
 import type { AppDefinition } from "../data/apps";
-import { siteName, wordmarkSrc } from "../data/site";
+import Wordmark from "./Wordmark.astro";
 
 interface Props {
   app: AppDefinition;
@@ -13,7 +13,7 @@ const { app, privacy } = Astro.props;
 <nav class="breadcrumb" aria-label="Breadcrumb">
   <a class="station-brand" href={app.isPublic ? `/#${app.slug}` : "/"}>
     <span aria-hidden="true">←</span>
-    <img src={wordmarkSrc} alt={siteName} width="104" height="21" />
+    <Wordmark />
   </a>
   {privacy && <a class="station-app-link" href={`/apps/${app.slug}/`}>App details</a>}
 </nav>
