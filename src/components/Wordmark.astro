@@ -1,0 +1,29 @@
+---
+import { siteName, wordmarkSrc } from "../data/site";
+---
+
+<span class="wordmark">
+  <img src={wordmarkSrc} alt={siteName} width="104" height="21" />
+</span>
+
+<style>
+  .wordmark { position: relative; display: block; line-height: 0; }
+
+  @media screen and (prefers-reduced-motion: no-preference) {
+    .wordmark::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      mask: url("../../public/assets/images/orbit/wordmark.png?inline") center / 100% 100% no-repeat;
+      background: linear-gradient(110deg, transparent 5%, #ffb975 31%, #fffbdc 51%, #ffdc87 62%, transparent 94%)
+        -75% 0 / 42% 100% no-repeat;
+      animation: arrival-letterlight 640ms cubic-bezier(.28,.64,.29,1) 590ms;
+    }
+
+    @keyframes arrival-letterlight {
+      from { background-position-x: -75%; }
+      to { background-position-x: 175%; }
+    }
+  }
+</style>

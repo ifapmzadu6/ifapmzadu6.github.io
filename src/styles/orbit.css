@@ -110,8 +110,36 @@ html[data-trail-entry] [data-orbit]:not(:has(canvas))::before {
   image-rendering: pixelated;
 }
 
+/* Match the pin in the 144 × 134 canvas. Bottom margins resolve against its
+   width, so the launch stays on the moon even when a larger sign grows upward. */
+.world .arrival-sky {
+  width: 55.5556%; /* 80 logical pixels */
+  left: 18.0556%;  /* origin at x = 34 */
+  bottom: 0;
+  margin-bottom: 32.6389%;
+}
+html[data-arrival-at-stop] .world .arrival-sky {
+  --glow-end-x: -23%;
+  left: 52.7778%;  /* origin at x = 84 */
+  transform: scale(1.12);
+}
+.world .arrival-eyes {
+  width: 13.8889%; /* 20 × 10 face crop, at (26, 89) on the home canvas */
+  left: 18.0556%;
+  bottom: 0;
+  margin-bottom: 24.3056%;
+}
+html[data-arrival-at-stop] .world .arrival-eyes {
+  --rest-gaze: 50%;
+  left: 52.7778%;
+}
+.orbit-page [data-screen="walking"] :is(.arrival-sky, .arrival-eyes),
+html[data-arrival-at-stop] [data-screen="home"] :is(.arrival-sky, .arrival-eyes),
+html:not([data-arrival-at-stop]) [data-screen="detail"] :is(.arrival-sky, .arrival-eyes) { opacity: 0; }
+
 .orbit-page .sign {
   grid-area: 1 / 1;
+  z-index: 1;
   align-self: end;
   /* Anchor to the post at 48.8% of the 144 × 134 canvas height, even as text grows. */
   margin: 0 6% 45.41%;
