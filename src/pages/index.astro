@@ -2,6 +2,8 @@
 import { publicApps } from "../data/apps";
 import { siteName, wordmarkSrc } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import OrbitEntry from "../components/OrbitEntry.astro";
+import { stationSky } from "../scripts/orbit-scene";
 import "../styles/orbit.css";
 
 const stops = publicApps.map((app) => ({
@@ -11,6 +13,9 @@ const stops = publicApps.map((app) => ({
   icon: `/assets/images/orbit/icons/${app.slug}.webp`,
   url: app.externalUrl ?? `/apps/${app.slug}/`,
 }));
+const skies = Object.fromEntries(
+  ["home", ...stops.map(app => app.slug)].map(slug => [slug, stationSky(slug)]),
+);
 ---
 
 <BaseLayout
@@ -23,6 +28,30 @@ const stops = publicApps.map((app) => ({
   bodyClass="orbit-page"
   themeColor="#181338"
 >
+  <script slot="head" is:inline define:vars={{ skies, firstStop: stops[0].slug }}>
+    const html = document.documentElement;
+    const theme = document.querySelector('meta[name="theme-color"]');
+    function paintEntrySky() {
+      const hash = location.hash.slice(1);
+      const slug = hash === "apps" ? firstStop : Object.hasOwn(skies, hash) ? hash : "home";
+      const sky = skies[slug];
+      html.dataset.trailEntry = slug;
+      const top = `rgb(${sky.top.join(",")})`;
+      html.style.setProperty("--sky-top", top);
+      html.style.setProperty("--sky-low", `rgb(${sky.horizon.join(",")})`);
+      html.style.setProperty("--sky-x", sky.lightX + "%");
+      theme.content = top;
+    }
+    paintEntrySky();
+    window.addEventListener("hashchange", () => {
+      if (html.hasAttribute("data-trail-entry")) paintEntrySky();
+    });
+    window.addEventListener("error", event => {
+      if (event.target instanceof HTMLScriptElement && event.target.type === "module") {
+        delete html.dataset.trailEntry;
+      }
+    }, true);
+  </script>
   <main id="main-content" data-orbit data-apps={JSON.stringify(stops)}>
     <header class="brandbar">
       <h1>
@@ -36,7 +65,7 @@ const stops = publicApps.map((app) => ({
       <canvas width="144" height="134" aria-hidden="true"></canvas>
       <article class="sign" aria-hidden="true">
         <div class="sign-head">
-          <img src={stops[0].icon} alt="" width="32" height="32" />
+          <img alt="" width="32" height="32" />
           <h2>{stops[0].name}</h2>
         </div>
         <p>{stops[0].description}</p>
@@ -55,6 +84,7 @@ const stops = publicApps.map((app) => ({
       </div>
     </nav>
     <p id="status" role="status" class="orbit-sr"></p>
+    <OrbitEntry />
     <nav id="apps" class="fallback-apps" aria-label="Apps">
       <ul>
         {stops.map((app) => (

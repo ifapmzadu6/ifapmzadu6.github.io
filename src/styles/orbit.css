@@ -187,8 +187,18 @@ html:has(.orbit-page) {
 .orbit-page [data-screen="walking"] .trail-actions { visibility: hidden; }
 
 .orbit-page [hidden],
-.orbit-page [data-orbit]:not([data-ready]) :is(.world, .trail-actions),
+html:not([data-trail-entry]) .orbit-page [data-orbit]:not([data-ready]) :is(.world, .trail-actions),
+html[data-trail-entry] .orbit-page .fallback-apps,
 .orbit-page [data-ready] .fallback-apps { display: none; }
+
+/* These are the canvas's actual resting frames. They paint with the stylesheet
+   and occupy the same pixels while the walking sprites are downloading. */
+html[data-trail-entry] .orbit-page canvas {
+  background: url("../assets/orbit/trail-stop.png?inline") center / 100% 100% no-repeat;
+}
+html[data-trail-entry="home"] .orbit-page canvas {
+  background-image: url("../assets/orbit/trail-home.png?inline");
+}
 
 .orbit-page .orbit-sr {
   position: absolute;

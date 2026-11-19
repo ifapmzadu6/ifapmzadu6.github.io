@@ -4,7 +4,7 @@
   --muted: #514458;
   --station-line: #d5c6a9;
   color: var(--ink);
-  background: #181338;
+  background: var(--sky-top);
 }
 
 .station-page > .container { isolation: isolate; }

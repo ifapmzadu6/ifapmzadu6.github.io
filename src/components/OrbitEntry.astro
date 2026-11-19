@@ -1,0 +1,81 @@
+<script is:inline>
+  (() => {
+    const root = document.currentScript.closest("[data-orbit]");
+    const apps = JSON.parse(root.dataset.apps);
+    const siteTitle = document.title;
+    const sign = root.querySelector(".sign");
+    const signTitle = sign.querySelector("h2");
+    const signCopy = sign.querySelector("p");
+    const signIcon = sign.querySelector("img");
+    const walk = root.querySelector("#walk");
+    const open = root.querySelector("#open");
+    const openLabel = open.querySelector("[data-open-label]");
+    const openArrow = open.querySelector("[aria-hidden]");
+    const pager = root.querySelector(".pager");
+    const previous = pager.querySelector("#prev");
+    const next = pager.querySelector("#next");
+    const count = pager.querySelector(".count");
+    const status = root.querySelector("#status");
+
+    const wrap = (index) => (index + apps.length) % apps.length;
+    const route = () => location.hash === "#apps" ? 0 : apps.findIndex(app => app.slug === location.hash.slice(1));
+    let current;
+
+    function settle(target, focus) {
+      const app = apps[target];
+      if (target === current && root.dataset.screen !== "walking") {
+        if (focus) (app ? focus : walk).focus({ preventScroll: true });
+        return;
+      }
+      current = target;
+      root.dataset.screen = app ? "detail" : "home";
+      root.dataset.slug = app?.slug ?? "";
+      sign.setAttribute("aria-hidden", String(!app));
+      sign.style.opacity = app ? "1" : "0";
+      sign.style.transform = "";
+      walk.hidden = Boolean(app);
+      open.hidden = pager.hidden = !app;
+
+      if (app) {
+        signTitle.textContent = app.name;
+        signCopy.textContent = app.description;
+        if (signIcon.getAttribute("src") !== app.icon) signIcon.src = app.icon;
+        document.title = app.name + " · " + siteTitle;
+        open.href = app.url;
+        const external = open.origin !== location.origin;
+        const label = external ? "Visit website" : "App details";
+        openLabel.textContent = label;
+        openArrow.textContent = external ? "↗" : "→";
+        open.setAttribute("aria-label", label + " for " + app.name);
+        previous.setAttribute("aria-label", "Previous app: " + apps[wrap(target - 1)].name);
+        next.setAttribute("aria-label", "Next app: " + apps[wrap(target + 1)].name);
+        count.textContent = (target + 1) + " / " + apps.length;
+        status.textContent = "Arrived at " + app.name + ". Stop " + (target + 1) + " of " + apps.length + ".";
+      } else {
+        document.title = siteTitle;
+        open.removeAttribute("href");
+        status.textContent = "";
+      }
+      if (focus) (app ? focus : walk).focus({ preventScroll: true });
+    }
+
+    root.orbitView = { route, settle };
+
+    const showingEntry = () => document.documentElement.hasAttribute("data-trail-entry") && !root.hasAttribute("data-ready");
+    if (!showingEntry()) return;
+    settle(route());
+
+    function visit(target, focus) {
+      if (!showingEntry()) return;
+      location.hash = apps[target].slug;
+      settle(target, focus);
+    }
+
+    walk.addEventListener("click", () => visit(0, open));
+    previous.addEventListener("click", () => visit(wrap(current - 1), previous));
+    next.addEventListener("click", () => visit(wrap(current + 1), next));
+    window.addEventListener("hashchange", () => {
+      if (showingEntry() && location.hash !== "#main-content" && route() !== current) settle(route());
+    });
+  })();
+</script>
