@@ -1,26 +1,27 @@
 import { createOrbitScene, HOME, type Journey, type OrbitApp } from "./orbit-scene";
 
-async function initialize(root: HTMLElement) {
+interface TrailRoot extends HTMLElement {
+  orbitView?: { route(): number; settle(target: number, focus?: HTMLElement): void };
+}
+
+async function initialize(root: TrailRoot) {
+  const view = root.orbitView;
   const canvas = root.querySelector("canvas");
   const context = canvas?.getContext("2d");
-  if (!context) return;
 
   const apps: OrbitApp[] = JSON.parse(root.dataset.apps ?? "[]");
-  if (!apps.length) return;
+  if (!context || !view || !apps.length) {
+    delete document.documentElement.dataset.trailEntry;
+    return;
+  }
 
   const sign = root.querySelector<HTMLElement>(".sign")!;
   const home = root.querySelector<HTMLAnchorElement>("#home")!;
   const walk = root.querySelector<HTMLButtonElement>("#walk")!;
   const open = root.querySelector<HTMLAnchorElement>("#open")!;
-  const openLabel = open.querySelector<HTMLElement>("[data-open-label]")!;
-  const openArrow = open.querySelector<HTMLElement>("[aria-hidden]")!;
   const previous = root.querySelector<HTMLButtonElement>("#prev")!;
   const next = root.querySelector<HTMLButtonElement>("#next")!;
-  const pager = root.querySelector<HTMLElement>(".pager")!;
-  const count = root.querySelector<HTMLElement>(".count")!;
-  const status = root.querySelector<HTMLElement>("#status")!;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const siteTitle = document.title;
   const scene = await createOrbitScene(context, sign, apps);
 
   let current = HOME;
@@ -28,7 +29,7 @@ async function initialize(root: HTMLElement) {
   let journey: Journey | null = null;
   let lastHash = location.hash;
 
-  const route = () => location.hash === "#apps" ? 0 : apps.findIndex(app => app.slug === location.hash.slice(1));
+  const { route, settle: renderStop } = view;
   const wrap = (index: number) => (index + apps.length) % apps.length;
 
   function settle(target: number, focus?: HTMLElement) {
@@ -36,34 +37,8 @@ async function initialize(root: HTMLElement) {
     frame = 0;
     journey = null;
     current = target;
-    const detail = target !== HOME;
     scene.rest(target);
-    root.dataset.screen = detail ? "detail" : "home";
-    root.dataset.slug = detail ? apps[target].slug : "";
-    sign.setAttribute("aria-hidden", String(!detail));
-    walk.hidden = detail;
-    open.hidden = pager.hidden = !detail;
-
-    if (detail) {
-      const app = apps[target];
-      document.title = app.name + " · " + siteTitle;
-      open.href = app.url;
-      const external = open.origin !== location.origin;
-      const label = external ? "Visit website" : "App details";
-      openLabel.textContent = label;
-      openArrow.textContent = external ? "↗" : "→";
-      open.setAttribute("aria-label", label + " for " + app.name);
-      previous.setAttribute("aria-label", "Previous app: " + apps[wrap(target - 1)].name);
-      next.setAttribute("aria-label", "Next app: " + apps[wrap(target + 1)].name);
-      count.textContent = (target + 1) + " / " + apps.length;
-      status.textContent = "Arrived at " + app.name + ". Stop " + (target + 1) + " of " + apps.length + ".";
-    } else {
-      document.title = siteTitle;
-      open.removeAttribute("href");
-      status.textContent = "";
-    }
-
-    if (focus) (detail ? focus : walk).focus({ preventScroll: true });
+    renderStop(target, focus);
   }
 
   function transition(to: number, direction: number, focus: HTMLElement) {
@@ -150,14 +125,15 @@ async function initialize(root: HTMLElement) {
   });
 
   root.dataset.ready = "";
+  delete document.documentElement.dataset.trailEntry;
 }
 
 function isPlainClick(event: MouseEvent) {
   return event.button === 0 && !(event.metaKey || event.ctrlKey || event.altKey || event.shiftKey);
 }
 
-const root = document.querySelector<HTMLElement>("#main-content[data-orbit]");
+const root = document.querySelector<TrailRoot>("#main-content[data-orbit]");
 if (root) {
   // A failed sprite download or unsupported graphics API leaves the SSR app links usable.
-  void initialize(root).catch(() => {});
+  void initialize(root).catch(() => { delete document.documentElement.dataset.trailEntry; });
 }

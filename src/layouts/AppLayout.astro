@@ -4,6 +4,7 @@ import Breadcrumb from "../components/Breadcrumb.astro";
 import type { AppDefinition } from "../data/apps";
 import { siteName } from "../data/site";
 import { stationSky } from "../scripts/orbit-scene";
+import restingMoon from "../../public/assets/images/orbit/look.png?inline";
 import BaseLayout from "./BaseLayout.astro";
 import "../styles/station.css";
 
@@ -14,7 +15,6 @@ interface Props {
 
 const { app, privacy = false } = Astro.props;
 const sky = stationSky(app.slug);
-const skyTop = `rgb(${sky.top.join(",")})`;
 const canonicalPath = privacy
   ? `/apps/${app.slug}/privacy.html`
   : `/apps/${app.slug}/`;
@@ -40,17 +40,16 @@ const privacySubtitle =
   ogImage={app.icon}
   showFooter={app.isPublic}
   bodyClass="station-page"
-  themeColor={skyTop}
+  sky={sky}
 >
-  <div class="station-shell" data-app={app.slug}
-    style={`--sky-top:${skyTop};--sky-low:rgb(${sky.horizon.join(",")});--sky-x:${sky.lightX}%`}>
+  <div class="station-shell" data-app={app.slug}>
     <Breadcrumb app={app} privacy={privacy} />
 
     <main
       id="main-content"
       class:list={["app-page", { "privacy-page": privacy }]}
     >
-      <img class="station-moon" src="/assets/images/orbit/look.png" alt="" width="48" height="48" />
+      <img class="station-moon" src={restingMoon} alt="" width="48" height="48" />
       <AppHeader
         app={app}
         title={privacy ? "Privacy Policy" : app.name}
