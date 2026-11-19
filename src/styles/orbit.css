@@ -123,16 +123,18 @@ html[data-arrival-at-stop] .world .arrival-sky {
   left: 52.7778%;  /* origin at x = 84 */
   transform: scale(1.12);
 }
-.world .arrival-eyes {
+.world .moon-eyes {
   width: 13.8889%; /* 20 × 10 face crop, at (26, 89) on the home canvas */
   left: 18.0556%;
   bottom: 0;
   margin-bottom: 24.3056%;
 }
-html[data-arrival-at-stop] .world .arrival-eyes {
+html[data-arrival-at-stop] .world .arrival-eyes,
+.orbit-page [data-screen="detail"] .idle-eyes {
   --rest-gaze: 50%;
   left: 52.7778%;
 }
+.orbit-page [data-orbit]:not([data-screen="home"], [data-screen="detail"]) .idle-eyes { display: none; }
 .orbit-page [data-screen="walking"] :is(.arrival-sky, .arrival-eyes),
 html[data-arrival-at-stop] [data-screen="home"] :is(.arrival-sky, .arrival-eyes),
 html:not([data-arrival-at-stop]) [data-screen="detail"] :is(.arrival-sky, .arrival-eyes) { opacity: 0; }

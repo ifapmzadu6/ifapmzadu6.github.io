@@ -70,7 +70,7 @@
   top: -80px;
   transform: rotate(-65deg) scaleX(-1);
 }
-.station-moon .arrival-eyes {
+.station-moon .moon-eyes {
   --rest-gaze: 50%;
   width: 20px;
   left: 20px;
