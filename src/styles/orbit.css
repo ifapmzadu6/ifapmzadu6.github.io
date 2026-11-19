@@ -20,18 +20,39 @@ html:has(.orbit-page) {
 
 .orbit-page > .container {
   min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  /* Reserve the footer's padding and line even when the HTML is still arriving. */
+  grid-template-rows: 1fr minmax(calc(29px + 0.9375rem), auto);
+  justify-items: center;
   padding: env(safe-area-inset-top) max(12px, env(safe-area-inset-right))
     env(safe-area-inset-bottom) max(12px, env(safe-area-inset-left));
 }
 
 .orbit-page [data-orbit] {
+  --world-gap: clamp(12px, 4vh, 32px);
+  --actions-gap: 21px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  /* Reserve the logo and both control rows even before their markup arrives. */
+  grid-template-rows:
+    minmax(max(44px, 3.25rem), auto)
+    auto
+    minmax(calc(48px + 44px + var(--actions-gap) + 3px), auto);
   width: min(100%, 414px);
   margin: auto 0;
   padding: 18px 3px 12px;
   text-align: center;
+}
+
+.orbit-page .brandbar { grid-area: 1 / 1; }
+.orbit-page :is(.trail-actions, .fallback-apps) { grid-area: 3 / 1; }
+
+/* Reserve the canvas's aspect ratio while its HTML is still in transit. */
+html[data-trail-entry] [data-orbit]:not(:has(canvas))::before {
+  content: "";
+  grid-area: 2 / 1;
+  aspect-ratio: 144 / 134;
+  margin-top: var(--world-gap);
 }
 
 .orbit-page .sign-head {
@@ -71,12 +92,13 @@ html:has(.orbit-page) {
 }
 
 .orbit-page .world {
+  grid-area: 2 / 1;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  margin-top: clamp(12px, 4vh, 32px);
+  margin-top: var(--world-gap);
 }
 
 .orbit-page canvas {
@@ -127,7 +149,7 @@ html:has(.orbit-page) {
   container: trail-actions / inline-size;
   display: grid;
   grid-template-rows: minmax(48px, auto) minmax(44px, auto);
-  row-gap: 21px;
+  row-gap: var(--actions-gap);
   justify-items: center;
   align-items: center;
   margin-top: 3px;
@@ -218,7 +240,7 @@ html[data-trail-entry="home"] .orbit-page canvas {
   text-align: center;
   font-size: 0.6875rem;
   font-weight: 550;
-  line-height: normal;
+  line-height: 0.9375rem;
   letter-spacing: 0.02em;
 }
 
@@ -241,12 +263,10 @@ html[data-trail-entry="home"] .orbit-page canvas {
 .orbit-page .fallback-apps p { color: var(--orbit-muted); font-size: 0.9375rem; line-height: 1.5; }
 
 @media (max-height: 620px) and (orientation: portrait) {
-  .orbit-page [data-orbit] { padding-top: 6px; }
-  .orbit-page .world { margin-top: 5px; }
+  .orbit-page [data-orbit] { padding-top: 6px; --world-gap: 5px; }
   .orbit-page .brandbar { margin-bottom: 6px; }
 }
 
 @media (max-height: 540px) and (orientation: landscape) {
-  .orbit-page [data-orbit] { max-width: 340px; padding-top: 0; }
-  .orbit-page .world { margin-top: 8px; }
+  .orbit-page [data-orbit] { max-width: 340px; padding-top: 0; --world-gap: 8px; }
 }
