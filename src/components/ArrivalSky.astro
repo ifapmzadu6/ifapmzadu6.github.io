@@ -1,11 +1,12 @@
 <span class="arrival-sky" aria-hidden="true"></span>
-<span class="arrival-eyes" aria-hidden="true"></span>
+<span class="moon-eyes arrival-eyes" aria-hidden="true"></span>
+<span class="moon-eyes idle-eyes" aria-hidden="true"></span>
 
 <style>
-  .arrival-sky, .arrival-eyes { display: none; }
+  .arrival-sky, .moon-eyes { display: none; }
 
   @media screen and (prefers-reduced-motion: no-preference) {
-    .arrival-sky, .arrival-eyes {
+    .arrival-sky, .moon-eyes {
       display: block;
       position: absolute;
       pointer-events: none;
@@ -40,9 +41,11 @@
       100% { opacity: 0; transform: translate(var(--glow-end-x, 2%), -8%) scale(.88); }
     }
 
-    .arrival-eyes {
+    .moon-eyes {
       aspect-ratio: 2;
       background: url("../assets/orbit/arrival-eyes.png?inline") left center / 300% 100% no-repeat;
+    }
+    .arrival-eyes {
       animation: arrival-gaze 840ms step-end 620ms;
     }
 
@@ -50,6 +53,17 @@
       from { visibility: visible; background-position-x: 50%; }
       66% { background-position-x: 100%; }
       77%, to { visibility: visible; background-position-x: var(--rest-gaze, 0%); }
+    }
+
+    .idle-eyes {
+      background-position-x: 100%;
+      animation: idle-blink 12s step-end 1.5s infinite;
+    }
+
+    /* Two 120ms blinks, about five and seven seconds apart. */
+    @keyframes idle-blink {
+      0%, 34%, 76%, 100% { visibility: hidden; }
+      33%, 75% { visibility: visible; }
     }
   }
 </style>
