@@ -67,6 +67,39 @@ a:focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 5px; }
 }
 .skip-link:focus { transform: translateY(0); }
 
+/* The sky is already in place. Only persistent elements enter, so handing the
+   moon from its poster to the live canvas or walking to another stop won't replay it. */
+@media screen and (prefers-reduced-motion: no-preference) {
+    @keyframes arrival-fade {
+        from { opacity: var(--arrival-opacity, 0.35); }
+        to { opacity: 1; }
+    }
+
+    @keyframes arrival-land {
+        from { transform: translateY(-6px); }
+        to { transform: translateY(0); }
+    }
+
+    .orbit-page .brandbar,
+    .station-page .breadcrumb {
+        animation: arrival-fade 360ms ease-out;
+    }
+
+    .orbit-page .world,
+    .station-page .station-moon {
+        animation:
+            arrival-fade 440ms ease-out 40ms backwards,
+            arrival-land 360ms steps(3, end) 40ms backwards;
+    }
+
+    .orbit-page .trail-actions,
+    .station-page .app-header,
+    .page-shell .app-header {
+        --arrival-opacity: 0.65;
+        animation: arrival-fade 400ms ease-out 100ms backwards;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         scroll-behavior: auto !important;
